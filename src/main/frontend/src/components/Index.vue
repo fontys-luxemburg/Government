@@ -10,10 +10,10 @@
               </svg>
               <div class="text-white text-sm text-center">L</div>
             </div>
-            <input type="text" placeholder="AB-1234" class="bg-transparent py-2 px-4 w-32 text-2xl">
+            <input type="text" placeholder="AB-1234" class="bg-transparent py-2 px-4 w-32 text-2xl" v-model="registrationID">
         </div>
 
-        <button type="submit" class="block bg-grey-light hover:bg-grey text-grey-darker group py-4 px-8 pr-6 rounded flex items-center">
+        <button type="submit" class="block bg-grey-light hover:bg-grey text-grey-darker group py-4 px-8 pr-6 rounded flex items-center" :disabled="registrationID.length == 0">
           <span class="mr-2">Search</span>
           <svg class="text-grey-dark group-hover:text-grey-dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
@@ -25,9 +25,16 @@
 <script>
     export default {
         name: "index",
+
+        data() {
+          return {
+            registrationID: ''
+          }
+        },
+
         methods: {
             search() {
-                this.$router.push({ name: 'cars#show', params: {license_number: 'AB-1234'}})
+                this.$router.push({ name: 'cars#show', params: { license_number: this.registrationID }})
             }
         }
     }
