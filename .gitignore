@@ -82,3 +82,5 @@ modules.xml
 target
 *.war
 target/tracking/META-INF/MANIFEST.MF
+
+node_modules
