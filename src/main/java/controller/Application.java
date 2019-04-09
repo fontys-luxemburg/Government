@@ -1,13 +1,17 @@
 package controller;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
+
 import javax.annotation.PostConstruct;
 
 import javax.ws.rs.ApplicationPath;
 
 @ApplicationPath("/api")
-public class Application extends javax.ws.rs.core.Application {
+public class Application extends ResourceConfig {
 
-	@PostConstruct
-	private void onInit(){
-	}
+    public Application() {
+        register(JacksonFeature.class);
+        packages("");
+    }
 }
