@@ -34,7 +34,10 @@
       </div>
     </div>
 
-    <div v-if="status.failed">Whoops... Something went wrong</div>
+    <div v-if="status.failed" class="flex items-center justify-center flex-col mt-32">
+      <h1 class="mb-8">We couldn't find this vehicle</h1>
+      <router-link to="/" class="bg-blue p-4 rounded text-white no-underline hover:bg-blue-dark">Search for other vehicle</router-link>
+    </div>
   </div>
 </template>
 
@@ -56,7 +59,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("vehicles/getVehicle", "AB1234");
+    this.$store.dispatch("vehicles/getVehicle", this.$route.params.license_number );
   }
 };
 </script>

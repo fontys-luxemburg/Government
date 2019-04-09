@@ -1,4 +1,4 @@
-package annotation;
+package government.annotation;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;

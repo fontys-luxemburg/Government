@@ -1,9 +1,8 @@
-package repository;
+package government.repository;
 
-import model.User;
+import government.model.User;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;

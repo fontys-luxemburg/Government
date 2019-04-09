@@ -1,7 +1,5 @@
-package model;
+package government.model;
 
-import javax.json.bind.annotation.JsonbTransient;
-import javax.json.bind.annotation.JsonbVisibility;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;

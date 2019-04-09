@@ -1,7 +1,7 @@
-package controller;
+package government.controller;
 
-import facade.VehicleFacade;
-import model.Vehicle;
+import government.facade.VehicleFacade;
+import government.model.Vehicle;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;

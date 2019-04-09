@@ -1,9 +1,8 @@
-package facade;
+package government.facade;
 
-import model.User;
-import repository.UserRepository;
+import government.model.User;
+import government.repository.UserRepository;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;

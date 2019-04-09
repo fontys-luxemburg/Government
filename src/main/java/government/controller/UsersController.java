@@ -1,9 +1,9 @@
-package controller;
+package government.controller;
 
-import facade.JwtFacade;
-import facade.UserFacade;
-import model.AuthResponse;
-import model.User;
+import government.facade.JwtFacade;
+import government.facade.UserFacade;
+import government.model.AuthResponse;
+import government.model.User;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

@@ -1,4 +1,4 @@
-package annotation;
+package government.annotation;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
@@ -13,7 +13,7 @@ public class PropertyReader {
     @Produces
     @PropertiesFromFile
     public Properties provideServerProperties(InjectionPoint ip) {
-        //get filename from annotation
+        //get filename from government.annotation
         String filename = ip.getAnnotated().getAnnotation(PropertiesFromFile.class).value();
         return readProperties(filename);
     }

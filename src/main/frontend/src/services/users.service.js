@@ -12,7 +12,7 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
-    return fetch('/swimple/api/authentication', requestOptions)
+    return fetch('/government/api/authentication', requestOptions)
         .then(handleResponse)
         .then(user => {
             if (user.token) {

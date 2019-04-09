@@ -10,7 +10,7 @@
               </svg>
               <div class="text-white text-sm text-center">L</div>
             </div>
-            <input type="text" placeholder="AB-1234" class="bg-transparent py-2 px-4 w-32 text-2xl" v-model="registrationID">
+            <input type="text" autofocus placeholder="AB-1234" class="bg-transparent py-2 px-4 w-32 text-2xl" v-model="registrationID">
         </div>
 
         <button type="submit" class="block bg-grey-light hover:bg-grey text-grey-darker group py-4 px-8 pr-6 rounded flex items-center" :disabled="registrationID.length == 0">

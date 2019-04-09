@@ -1,10 +1,8 @@
-package facade;
+package government.facade;
 
-import model.Vehicle;
-import repository.VehicleRepository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import government.model.Vehicle;
+import government.repository.VehicleRepository;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
