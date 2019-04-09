@@ -7,6 +7,7 @@
     <groupId>lux.fontys</groupId>
     <artifactId>government</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -45,8 +46,10 @@
         </dependency>
     </dependencies>
 
+
+
     <build>
-        <finalName>tracking</finalName>
+        <finalName>government</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>
@@ -57,8 +60,6 @@
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>cargo-maven2-plugin</artifactId>
                     <version>1.7.2</version>
-
-                    <!-- provides JSR88 client API to deploy on Payara -->
                     <dependencies>
                         <dependency>
                             <groupId>org.glassfish.main.deployment</groupId>
