@@ -52,5 +52,13 @@ public class TrackerId extends BaseEntity {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+
+    public Date getDestroyedDate() {
+        return destroyedDate;
+    }
+
+    public void setDestroyedDate(Date destroyedDate) {
+        this.destroyedDate = destroyedDate;
+    }
 }
 
