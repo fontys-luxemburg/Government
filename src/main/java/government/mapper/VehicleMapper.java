@@ -1,7 +1,8 @@
-package mapper;
+package government.mapper;
 
-import dto.VehicleDto;
-import model.Vehicle;
+
+import government.dto.VehicleDto;
+import government.model.Vehicle;
 import org.mapstruct.Mapper;
 
 import java.util.List;

@@ -1,4 +1,6 @@
-package model;
+package government.model;
+
+import government.model.TrackerId;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

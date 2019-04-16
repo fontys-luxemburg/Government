@@ -1,7 +1,7 @@
-package facade;
+package government.facade;
 
-import model.TrackerId;
-import repository.TrackerIdRepository;
+import government.model.TrackerId;
+import government.repository.TrackerIdRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

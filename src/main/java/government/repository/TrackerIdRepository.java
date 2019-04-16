@@ -1,6 +1,6 @@
-package repository;
+package government.repository;
 
-import model.TrackerId;
+import government.model.TrackerId;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.NoResultException;

@@ -1,4 +1,4 @@
-package dto;
+package government.dto;
 
 import java.util.UUID;
 

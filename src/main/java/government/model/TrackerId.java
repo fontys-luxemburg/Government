@@ -1,4 +1,4 @@
-package model;
+package government.model;
 
 import javax.persistence.Column;
 import javax.persistence.*;

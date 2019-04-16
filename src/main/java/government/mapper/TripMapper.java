@@ -1,7 +1,7 @@
-package mapper;
+package government.mapper;
 
-import dto.TripDto;
-import model.Trip;
+import government.dto.TripDto;
+import government.model.Trip;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

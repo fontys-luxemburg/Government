@@ -1,7 +1,7 @@
-package mapper;
+package government.mapper;
 
-import dto.TrackerIdDto;
-import model.TrackerId;
+import government.dto.TrackerIdDto;
+import government.model.TrackerId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

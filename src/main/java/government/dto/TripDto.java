@@ -1,4 +1,4 @@
-package dto;
+package government.dto;
 
 public class TripDto extends BaseDto {
 
