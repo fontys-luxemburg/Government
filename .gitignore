@@ -83,6 +83,7 @@ target
 *.war
 target/tracking/META-INF/MANIFEST.MF
 
+node_modules
 .DS_Store
 node_modules
 /dist
