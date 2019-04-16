@@ -48,4 +48,14 @@ public class VehiclesController {
 
         return Response.status(Response.Status.CREATED).build();
     }
+
+    @POST
+    @Path("/{id}/trackers")
+    @Transactional
+    public Response createTracker(){
+
+
+
+        return Response.ok().build();
+    }
 }

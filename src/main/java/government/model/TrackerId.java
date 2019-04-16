@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,8 @@ public class TrackerId extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
+
+    private Date destroyedDate;
 
 
     public TrackerId() {
