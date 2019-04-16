@@ -1,10 +1,13 @@
 package government.controller;
 
+
 import government.dto.TrackerIdDto;
 import government.dto.VehicleDto;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
 import government.model.TrackerId;
+import government.annotation.Secured;
+import government.model.Role;
 import government.model.Vehicle;
 import government.mapper.VehicleMapper;
 import jdk.nashorn.internal.objects.annotations.Getter;
@@ -65,8 +68,10 @@ public class VehiclesController {
 
         return Response.ok().build();
     }
+
     @GET
     @Path("/{id}/trackers")
+    @Transactional
     public Response getAllTrackers(@PathParam("id") long id){
         Optional<Vehicle> vehicle = facade.findById(id);
         if(!vehicle.isPresent()){
@@ -74,5 +79,13 @@ public class VehiclesController {
         }
         List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
         return Response.ok(trackers).build();
+    }
+    @GET
+    @Secured({Role.Employee, Role.Admin})
+    @Path("/all")
+    @Transactional
+    public Response getAll()
+    {
+        return Response.ok(facade.findAll()).build();
     }
 }
