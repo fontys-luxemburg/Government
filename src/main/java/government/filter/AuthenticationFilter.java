@@ -66,6 +66,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
             // Validate the token
             String email = jwt.validateToken(token);
+            validateToken(token);
             Optional<User> user = userFacade.findByEmail(email);
 
             UserPrincipal userPrincipal = new UserPrincipal(user.get());
