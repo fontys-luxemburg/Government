@@ -11,8 +11,8 @@ import java.util.List;
 public interface TrackerIdMapper {
 
     @Mapping(target = "vehicleId", source = "vehicle.id")
-    List<TrackerIdDto>trackerIdsToTrackerIdDtos(List<TrackerId> trackerIds);
     TrackerIdDto trackerIdToTrackerIdDto(TrackerId trackerId);
+    List<TrackerIdDto>trackerIdsToTrackerIdDtos(List<TrackerId> trackerIds);
 
     @Mapping(target = "vehicle.id", source = "vehicleId")
     TrackerId trackerIdDtoToTrackerId(TrackerIdDto trackerIdDto);
