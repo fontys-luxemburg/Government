@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
-public class TrackerRepository extends CrudRepository<TrackerId, Long> {
+public class TrackerIdRepository extends CrudRepository<TrackerId, Long> {
 
     @PostConstruct
     private void init() {

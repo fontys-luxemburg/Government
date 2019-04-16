@@ -1,6 +1,6 @@
 package controller;
 
-import facade.TrackerFacade;
+import facade.TrackerIdFacade;
 import model.TrackerId;
 
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class TrackerController {
 
     @Inject
-    TrackerFacade facade;
+    TrackerIdFacade facade;
 
     @GET
     @Path("{tracker_id}")

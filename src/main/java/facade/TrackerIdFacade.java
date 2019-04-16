@@ -1,7 +1,7 @@
 package facade;
 
 import model.TrackerId;
-import repository.TrackerRepository;
+import repository.TrackerIdRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -10,10 +10,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
-public class TrackerFacade implements BaseFacade<TrackerId, Long> {
+public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
 
     @Inject
-    TrackerRepository repository;
+    TrackerIdRepository repository;
 
     @Override
     public Optional<TrackerId> findById(Long id) {
