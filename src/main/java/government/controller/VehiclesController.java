@@ -1,6 +1,8 @@
 package government.controller;
 
+import government.annotation.Secured;
 import government.facade.VehicleFacade;
+import government.model.Role;
 import government.model.Vehicle;
 
 import javax.inject.Inject;
@@ -30,5 +32,14 @@ public class VehiclesController {
         }
 
         return Response.ok(vehicle.get()).build();
+    }
+
+    @GET
+    @Secured({Role.Employee, Role.Admin})
+    @Path("/all")
+    @Transactional
+    public Response getAll()
+    {
+        return Response.ok(facade.findAll()).build();
     }
 }
