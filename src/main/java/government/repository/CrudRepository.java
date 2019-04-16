@@ -1,6 +1,6 @@
-package repository;
+package government.repository;
 
-import model.BaseEntity;
+import government.model.BaseEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
