@@ -4,9 +4,13 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import government.annotation.Secured;
+import government.facade.JwtFacade;
+import government.facade.UserFacade;
 import government.model.Role;
+import government.model.User;
 
 import javax.annotation.Priority;
+import javax.inject.Inject;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -21,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Secured
 @Provider
@@ -33,6 +38,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
+
+    @Inject
+    private JwtFacade jwt;
+
+    @Inject
+    private UserFacade userFacade;
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -54,8 +65,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         try {
 
             // Validate the token
-            validateToken(token);
+            String email = jwt.validateToken(token);
+            Optional<User> user = userFacade.findByEmail(email);
 
+            UserPrincipal userPrincipal = new UserPrincipal(user.get());
+            requestContext.setSecurityContext(new TokenBasedSecurityContext(userPrincipal, requestContext.getSecurityContext().isSecure()));
         } catch (Exception e) {
             abortWithUnauthorized(requestContext);
         }
