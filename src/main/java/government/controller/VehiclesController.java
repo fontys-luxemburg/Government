@@ -3,13 +3,16 @@ package government.controller;
 
 import government.dto.TrackerIdDto;
 import government.dto.VehicleDto;
+import government.dto.VehicleInformationDto;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
+import government.mapper.VehicleInformationMapper;
 import government.model.TrackerId;
 import government.annotation.Secured;
 import government.model.Role;
 import government.model.Vehicle;
 import government.mapper.VehicleMapper;
+import government.model.VehicleInformation;
 import jdk.nashorn.internal.objects.annotations.Getter;
 
 import javax.inject.Inject;
@@ -31,6 +34,9 @@ public class VehiclesController {
     VehicleMapper vehicleMapper;
     @Inject
     TrackerIdMapper trackerIdMapper;
+    @Inject
+    VehicleInformationMapper vehicleInformationMapper;
+
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -87,5 +93,16 @@ public class VehiclesController {
     public Response getAll()
     {
         return Response.ok(facade.findAll()).build();
+    }
+
+    @GET
+    @Path("/{id}/information")
+    @Transactional
+    public Response getVehicleInformation(@PathParam("id") long id){
+        Optional<Vehicle> vehicle = facade.findById(id);
+        if(!vehicle.isPresent()){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        VehicleInformationDto vehicleInformationDto =vehicleInformationMapper. vehicle.get().getVehicleInformation();
     }
 }
