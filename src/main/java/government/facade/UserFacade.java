@@ -1,5 +1,6 @@
 package government.facade;
 
+import government.model.Ownership;
 import government.model.User;
 import government.repository.UserRepository;
 

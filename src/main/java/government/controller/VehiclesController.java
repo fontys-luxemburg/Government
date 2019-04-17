@@ -1,5 +1,6 @@
 package government.controller;
 
+import government.facade.OwnershipFacade;
 import government.facade.VehicleFacade;
 import government.model.Vehicle;
 
@@ -19,6 +20,9 @@ public class VehiclesController {
     @Inject
     VehicleFacade facade;
 
+    @Inject
+    OwnershipFacade ownershipFacade;
+
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -31,4 +35,17 @@ public class VehiclesController {
 
         return Response.ok(vehicle.get()).build();
     }
+
+    @GET
+    @Path("{registration_id}/ownerships")
+    public Response showOwnerships(@PathParam("registration_id") String registrationID) {
+        Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
+
+        if(!vehicle.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(ownershipFacade.findAll(vehicle.get())).build();
+    }
+
 }

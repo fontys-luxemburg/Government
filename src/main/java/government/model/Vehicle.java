@@ -1,9 +1,12 @@
 package government.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -18,6 +21,9 @@ public class Vehicle extends BaseEntity {
     private String model;
 
     private String bodyType;
+
+    @OneToMany(mappedBy = "vehicle")
+    private List<Ownership> ownerships;
 
     public String getRegistrationID() {
         return registrationID;
@@ -49,5 +55,18 @@ public class Vehicle extends BaseEntity {
 
     public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
+    }
+
+    public List<Ownership> getOwnerships() {
+        return ownerships;
+    }
+
+    public void setOwnerships(List<Ownership> ownerships) {
+        this.ownerships = ownerships;
+    }
+
+    public void addOwnership(Ownership ownership) {
+        ownership.setVehicle(this);
+        this.ownerships.add(ownership);
     }
 }
