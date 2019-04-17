@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @Path("/vehicles")
 @Produces("application/json")
+@Secured({Role.Employee, Role.Admin})
 public class VehiclesController {
 
     @Inject
@@ -77,9 +78,6 @@ public class VehiclesController {
     @Path("/{id}/trackers")
     @Transactional
     public Response createTracker(){
-
-
-
         return Response.ok().build();
     }
 
@@ -96,7 +94,6 @@ public class VehiclesController {
     }
 
     @GET
-    @Secured({Role.Employee, Role.Admin})
     @Path("/all")
     @Transactional
     public Response getAll()

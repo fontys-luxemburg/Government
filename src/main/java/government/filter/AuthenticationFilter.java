@@ -66,7 +66,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
             // Validate the token
             String email = jwt.validateToken(token);
-            validateToken(token);
+//            validateToken(token);
             Optional<User> user = userFacade.findByEmail(email);
 
             UserPrincipal userPrincipal = new UserPrincipal(user.get());
@@ -96,29 +96,29 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                         .build());
     }
 
-    private void validateToken(String token) throws Exception {
-        // Check if the token was issued by the server and if it's not expired
-        // Throw an Exception if the token is invalid
-        Algorithm algorithm = Algorithm.HMAC256("secret_key");
-        JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
-                .withIssuer(ISSUER)
-                .build(); //Reusable verifier instance
-
-        DecodedJWT jwt = verifier.verify(token);
-
-        Method method = resourceInfo.getResourceMethod();
-
-        if (method != null) {
-            String roles = jwt.getClaim("Role").asString();
-            Role roleUser = Role.valueOf(roles);
-
-            List<Role> methodRoles = extractRoles(method);
-
-            if (!methodRoles.contains(roleUser)) {
-                throw new Exception("no valid Role.");
-            }
-        }
-    }
+//    private void validateToken(String token) throws Exception {
+//        // Check if the token was issued by the server and if it's not expired
+//        // Throw an Exception if the token is invalid
+//        Algorithm algorithm = Algorithm.HMAC256("secret_key");
+//        JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
+//                .withIssuer(ISSUER)
+//                .build(); //Reusable verifier instance
+//
+//        DecodedJWT jwt = verifier.verify(token);
+//
+//        Method method = resourceInfo.getResourceMethod();
+//
+//        if (method != null) {
+//            String roles = jwt.getClaim("Role").asString();
+//            Role roleUser = Role.valueOf(roles);
+//
+//            List<Role> methodRoles = extractRoles(method);
+//
+//            if (!methodRoles.contains(roleUser)) {
+//                throw new Exception("no valid Role.");
+//            }
+//        }
+//    }
 
     // Extract the roles from the annotated element
     private List<Role> extractRoles(AnnotatedElement annotatedElement) {
