@@ -1,16 +1,16 @@
 package government.controller;
 
+import government.annotation.Secured;
 import government.facade.JwtFacade;
 import government.facade.UserFacade;
 import government.model.AuthResponse;
 import government.model.User;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 @Path("/users")
 @Produces("application/json")
@@ -22,6 +22,15 @@ public class UsersController {
 
     @Inject
     JwtFacade jwt;
+
+    @Context
+    SecurityContext context;
+
+    @GET
+    @Secured
+    public Response getName() {
+        return Response.ok(context.getUserPrincipal().getName()).build();
+    }
 
     @POST
     public Response create(User user) {
