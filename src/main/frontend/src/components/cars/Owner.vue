@@ -3,26 +3,10 @@
     <car-header />
     <div class="bg-white rounded p-8" v-if="status.loaded">
 
-      <modal v-if="modalOpen" @close="modalOpen = false">
-        <p class="bg-yellow-lighter p-4 rounded mb-6 text-yellow-darker">
-          <strong>Warning!</strong> This action cannot be reversed.
-        </p>
-        <form>
-          <div class="mb-4">
-            <label class="block mb-2">New owner's name</label>
-            <v-select @search="fetchOptions" :options="options" label="name" :filterable="false" />
-          </div>
-
-          <button class="p-4 bg-red hover:bg-red-dark text-white rounded text-center w-full">Transfer Ownership</button>
-        </form>
-      </modal>
 
       <div class="flex justify-between items-center mb-4">
         <h2>Ownership history</h2>
-        <button class="bg-grey-lighter hover:bg-grey-light hover:text-grey-darkest text-grey-darker py-4 px-8 rounded"
-                @click="modalOpen = true">
-          Transfer Ownership
-        </button>
+        <transfer-ownership-modal/>
       </div>
       <table class="w-full">
         <thead class="border-b-2 border-grey">
@@ -47,12 +31,13 @@
 <script>
     import CarHeader from "./CarHeader";
     import {mapState} from "vuex";
-    import Modal from "../Modal";
     import {authHeader} from "../../helpers";
+    import TransferOwnershipModal from "./TransferOwnershipModal";
+
     export default {
         name: "Owner",
 
-        components: {Modal, CarHeader},
+        components: {TransferOwnershipModal, CarHeader},
 
         data: function() {
             return {
@@ -93,6 +78,3 @@
     }
 </script>
 
-<style scoped>
-
-</style>

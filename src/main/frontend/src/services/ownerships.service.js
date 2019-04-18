@@ -2,7 +2,8 @@ import {authHeader} from "../helpers";
 import {userService} from "./users.service";
 
 export const ownershipsService = {
-    findOwnerships
+    findOwnerships,
+    transfer
 };
 
 function findOwnerships(registrationID) {
@@ -18,11 +19,34 @@ function findOwnerships(registrationID) {
         });
 }
 
+function transfer(registrationID, user_id) {
+    console.log(user_id);
+    const requestOptions = {
+        method: "post",
+        headers: {
+            'Content-Type': 'application/json',
+            ...authHeader()
+        },
+        body: JSON.stringify({
+            user_id
+        })
+    };
+
+    return fetch(`/government/api/vehicles/${registrationID}/ownerships`, requestOptions)
+        .then(resp => {
+            if (resp.ok) {
+                return Promise.resolve(true);
+            } else {
+                return Promise.reject();
+            }
+        });
+}
+
 function handleResponse(response) {
     const data = response.json();
 
-    if(!response.ok) {
-        if(response.status === 401) {
+    if (!response.ok) {
+        if (response.status === 401) {
             userService.logout();
         }
 
