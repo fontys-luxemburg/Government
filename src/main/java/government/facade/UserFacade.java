@@ -1,5 +1,7 @@
 package government.facade;
 
+import government.dto.UserDto;
+import government.mapper.UserMapper;
 import government.model.Ownership;
 import government.model.User;
 import government.repository.UserRepository;
@@ -21,9 +23,12 @@ public class UserFacade implements BaseFacade<User, Long> {
     @Inject
     UserRepository userRepository;
 
+    @Inject
+    UserMapper userMapper;
+
     @Override
-    public Optional<User> findById(Long aLong) {
-        return Optional.empty();
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<User> findByEmail(String email) {
@@ -33,6 +38,10 @@ public class UserFacade implements BaseFacade<User, Long> {
     @Override
     public List<User> findAll() {
         return null;
+    }
+
+    public List<UserDto> search(String searchTerm) {
+        return userMapper.usersToUsersDtos(userRepository.search(searchTerm));
     }
 
     @Override

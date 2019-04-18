@@ -7,12 +7,12 @@ import java.util.Date;
 @Table(name = "ownerships")
 public class Ownership extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 

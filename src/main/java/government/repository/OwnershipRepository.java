@@ -6,8 +6,10 @@ import government.model.Vehicle;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class OwnershipRepository extends CrudRepository<Ownership, Long> {
@@ -27,5 +29,16 @@ public class OwnershipRepository extends CrudRepository<Ownership, Long> {
         Query query = entityManager.createQuery("select o from Ownership o where o.vehicle.id = :vehicle_id");
         query.setParameter("vehicle_id", vehicle.getId());
         return query.getResultList();
+    }
+
+    public Optional<Ownership> findCurrent(Vehicle vehicle) {
+        Query query = entityManager.createQuery("select o from Ownership o where o.vehicle.id = :vehicle_id and o.endDate = null");
+        query.setParameter("vehicle_id", vehicle.getId());
+
+        try {
+            return Optional.of((Ownership) query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 }

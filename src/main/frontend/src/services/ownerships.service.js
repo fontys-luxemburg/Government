@@ -1,21 +1,21 @@
 import {authHeader} from "../helpers";
 import {userService} from "./users.service";
 
-export const vehicleService = {
-  findVehicle
+export const ownershipsService = {
+    findOwnerships
 };
 
-function findVehicle(registrationID) {
+function findOwnerships(registrationID) {
     const requestOptions = {
         method: "GET",
         headers: authHeader()
     };
 
-  return fetch(`/government/api/vehicles/${registrationID}`, requestOptions)
-    .then(handleResponse)
-    .then(vehicle => {
-      return vehicle;
-    });
+    return fetch(`/government/api/vehicles/${registrationID}/ownerships`, requestOptions)
+        .then(handleResponse)
+        .then(ownerships => {
+            return ownerships;
+        });
 }
 
 function handleResponse(response) {
