@@ -33,6 +33,7 @@
 <script>
 import Modal from "../Modal";
 import { authHeader } from "../../helpers";
+import { debounce } from "underscore";
 
 export default {
   name: "transfer-ownership-modal",
@@ -50,6 +51,10 @@ export default {
     fetchOptions(search, loading) {
       loading(true);
 
+      this.search(search, loading, this);
+    },
+
+    search: debounce((search, loading, vm) => {
       const options = {
         method: "get",
         headers: authHeader()
@@ -59,9 +64,9 @@ export default {
         .then(res => res.json())
         .then(results => {
           loading(false);
-          this.options = results;
+          vm.options = results;
         });
-    },
+    }, 300),
 
     didPressSubmit() {
       if (this.selected) {
@@ -79,6 +84,12 @@ export default {
 <style>
 .button:disabled,
 .button[disabled] {
+  @apply bg-red-light;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover,
+.button[disabled]:hover {
   @apply bg-red-light;
   cursor: not-allowed;
 }
