@@ -71,13 +71,13 @@ public class VehiclesController {
     @Transactional
     public Response createTracker(@PathParam("id") Long vehicleId){
 
-        List<TrackerId> trackerIds = trackerIdFacade.findAll();
+        List<TrackerId> trackerIds = trackerIdFacade.findByVehicleId(vehicleId);
 
         if (!trackerIds.isEmpty()){
             trackerIds.get(trackerIds.size() - 1).setDestroyedDate(getCurrentDate());
         }
 
-        UUID uuid = sendPost();
+        UUID uuid = getTracker();
         if (uuid == null){
             return Response.noContent().build();
         }
@@ -98,7 +98,7 @@ public class VehiclesController {
         return date;
     }
 
-    private UUID sendPost(){
+    private UUID getTracker(){
         try{
             URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
             URLConnection con = url.openConnection();

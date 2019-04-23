@@ -29,6 +29,10 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         return repository.findAll();
     }
 
+    public List<TrackerId> findByVehicleId(Long id){
+        return repository.findByVehicleId(id);
+    }
+
     @Override
     public TrackerId save(TrackerId entity) {
         repository.save(entity);
