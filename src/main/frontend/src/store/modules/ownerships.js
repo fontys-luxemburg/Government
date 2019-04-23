@@ -28,6 +28,11 @@ const actions = {
       .then(() => {
         commit("TRANSFER_SUCCESS");
         dispatch("getOwnerships", registrationID);
+        dispatch(
+          "setNotice",
+          { message: "Succesfully transfered ownership." },
+          { root: true }
+        );
       })
       .catch(() => {
         commit("TRANSFER_FAILURE");
