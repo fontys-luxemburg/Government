@@ -23,6 +23,9 @@ public class Vehicle extends BaseEntity {
 
     private String bodyType;
 
+    @OneToMany(mappedBy = "vehicle")
+    private List<Ownership> ownerships;
+
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     private List<TrackerId> trackers = new ArrayList<>();
 
@@ -56,6 +59,19 @@ public class Vehicle extends BaseEntity {
 
     public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
+    }
+
+    public List<Ownership> getOwnerships() {
+        return ownerships;
+    }
+
+    public void setOwnerships(List<Ownership> ownerships) {
+        this.ownerships = ownerships;
+    }
+
+    public void addOwnership(Ownership ownership) {
+        ownership.setVehicle(this);
+        this.ownerships.add(ownership);
     }
 
     public List<TrackerId> getTrackers() {

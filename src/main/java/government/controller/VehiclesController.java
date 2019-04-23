@@ -1,36 +1,46 @@
 package government.controller;
 
-
+import government.annotation.Secured;
 import government.dto.TrackerIdDto;
+import government.dto.UserDto;
 import government.dto.VehicleDto;
+import government.facade.OwnershipFacade;
+import government.facade.UserFacade;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
-import government.model.TrackerId;
-import government.annotation.Secured;
-import government.model.Role;
-import government.model.Vehicle;
 import government.mapper.VehicleMapper;
-import jdk.nashorn.internal.objects.annotations.Getter;
+import government.model.Role;
+import government.model.User;
+import government.model.Vehicle;
 
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Path("/vehicles")
 @Produces("application/json")
+@Secured({Role.Employee, Role.Admin})
 public class VehiclesController {
 
     @Inject
     VehicleFacade facade;
 
     @Inject
+    OwnershipFacade ownershipFacade;
+
+    @Inject
+    UserFacade userFacade;
+
+    @Inject
     VehicleMapper vehicleMapper;
+
     @Inject
     TrackerIdMapper trackerIdMapper;
+
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -41,7 +51,35 @@ public class VehiclesController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(vehicle.get()).build();
+        return Response.ok(vehicleMapper.vehicleToVehicleDto(vehicle.get())).build();
+    }
+
+    @GET
+    @Path("{registration_id}/ownerships")
+    public Response showOwnerships(@PathParam("registration_id") String registrationID) {
+        Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
+
+        if(!vehicle.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(ownershipFacade.findAll(vehicle.get())).build();
+    }
+
+    @POST
+    @Path("{registration_id}/ownerships")
+    @Transactional
+    public Response transfersOwnership(@PathParam("registration_id") String registrationID, JsonObject params) {
+        Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
+
+        if(!vehicle.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        Optional<User> receivingUser = userFacade.findById((long) params.getInt("user_id"));
+        receivingUser.ifPresent(user -> ownershipFacade.transferVehicleToUser(vehicle.get(), user));
+
+        return Response.ok().build();
     }
 
     @POST
@@ -63,9 +101,6 @@ public class VehiclesController {
     @Path("/{id}/trackers")
     @Transactional
     public Response createTracker(){
-
-
-
         return Response.ok().build();
     }
 
@@ -80,8 +115,8 @@ public class VehiclesController {
         List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
         return Response.ok(trackers).build();
     }
+
     @GET
-    @Secured({Role.Employee, Role.Admin})
     @Path("/all")
     @Transactional
     public Response getAll()

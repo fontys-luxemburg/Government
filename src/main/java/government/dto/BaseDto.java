@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class BaseDto implements Serializable {
-    private Date createDate;
+    private Date createdAt;
     private Long id;
 
     public Long getId() {
@@ -15,11 +15,11 @@ public class BaseDto implements Serializable {
         this.id = id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
