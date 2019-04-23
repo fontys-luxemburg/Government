@@ -53,25 +53,6 @@
             })
         },
 
-        methods: {
-            fetchOptions(search, loading, vm) {
-                loading(true);
-
-                const options = {
-                    method: 'get',
-                    headers: authHeader()
-                }
-
-                fetch(`/government/api/users?search=${escape(search)}`, options)
-                    .then(res => res.json())
-                    .then(results => {
-                        loading(false);
-                        this.options = results;
-                    })
-
-            }
-        },
-
         created() {
             this.$store.dispatch("ownerships/getOwnerships", this.$route.params.license_number );
         }
