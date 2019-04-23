@@ -1,5 +1,6 @@
 package government.controller;
 
+import com.sun.deploy.net.HttpResponse;
 import government.dto.VehicleDto;
 import government.facade.TrackerIdFacade;
 import government.facade.VehicleFacade;
@@ -12,16 +13,17 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Path("/vehicles")
 @Produces("application/json")
@@ -67,53 +69,51 @@ public class VehiclesController {
     @POST
     @Path("/{id}/trackers")
     @Transactional
-    public Response createTracker(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        dateFormat.format(date);
+    public Response createTracker(@PathParam("id") Long vehicleId){
 
-        TrackerId trackerId = trackerIdFacade.findAll().get(0);
+        List<TrackerId> trackerIds = trackerIdFacade.findAll();
 
-        if (trackerId != null){
-            trackerId.setDestroyedDate(date);
+        if (!trackerIds.isEmpty()){
+            trackerIds.get(trackerIds.size() - 1).setDestroyedDate(getCurrentDate());
         }
+
+        UUID uuid = sendPost();
+        if (uuid == null){
+            return Response.noContent().build();
+        }
+
+        TrackerId trackerId = new TrackerId();
+        trackerId.setTrackerId(uuid);
+        trackerId.setVehicle(facade.findById(vehicleId).get());
+
+        trackerIdFacade.save(trackerId);
 
         return Response.ok().build();
     }
 
-    private void sendPost(){
-        String url = "http://localhost:8080/tracking.war/api/trackers";
+    private Date getCurrentDate(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        dateFormat.format(date);
+        return date;
+    }
 
-        try {
-            URL obj = new URL(url);
-            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+    private UUID sendPost(){
+        try{
+            URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection)con;
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);
 
-            //add request header
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-            // Send post request
-            con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.flush();
-            wr.close();
-
-            //int responseCode = con.getResponseCode();
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            http.connect();
+            try(InputStream os = http.getInputStream()) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(os));
+                String line = reader.readLine();
+                return UUID.fromString(line);
             }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch(IOException e){
+            return null;
         }
     }
 }
