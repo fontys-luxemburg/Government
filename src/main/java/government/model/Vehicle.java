@@ -19,6 +19,12 @@ public class Vehicle extends BaseEntity {
     private String brand;
     private String bodyType ;
     private String model;
+
+    private String bodyType;
+
+    @OneToMany(mappedBy = "vehicle")
+    private List<Ownership> ownerships;
+
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     private List<TrackerId> trackers = new ArrayList<>();
     @OneToOne(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
@@ -64,11 +70,28 @@ public class Vehicle extends BaseEntity {
         this.vehicleInformation = vehicleInformation;
     }
 
-    public String getBodyType() {
-        return bodyType;
+    public List<Ownership> getOwnerships() {
+        return ownerships;
+    }
+
+    public void setOwnerships(List<Ownership> ownerships) {
+        this.ownerships = ownerships;
+    }
+
+    public void addOwnership(Ownership ownership) {
+        ownership.setVehicle(this);
+        this.ownerships.add(ownership);
+    }
+
+    public List<TrackerId> getTrackers() {
+        return trackers;
     }
 
     public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
+    }
+    
+    public String getBodyType() {
+        return bodyType;
     }
 }

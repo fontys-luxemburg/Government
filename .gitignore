@@ -106,3 +106,8 @@ yarn-error.log*
 *.sln
 *.sw*
 
+src/main/webapp
+.settings
+.classpath
+.factorypath
+.project

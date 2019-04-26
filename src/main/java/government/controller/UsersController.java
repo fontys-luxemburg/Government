@@ -28,8 +28,12 @@ public class UsersController {
 
     @GET
     @Secured
-    public Response getName() {
-        return Response.ok(context.getUserPrincipal().getName()).build();
+    public Response index(@QueryParam("search") String searchTerm) {
+        if(searchTerm == null) {
+            return Response.ok().build();
+        }
+
+        return Response.ok(userFacade.search(searchTerm)).build();
     }
 
     @POST
