@@ -1,12 +1,14 @@
 package government.facade;
 
 import government.model.Vehicle;
+import government.model.VehicleInformation;
 import government.repository.VehicleRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class VehicleFacade implements BaseFacade<Vehicle, Long> {
@@ -30,7 +32,14 @@ public class VehicleFacade implements BaseFacade<Vehicle, Long> {
 
     @Override
     public Vehicle save(Vehicle entity) {
-        repository.save(entity);
-        return entity;
+        try {
+            if(entity.getId()== null){
+                entity.setVehicleInformation(new VehicleInformation(entity));
+            }
+            repository.save(entity);
+            return entity;
+        }catch (Exception e){
+            return entity;
+        }
     }
 }

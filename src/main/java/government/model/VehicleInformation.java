@@ -1,19 +1,18 @@
 package government.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @Table(name = "vehicleInformation")
 public class VehicleInformation extends BaseEntity {
 
-    private String bodyType;
-    private String type;
+    private String type ;
     private String color;
-    private String tradeName;
+    private String tradeName ;
     private Date registrationDate;
     private Date apkExperationDate;
     private boolean stolen;
@@ -21,23 +20,18 @@ public class VehicleInformation extends BaseEntity {
     private boolean wamInsured;
     private boolean mayRideOnRoad;
     private int catalogPrice;
-    @OneToOne(mappedBy = "vehicleInformation",fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
+    public VehicleInformation(Vehicle vehicle) {
         this.vehicle = vehicle;
+        this.type = "not specified";
+        this.color = "not specified";
+        this.tradeName = "not specified";
+        this.catalogPrice = 0;
     }
 
-    public String getBodyType() {
-        return bodyType;
-    }
-
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
+    public VehicleInformation() {
     }
 
     public String getType() {
@@ -118,5 +112,13 @@ public class VehicleInformation extends BaseEntity {
 
     public void setCatalogPrice(int catalogPrice) {
         this.catalogPrice = catalogPrice;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

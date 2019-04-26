@@ -1,9 +1,12 @@
 package government.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,12 +17,11 @@ public class Vehicle extends BaseEntity {
     @NotBlank
     private String registrationID;
     private String brand;
-
+    private String bodyType ;
     private String model;
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     private List<TrackerId> trackers = new ArrayList<>();
-
-    @OneToOne(mappedBy = "vehicle",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private VehicleInformation vehicleInformation;
 
     public String getRegistrationID() {
@@ -38,14 +40,6 @@ public class Vehicle extends BaseEntity {
         this.trackers = trackers;
     }
 
-    public VehicleInformation getVehicleInformation() {
-        return vehicleInformation;
-    }
-
-    public void setVehicleInformation(VehicleInformation vehicleInformation) {
-        this.vehicleInformation = vehicleInformation;
-    }
-
     public String getBrand() {
         return brand;
     }
@@ -60,5 +54,21 @@ public class Vehicle extends BaseEntity {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public VehicleInformation getVehicleInformation() {
+        return vehicleInformation;
+    }
+
+    public void setVehicleInformation(VehicleInformation vehicleInformation) {
+        this.vehicleInformation = vehicleInformation;
+    }
+
+    public String getBodyType() {
+        return bodyType;
+    }
+
+    public void setBodyType(String bodyType) {
+        this.bodyType = bodyType;
     }
 }

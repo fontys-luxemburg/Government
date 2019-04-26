@@ -16,6 +16,7 @@ import government.model.VehicleInformation;
 import jdk.nashorn.internal.objects.annotations.Getter;
 
 import javax.inject.Inject;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -43,7 +44,7 @@ public class VehiclesController {
     public Response show(@PathParam("registration_id") String registrationID) {
         Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
 
-        if(!vehicle.isPresent()) {
+        if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -54,22 +55,21 @@ public class VehiclesController {
     @Transactional
     public Response save(VehicleDto vehicleDto) {
 
-        Vehicle vehicle  = vehicleMapper.vehicleDtoToVehicle(vehicleDto);
+        Vehicle vehicle = vehicleMapper.vehicleDtoToVehicle(vehicleDto);
 
         vehicle = facade.save(vehicle);
 
-        if (vehicle.getId() == null){
+        if (vehicle.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-        return Response.status(Response.Status.CREATED).build();
+        vehicleDto = vehicleMapper.vehicleToVehicleDto(vehicle);
+        return Response.status(Response.Status.CREATED).entity(vehicleDto).build();
     }
 
     @POST
     @Path("/{id}/trackers")
     @Transactional
-    public Response createTracker(){
-
+    public Response createTracker() {
 
 
         return Response.ok().build();
@@ -78,31 +78,46 @@ public class VehiclesController {
     @GET
     @Path("/{id}/trackers")
     @Transactional
-    public Response getAllTrackers(@PathParam("id") long id){
+    public Response getAllTrackers(@PathParam("id") long id) {
         Optional<Vehicle> vehicle = facade.findById(id);
-        if(!vehicle.isPresent()){
+        if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
         return Response.ok(trackers).build();
     }
+
     @GET
     @Secured({Role.Employee, Role.Admin})
     @Path("/all")
     @Transactional
-    public Response getAll()
-    {
+    public Response getAll() {
         return Response.ok(facade.findAll()).build();
     }
 
     @GET
     @Path("/{id}/information")
     @Transactional
-    public Response getVehicleInformation(@PathParam("id") long id){
+    public Response getVehicleInformation(@PathParam("id") long id) {
         Optional<Vehicle> vehicle = facade.findById(id);
-        if(!vehicle.isPresent()){
+        if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        VehicleInformationDto vehicleInformationDto =vehicleInformationMapper. vehicle.get().getVehicleInformation();
+        VehicleInformationDto vehicleInformationDto = vehicleInformationMapper.vehicleInformationToDto(vehicle.get().getVehicleInformation());
+        return Response.ok(vehicleInformationDto).build();
+    }
+
+    @PUT
+    @Path("/{id}/information")
+    @Transactional
+    public Response updateVehicleInformation(@PathParam("id") long id, VehicleInformationDto vehicleInformationDto) {
+        Optional<Vehicle> vehicle = facade.findById(id);
+        if (!vehicle.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        VehicleInformation vehicleInformation = vehicleInformationMapper.vehicleInformationDtoToVehicleInformation(vehicleInformationDto);
+        vehicle.get().setVehicleInformation(vehicleInformation);
+        facade.save(vehicle.get());
+        return Response.ok().build();
     }
 }

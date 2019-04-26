@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class VehicleInformationDto extends BaseDto{
 
-    private String bodyType;
     private String type;
     private String color;
     private String tradeName;
@@ -15,14 +14,7 @@ public class VehicleInformationDto extends BaseDto{
     private boolean wamInsured;
     private boolean mayRideOnRoad;
     private int catalogPrice;
-
-    public String getBodyType() {
-        return bodyType;
-    }
-
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
-    }
+    private long vehicle_id;
 
     public String getType() {
         return type;
@@ -102,5 +94,13 @@ public class VehicleInformationDto extends BaseDto{
 
     public void setCatalogPrice(int catalogPrice) {
         this.catalogPrice = catalogPrice;
+    }
+
+    public long getVehicle_id() {
+        return vehicle_id;
+    }
+
+    public void setVehicle_id(long vehicle_id) {
+        this.vehicle_id = vehicle_id;
     }
 }
