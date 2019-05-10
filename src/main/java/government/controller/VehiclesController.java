@@ -2,30 +2,32 @@ package government.controller;
 
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
-import government.dto.UserDto;
 import government.dto.VehicleDto;
+import government.facade.TrackerIdFacade;
 import government.dto.VehicleInformationDto;
 import government.mapper.VehicleInformationMapper;
-import government.model.TrackerId;
+import government.model.*;
 import government.facade.OwnershipFacade;
 import government.facade.UserFacade;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
 import government.mapper.VehicleMapper;
-import government.model.Role;
-import government.model.User;
-import government.model.Vehicle;
-import government.model.VehicleInformation;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import javax.swing.text.html.Option;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Path("/vehicles")
 @Produces("application/json")
@@ -33,7 +35,10 @@ import java.util.Optional;
 public class VehiclesController {
 
     @Inject
-    VehicleFacade facade;
+    VehicleFacade vehicleFacade;
+
+    @Inject
+    TrackerIdFacade trackerIdFacade;
 
     @Inject
     OwnershipFacade ownershipFacade;
@@ -54,7 +59,7 @@ public class VehiclesController {
     @Path("{registration_id}")
     @Transactional
     public Response show(@PathParam("registration_id") String registrationID) {
-        Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
+        Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationID);
 
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -66,7 +71,7 @@ public class VehiclesController {
     @GET
     @Path("{registration_id}/ownerships")
     public Response showOwnerships(@PathParam("registration_id") String registrationID) {
-        Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
+        Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationID);
 
         if(!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -79,7 +84,7 @@ public class VehiclesController {
     @Path("{registration_id}/ownerships")
     @Transactional
     public Response transfersOwnership(@PathParam("registration_id") String registrationID, JsonObject params) {
-        Optional<Vehicle> vehicle = facade.findByRegistrationID(registrationID);
+        Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationID);
 
         if(!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -97,7 +102,7 @@ public class VehiclesController {
 
         Vehicle vehicle = vehicleMapper.vehicleDtoToVehicle(vehicleDto);
 
-        vehicle = facade.save(vehicle);
+        vehicle = vehicleFacade.save(vehicle);
 
         if (vehicle.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -109,7 +114,27 @@ public class VehiclesController {
     @POST
     @Path("/{id}/trackers")
     @Transactional
-    public Response createTracker(){
+    public Response createTracker(@PathParam("id") Long vehicleId) {
+        Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
+
+        if (optionalTrackerId.isPresent()) {
+            TrackerId trackerId = optionalTrackerId.get();
+            trackerId.setDestroyedDate(getCurrentDate());
+            trackerIdFacade.save(trackerId);
+        }
+
+        UUID uuid = getTracker();
+        if (uuid == null) {
+            return Response.noContent().build();
+        }
+
+        TrackerId trackerId = new TrackerId();
+        trackerId.setTrackerId(uuid);
+        Vehicle vehicle = vehicleFacade.findById(vehicleId).get();
+        trackerId.setVehicle(vehicle);
+
+        trackerIdFacade.save(trackerId);
+
         return Response.ok().build();
     }
 
@@ -117,7 +142,7 @@ public class VehiclesController {
     @Path("/{id}/trackers")
     @Transactional
     public Response getAllTrackers(@PathParam("id") long id) {
-        Optional<Vehicle> vehicle = facade.findById(id);
+        Optional<Vehicle> vehicle = vehicleFacade.findById(id);
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -126,17 +151,10 @@ public class VehiclesController {
     }
 
     @GET
-    @Path("/all")
-    @Transactional
-    public Response getAll() {
-        return Response.ok(facade.findAll()).build();
-    }
-
-    @GET
     @Path("/{id}/information")
     @Transactional
     public Response getVehicleInformation(@PathParam("id") long id) {
-        Optional<Vehicle> vehicle = facade.findById(id);
+        Optional<Vehicle> vehicle = vehicleFacade.findById(id);
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -148,13 +166,39 @@ public class VehiclesController {
     @Path("/{id}/information")
     @Transactional
     public Response updateVehicleInformation(@PathParam("id") long id, VehicleInformationDto vehicleInformationDto) {
-        Optional<Vehicle> vehicle = facade.findById(id);
+        Optional<Vehicle> vehicle = vehicleFacade.findById(id);
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         VehicleInformation vehicleInformation = vehicleInformationMapper.vehicleInformationDtoToVehicleInformation(vehicleInformationDto);
         vehicle.get().setVehicleInformation(vehicleInformation);
-        facade.save(vehicle.get());
+        vehicleFacade.save(vehicle.get());
         return Response.ok().build();
+    }
+
+    private Date getCurrentDate(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        dateFormat.format(date);
+        return date;
+    }
+
+    private UUID getTracker(){
+        try{
+            URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection)con;
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);
+
+            http.connect();
+            try(InputStream os = http.getInputStream()) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(os));
+                String line = reader.readLine().replaceAll("^\"|\"$", "");
+                return UUID.fromString(line);
+            }
+        } catch(IOException e){
+            return null;
+        }
     }
 }
