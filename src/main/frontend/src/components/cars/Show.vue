@@ -1,9 +1,17 @@
 <template>
-  <div>
+  <div v-if="vehicleStatus.loaded">
       <car-header/>
 
       <div class="bg-white rounded p-8">
-        <h2 class="mb-4">Vehicle information</h2>
+        <div class="mb-4 flex justify-between items-center">
+          <h2>Vehicle information</h2>
+          <router-link
+            :to="{ name: 'cars#edit', params: { license_number: vehicle.registrationID }}"
+            class="no-underline bg-grey-lighter hover:bg-grey-light hover:text-grey-darkest text-grey-darker py-4 px-8 rounded"
+          >
+            Edit Vehicle
+          </router-link>
+        </div>
         <table class="w-full">
           <tr class="border-b border-grey-lighter">
             <td class="py-4">Vehicle category</td>
@@ -42,12 +50,15 @@ export default {
 
   computed: {
     ...mapState({
+      vehicle: state => state.vehicles.value,
+      vehicleStatus: state => state.vehicles.status,
       vehicleInformation: state => state.vehicleInformation.value,
       status: state => state.vehicleInformation.status
     })
   },
 
   created() {
+    this.$store.dispatch("vehicles/getVehicle", this.$route.params.license_number );
     this.$store.dispatch("vehicleInformation/getVehicleInformation", this.$route.params.license_number );
   }
 };
