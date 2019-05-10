@@ -38,4 +38,15 @@ public class TrackerIdRepository extends CrudRepository<TrackerId, Long> {
             return null;
         }
     }
+
+    public Optional<TrackerId> findLastTrackerByVehicle(Long vehicleId) {
+        Query query = entityManager.createQuery("select t from TrackerId t where t.id = (select max(t2.id) from TrackerId t2 where t2.vehicle.id = :vehicleId)");
+        query.setParameter("vehicleId", vehicleId);
+
+        try{
+            return Optional.of((TrackerId) query.getSingleResult());
+        } catch (NoResultException e){
+            return Optional.empty();
+        }
+    }
 }

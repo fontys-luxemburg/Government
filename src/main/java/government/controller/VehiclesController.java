@@ -70,11 +70,12 @@ public class VehiclesController {
     @Path("/{id}/trackers")
     @Transactional
     public Response createTracker(@PathParam("id") Long vehicleId){
+        Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
 
-        List<TrackerId> trackerIds = trackerIdFacade.findByVehicleId(vehicleId);
-
-        if (!trackerIds.isEmpty()){
-            trackerIds.get(trackerIds.size() - 1).setDestroyedDate(getCurrentDate());
+        if (optionalTrackerId.isPresent()){
+            TrackerId trackerId = optionalTrackerId.get();
+            trackerId.setDestroyedDate(getCurrentDate());
+            trackerIdFacade.save(trackerId);
         }
 
         UUID uuid = getTracker();
@@ -84,7 +85,8 @@ public class VehiclesController {
 
         TrackerId trackerId = new TrackerId();
         trackerId.setTrackerId(uuid);
-        trackerId.setVehicle(facade.findById(vehicleId).get());
+        Vehicle vehicle = facade.findById(vehicleId).get();
+        trackerId.setVehicle(vehicle);
 
         trackerIdFacade.save(trackerId);
 
@@ -109,7 +111,7 @@ public class VehiclesController {
             http.connect();
             try(InputStream os = http.getInputStream()) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(os));
-                String line = reader.readLine();
+                String line = reader.readLine().replaceAll("^\"|\"$", "");
                 return UUID.fromString(line);
             }
         } catch(IOException e){
