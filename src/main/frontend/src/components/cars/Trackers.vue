@@ -22,6 +22,16 @@
               <div class="uppercase bg-green-lightest inline-block p-2 text-xs text-green-dark tracking-wide font-bold rounded">active</div>
             </td>
           </tr>
+
+          <tr v-for="tracker in trackers" v-bind:key="tracker.UUID">
+            <td class="py-4">{{ tracker.UUID }}</td>
+            <td class="py-4">Trax P1</td>
+            <td class="py-4">{{ tracker.createdAt }}</td>
+            <td class="py-4">
+              <div class="uppercase bg-green-lightest inline-block p-2 text-xs text-green-dark tracking-wide font-bold rounded" v-if="tracker.destroyedDate === null">active</div>
+              <div class="uppercase bg-red-lightest inline-block p-2 text-xs text-green-dark tracking-wide font-bold rounded" v-else>inactive</div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -32,7 +42,18 @@
     import CarHeader from "./CarHeader";
     export default {
         name: "Trackers",
-        components: { CarHeader }
+        components: { CarHeader },
+
+        computed: {
+            ...mapState({
+              trackers: state => state.trackers.all,
+              status: state => state.trackers.status
+            })
+        },
+
+        created() {
+          this.$store.dispatch("trackers/findTrackers", this.$route.params.license_number)
+        }
     }
 </script>
 
