@@ -126,14 +126,30 @@ public class VehiclesController {
     @POST
     @Path("/{id}/trackers")
     @Transactional
-    public Response createTracker(@PathParam("id") Long vehicleId){
+    public Response createTracker(@PathParam("id") Long vehicleId) {
         Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
 
-        if (optionalTrackerId.isPresent()){
+        if (optionalTrackerId.isPresent()) {
             TrackerId trackerId = optionalTrackerId.get();
             trackerId.setDestroyedDate(getCurrentDate());
             trackerIdFacade.save(trackerId);
         }
+
+        UUID uuid = getTracker();
+        if (uuid == null) {
+            return Response.noContent().build();
+        }
+
+        TrackerId trackerId = new TrackerId();
+        trackerId.setTrackerId(uuid);
+        Vehicle vehicle = facade.findById(vehicleId).get();
+        trackerId.setVehicle(vehicle);
+
+        trackerIdFacade.save(trackerId);
+
+        return Response.ok().build();
+    }
+
     @GET
     @Path("/{id}/trackers")
     @Transactional
@@ -145,24 +161,6 @@ public class VehiclesController {
         List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
         return Response.ok(trackers).build();
     }
-
-        UUID uuid = getTracker();
-        if (uuid == null){
-            return Response.noContent().build();
-        }
-    @GET
-    @Path("/all")
-    @Transactional
-    public Response getAll() {
-        return Response.ok(facade.findAll()).build();
-    }
-
-        TrackerId trackerId = new TrackerId();
-        trackerId.setTrackerId(uuid);
-        Vehicle vehicle = facade.findById(vehicleId).get();
-        trackerId.setVehicle(vehicle);
-
-        trackerIdFacade.save(trackerId);
 
     @GET
     @Path("/{id}/information")
