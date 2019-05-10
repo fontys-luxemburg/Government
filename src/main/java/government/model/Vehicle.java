@@ -20,8 +20,6 @@ public class Vehicle extends BaseEntity {
     private String bodyType ;
     private String model;
 
-    private String bodyType;
-
     @OneToMany(mappedBy = "vehicle")
     private List<Ownership> ownerships;
 
@@ -81,10 +79,6 @@ public class Vehicle extends BaseEntity {
     public void addOwnership(Ownership ownership) {
         ownership.setVehicle(this);
         this.ownerships.add(ownership);
-    }
-
-    public List<TrackerId> getTrackers() {
-        return trackers;
     }
 
     public void setBodyType(String bodyType) {
