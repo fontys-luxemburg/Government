@@ -1,9 +1,11 @@
 import {authHeader} from "../helpers";
 import {userService} from "./users.service";
+import auth from "../store/modules/auth";
 
 export const vehicleService = {
   findVehicle,
-    findVehicleInformation
+    findVehicleInformation,
+    updateVehicleInformation
 };
 
 function findVehicle(registrationID) {
@@ -30,6 +32,31 @@ function findVehicleInformation(id) {
         .then(vehicleInformation => {
             return vehicleInformation;
         });
+}
+
+function updateVehicleInformation(vehicleInformation) {
+    const requestOptions = {
+        method: "PUT",
+        headers: {
+            ...authHeader(),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(vehicleInformation)
+    };
+
+    return fetch(`/government/api/vehicles/${vehicleInformation.vehicle_id}/information`, requestOptions)
+        .then(response => {
+            if(!response.ok) {
+                if(response.status === 401) {
+                    userService.logout();
+                }
+
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
+
+            return response;
+        })
 }
 
 function handleResponse(response) {

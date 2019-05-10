@@ -1,4 +1,5 @@
 import {vehicleService} from "../../services";
+import { router } from '../../router';
 
 const state = {
     value: null,
@@ -13,6 +14,19 @@ const actions = {
            commit("VEHICLE_INFORMATION_SUCCESS", vehicleInformation);
         }).catch(error => {
             commit("VEHICLE_INFORMATION_FAILURE");
+        });
+    },
+
+    updateVehicleInformation({ commit, dispatch }, vehicleInformation) {
+        vehicleService.updateVehicleInformation(vehicleInformation).then(resp => {
+
+            dispatch(
+                "setNotice",
+                { message: "Succesfully updated vehicle information." },
+                { root: true }
+            );
+
+            router.push({ name: 'cars#show', params: {license_number: 'AB1234'} });
         });
     }
 };

@@ -26,7 +26,7 @@
             <td class="py-4">Body type</td>
             <td class="py-4 w-2/3">{{vehicle.bodyType}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter" >
             <td class="py-4">Trade name</td>
             <td class="py-4 w-2/3">{{vehicleInformation.tradeName}}</td>
           </tr>
@@ -34,35 +34,35 @@
             <td class="py-4">Type</td>
             <td class="py-4 w-2/3">{{vehicleInformation.type}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">Color</td>
             <td class="py-4 w-2/3">{{vehicleInformation.color}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">Registration date</td>
             <td class="py-4 w-2/3">{{vehicleInformation.registrationDate}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">APK experation date</td>
             <td class="py-4 w-2/3">{{vehicleInformation.apkExperationDate}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">Is stolen</td>
             <td class="py-4 w-2/3">{{vehicleInformation.stolen}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">Is exported</td>
             <td class="py-4 w-2/3">{{vehicleInformation.exported}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">is WAM insured</td>
             <td class="py-4 w-2/3">{{vehicleInformation.wamInsured}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">May ride on road</td>
             <td class="py-4 w-2/3">{{vehicleInformation.mayRideOnRoad}}</td>
           </tr>
-          <tr>
+          <tr class="border-b border-grey-lighter">
             <td class="py-4">Catalog price</td>
             <td class="py-4 w-2/3">{{vehicleInformation.catalogPrice}}</td>
           </tr>
@@ -91,11 +91,10 @@ export default {
   },
 
   created() {
+    this.$store.dispatch("vehicleInformation/getVehicleInformation", this.$route.params.license_number);
+
     if (this.vehicle && this.vehicle.registrationID === this.$route.params.license_number) return;
     this.$store.dispatch("vehicles/getVehicle", this.$route.params.license_number);
-
-    if (this.status.loaded) return;
-    this.$store.dispatch("vehicleInformation/getVehicleInformation", this.$route.params.license_number );
   }
 }
 </script>
