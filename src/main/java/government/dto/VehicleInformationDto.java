@@ -3,9 +3,10 @@ package government.dto;
 import java.util.Date;
 
 public class VehicleInformationDto extends BaseDto{
-
+    // De typebenaming die de fabrikant gebruikt. Example 5B
     private String type;
     private String color;
+    // Handelsbenaming van het voertuig zoals de fabrikant heeft opgegeven. Example BUGATTI CHIRON
     private String tradeName;
     private Date registrationDate;
     private Date apkExperationDate;
