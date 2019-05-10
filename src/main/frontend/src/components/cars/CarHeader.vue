@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="status.loaded">
     <div class="mb-2">
       <router-link
         to="/"
@@ -57,9 +57,15 @@ export default {
   name: "car-header",
   computed: {
     ...mapState({
+        status: state => state.vehicles.status,
       vehicle: state => state.vehicles.value
     })
-  }
+  },
+
+    created() {
+      if (this.vehicle && this.vehicle.id === this.$route.params.license_number) return;
+      this.$store.dispatch("vehicles/getVehicle", this.$route.params.license_number);
+    }
 };
 </script>
 

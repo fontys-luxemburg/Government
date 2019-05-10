@@ -26,7 +26,7 @@ public class Vehicle extends BaseEntity {
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     private List<TrackerId> trackers = new ArrayList<>();
     @OneToOne(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    private VehicleInformation vehicleInformation;
+    private VehicleInformation vehicleInformation = new VehicleInformation(this);
 
     public String getRegistrationID() {
         return registrationID;

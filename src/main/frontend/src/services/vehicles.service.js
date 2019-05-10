@@ -2,7 +2,8 @@ import {authHeader} from "../helpers";
 import {userService} from "./users.service";
 
 export const vehicleService = {
-  findVehicle
+  findVehicle,
+    findVehicleInformation
 };
 
 function findVehicle(registrationID) {
@@ -16,6 +17,19 @@ function findVehicle(registrationID) {
     .then(vehicle => {
       return vehicle;
     });
+}
+
+function findVehicleInformation(id) {
+    const requestOptions = {
+        method: "GET",
+        headers: authHeader()
+    };
+
+    return fetch(`/government/api/vehicles/${id}/information`, requestOptions)
+        .then(handleResponse)
+        .then(vehicleInformation => {
+            return vehicleInformation;
+        });
 }
 
 function handleResponse(response) {

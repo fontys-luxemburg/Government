@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div v-if="status.loading" class="flex justify-center items-center my-32">
-      <MoonLoader color="black"/>
-    </div>
-
-    <div v-if="status.loaded">
       <car-header/>
 
       <div class="bg-white rounded p-8">
@@ -33,12 +28,6 @@
         </table>
       </div>
     </div>
-
-    <div v-if="status.failed" class="flex items-center justify-center flex-col mt-32">
-      <h1 class="mb-8">We couldn't find this vehicle</h1>
-      <router-link to="/" class="bg-blue p-4 rounded text-white no-underline hover:bg-blue-dark">Search for other vehicle</router-link>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -53,13 +42,13 @@ export default {
 
   computed: {
     ...mapState({
-      vehicle: state => state.vehicles.value,
-      status: state => state.vehicles.status
+      vehicleInformation: state => state.vehicleInformation.value,
+      status: state => state.vehicleInformation.status
     })
   },
 
   created() {
-    this.$store.dispatch("vehicles/getVehicle", this.$route.params.license_number );
+    this.$store.dispatch("vehicleInformation/getVehicleInformation", this.$route.params.license_number );
   }
 };
 </script>
