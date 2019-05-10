@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -27,5 +28,12 @@ public class UserRepository extends CrudRepository<User, Long> {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    public List<User> search(String searchTerm) {
+        Query query = entityManager.createQuery("select u from User u where u.name like :term or u.email like :term");
+        query.setParameter("term", "%" + searchTerm + "%");
+
+        return query.getResultList();
     }
 }
