@@ -1,19 +1,17 @@
 package government.controller;
 
+import government.annotation.Secured;
 import government.dto.TrackerIdDto;
 import government.dto.VehicleDto;
 import government.facade.TrackerIdFacade;
 import government.dto.VehicleInformationDto;
 import government.mapper.VehicleInformationMapper;
-import government.model.TrackerId;
+import government.model.*;
 import government.facade.OwnershipFacade;
 import government.facade.UserFacade;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
 import government.mapper.VehicleMapper;
-import government.model.User;
-import government.model.Vehicle;
-import government.model.VehicleInformation;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
@@ -33,6 +31,7 @@ import java.util.UUID;
 
 @Path("/vehicles")
 @Produces("application/json")
+@Secured({Role.Employee, Role.Admin})
 public class VehiclesController {
 
     @Inject
