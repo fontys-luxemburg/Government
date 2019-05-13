@@ -151,10 +151,10 @@ public class VehiclesController {
     }
 
     @GET
-    @Path("/{id}/information")
+    @Path("/{registration_id}/information")
     @Transactional
-    public Response getVehicleInformation(@PathParam("id") long id) {
-        Optional<Vehicle> vehicle = vehicleFacade.findById(id);
+    public Response getVehicleInformation(@PathParam("registration_id") String registrationID) {
+        Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationID);
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

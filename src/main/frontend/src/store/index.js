@@ -4,6 +4,7 @@ import vehicles from './modules/vehicles';
 import ownerships from './modules/ownerships';
 import auth from './modules/auth';
 import notices from './modules/notices';
+import vehicleInformation from './modules/vehicle_information';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
         vehicles,
         ownerships,
         auth,
-        notices
+        notices,
+        vehicleInformation
     },
     strict: true
 });
