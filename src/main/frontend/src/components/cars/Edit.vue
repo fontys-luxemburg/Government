@@ -1,8 +1,8 @@
 <template>
-  <div v-if="">
+  <div v-if="status.loaded">
     <back-button :to="{ name: 'cars#show', params: { license_number: vehicle.registrationID }}" class="mb-2" />
     <div class="bg-white rounded p-8">
-      <h1 class="mb-12">Edit Peugeot 208 - AB1234</h1>
+      <h1 class="mb-12">Edit {{ vehicle.brand }} - {{ vehicle.registrationID }}</h1>
       <form @submit.prevent="onSubmit()">
         <div class="flex -mx-4 mb-8">
           <div class="w-1/5 mx-4">
@@ -73,6 +73,7 @@
 
         computed: {
             ...mapState({
+                status: state => state.vehicles.status,
                 vehicle: state => state.vehicles.value
             })
         },
@@ -81,7 +82,7 @@
             onSubmit() {
                 console.log('vehicleInformation', this.vehicleInformation);
 
-                this.$store.dispatch('vehicleInformation/updateVehicleInformation', this.vehicleInformation);
+                this.$store.dispatch('vehicleInformation/updateVehicleInformation', { vehicleInformation: this.vehicleInformation, registrationID: this.$route.params.license_number});
             }
         },
 

@@ -17,7 +17,7 @@ const actions = {
         });
     },
 
-    updateVehicleInformation({ commit, dispatch }, vehicleInformation) {
+    updateVehicleInformation({ commit, dispatch }, { registrationID, vehicleInformation }) {
         vehicleService.updateVehicleInformation(vehicleInformation).then(resp => {
 
             dispatch(
@@ -26,7 +26,7 @@ const actions = {
                 { root: true }
             );
 
-            router.push({ name: 'cars#show', params: {license_number: 'AB1234'} });
+            router.push({ name: 'cars#show', params: { license_number: registrationID } });
         });
     }
 };

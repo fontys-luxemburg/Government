@@ -1,5 +1,11 @@
 <template>
-  <div v-if="vehicleStatus.loaded">
+  <div>
+    <div v-if="vehicleStatus.failed" class="flex items-center justify-center flex-col mt-32">
+      <h1 class="mb-8">We couldn't find this vehicle</h1>
+      <router-link to="/" class="bg-blue p-4 rounded text-white no-underline hover:bg-blue-dark">Search for other vehicle</router-link>
+    </div>
+
+    <div v-if="vehicleStatus.loaded">
       <car-header/>
 
       <div class="bg-white rounded p-8">
@@ -69,6 +75,8 @@
         </table>
       </div>
     </div>
+
+  </div>
 </template>
 
 <script>
