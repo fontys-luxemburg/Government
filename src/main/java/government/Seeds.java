@@ -7,6 +7,7 @@ import government.model.Ownership;
 import government.model.TrackerId;
 import government.model.User;
 import government.model.Vehicle;
+import government.model.VehicleInformation;
 import government.repository.OwnershipRepository;
 import government.repository.VehicleRepository;
 
@@ -59,6 +60,12 @@ public class Seeds {
         peugeot.setModel("208");
         peugeot.setRegistrationID("AB1234");
         peugeot.setBodyType("CAR");
+
+        VehicleInformation peugeotInfo = new VehicleInformation();
+        peugeotInfo.setColor("GREY");
+        peugeotInfo.setCatalogPrice(300000);
+        peugeotInfo.setVehicle(peugeot);
+        peugeot.setVehicleInformation(peugeotInfo);
 
         Vehicle bmw = new Vehicle();
         bmw.setBrand("BMW");
