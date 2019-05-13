@@ -2,15 +2,14 @@ import { trackerService } from "../../services";
 
 const state = {
     all: [],
-    status: {},
-    transfer_status: {}
+    status: {}
   };
 
 const actions = {
     getTrackers({ commit }, vehicleID) {
       commit("TRACKERS_REQUEST");
   
-      ownershipsService
+      trackerService
         .findTrackers(vehicleID)
         .then(trackers => {
           commit("TRACKERS_SUCCESS", trackers);
@@ -18,6 +17,17 @@ const actions = {
         .catch(() => {
           commit("TRACKERS_FAILURE");
         });
+    },
+
+    createTracker({ commit, dispatch }, vehicleID) {
+      trackerService.createTracker(vehicleID).then(() => {
+          dispatch("getTrackers", vehicleID);
+          dispatch(
+              "setNotice",
+              { message: "Succesfully transfered ownership." },
+              { root: true }
+          );
+      });
     }
 };
 

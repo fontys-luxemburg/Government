@@ -5,7 +5,7 @@
       @click="isOpen = true"
     >Transfer Ownership</button>
 
-    <modal v-if="isOpen" @close="isOpen = false">
+    <modal v-if="isOpen" @close="isOpen = false" title="Transfer Ownership">
       <p class="bg-yellow-lighter p-4 rounded mb-6 text-yellow-darker">
         <strong>Warning!</strong> This action cannot be reversed.
       </p>

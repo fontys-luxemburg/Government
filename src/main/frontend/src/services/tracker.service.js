@@ -1,22 +1,42 @@
 import { authHeader } from "../helpers";
 
 export const trackerService = {
-    findTrackers
+    findTrackers,
+    createTracker
 };
 
-function findTrackers(vehicleID) {
+function findTrackers(registrationID) {
     const requestOptions = {
         method: "GET",
         headers: authHeader()
       };
     
       return fetch(
-        `/government/api/vehicles/${vehicleID}/trackers`,
+        `/government/api/vehicles/${registrationID}/trackers`,
         requestOptions
       )
         .then(handleResponse)
         .then(trackers => {
           return trackers;
+        });
+}
+
+function createTracker(registrationID) {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+          ...authHeader(),
+          'Content-Type': 'application/json'
+        }
+    };
+
+    return fetch(`/government/api/vehicles/${registrationID}/trackers`, requestOptions)
+        .then(resp => {
+            if (resp.ok) {
+                return Promise.resolve(true);
+            } else {
+                return Promise.reject();
+            }
         });
 }
 

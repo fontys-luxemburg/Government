@@ -114,7 +114,7 @@ public class VehiclesController {
     @POST
     @Path("/{id}/trackers")
     @Transactional
-    public Response createTracker(@PathParam("id") Long vehicleId) {
+    public Response createTracker(@PathParam("id") String vehicleId) {
         Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
 
         if (optionalTrackerId.isPresent()) {
@@ -130,7 +130,7 @@ public class VehiclesController {
 
         TrackerId trackerId = new TrackerId();
         trackerId.setTrackerId(uuid);
-        Vehicle vehicle = vehicleFacade.findById(vehicleId).get();
+        Vehicle vehicle = vehicleFacade.findByRegistrationID(vehicleId).get();
         trackerId.setVehicle(vehicle);
 
         trackerIdFacade.save(trackerId);
