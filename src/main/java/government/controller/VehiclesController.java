@@ -123,7 +123,7 @@ public class VehiclesController {
             trackerIdFacade.save(trackerId);
         }
 
-        UUID uuid = getTracker();
+        UUID uuid = newTracker();
         if (uuid == null) {
             return Response.noContent().build();
         }
@@ -146,7 +146,8 @@ public class VehiclesController {
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
+//        List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
+        List<TrackerIdDto> trackers = getTrackers();
         return Response.ok(trackers).build();
     }
 
@@ -183,7 +184,7 @@ public class VehiclesController {
         return date;
     }
 
-    private UUID getTracker(){
+    private UUID newTracker(){
         try{
             URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
             URLConnection con = url.openConnection();
@@ -197,6 +198,25 @@ public class VehiclesController {
                 String line = reader.readLine().replaceAll("^\"|\"$", "");
                 return UUID.fromString(line);
             }
+        } catch(IOException e){
+            return null;
+        }
+    }
+
+    public List<TrackerIdDto> getTrackers(){
+        try{
+            URL url = new URL("http://localhost:8080/tracking.war/api/trackers"); //todo: Endpoint
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection)con;
+            http.setRequestMethod("GET");
+            http.setDoInput(true);
+
+            http.connect();
+            try(InputStream os = http.getInputStream()){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(os));
+                //reader action
+            }
+
         } catch(IOException e){
             return null;
         }
