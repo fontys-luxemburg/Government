@@ -11,6 +11,8 @@ public class TrackerIdDto extends BaseDto {
 
     private Date destroyedDate;
 
+    private Date createdAt;
+
     public UUID getTrackerId() {
         return trackerId;
     }
@@ -33,5 +35,15 @@ public class TrackerIdDto extends BaseDto {
 
     public void setDestroyedDate(Date destroyedDate) {
         this.destroyedDate = destroyedDate;
+    }
+
+    @Override
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

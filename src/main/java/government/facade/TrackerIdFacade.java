@@ -33,7 +33,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         return repository.findByVehicleId(id);
     }
 
-    public Optional<TrackerId> findLastTrackerByVehicle(Long trackerId){
+    public Optional<TrackerId> findLastTrackerByVehicle(String trackerId){
         return repository.findLastTrackerByVehicle(trackerId);
     }
 

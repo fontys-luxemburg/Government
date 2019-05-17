@@ -114,7 +114,7 @@ public class VehiclesController {
     @POST
     @Path("/{id}/trackers")
     @Transactional
-    public Response createTracker(@PathParam("id") Long vehicleId) {
+    public Response createTracker(@PathParam("id") String vehicleId) {
         Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
 
         if (optionalTrackerId.isPresent()) {
@@ -130,7 +130,7 @@ public class VehiclesController {
 
         TrackerId trackerId = new TrackerId();
         trackerId.setTrackerId(uuid);
-        Vehicle vehicle = vehicleFacade.findById(vehicleId).get();
+        Vehicle vehicle = vehicleFacade.findByRegistrationID(vehicleId).get();
         trackerId.setVehicle(vehicle);
 
         trackerIdFacade.save(trackerId);
@@ -139,10 +139,10 @@ public class VehiclesController {
     }
 
     @GET
-    @Path("/{id}/trackers")
+    @Path("/{registrationId}/trackers")
     @Transactional
-    public Response getAllTrackers(@PathParam("id") long id) {
-        Optional<Vehicle> vehicle = vehicleFacade.findById(id);
+    public Response getAllTrackers(@PathParam("registrationId") String registrationId) {
+        Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationId);
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
