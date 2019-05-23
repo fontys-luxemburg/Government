@@ -7,11 +7,9 @@ public class TrackerIdDto extends BaseDto {
 
     private UUID trackerId;
 
-    private Long vehicleId;
+    private String vehicleID;
 
     private Date destroyedDate;
-
-    private Date createdAt;
 
     public UUID getTrackerId() {
         return trackerId;
@@ -21,12 +19,12 @@ public class TrackerIdDto extends BaseDto {
         this.trackerId = trackerId;
     }
 
-    public Long getVehicleId() {
-        return vehicleId;
+    public String getVehicleID() {
+        return vehicleID;
     }
 
-    public void setVehicleId(Long vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicleID(String vehicleID) {
+        this.vehicleID = vehicleID;
     }
 
     public Date getDestroyedDate() {
@@ -35,15 +33,5 @@ public class TrackerIdDto extends BaseDto {
 
     public void setDestroyedDate(Date destroyedDate) {
         this.destroyedDate = destroyedDate;
-    }
-
-    @Override
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    @Override
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 }
