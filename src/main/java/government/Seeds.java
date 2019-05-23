@@ -30,9 +30,6 @@ public class Seeds {
     UserFacade userFacade;
 
     @Inject
-    TrackerIdFacade trackerIdFacade;
-
-    @Inject
     OwnershipRepository ownershipRepository;
 
     @PostConstruct
@@ -97,24 +94,5 @@ public class Seeds {
         ownershipRepository.save(ownership);
         ownershipRepository.save(ownership1);
         ownershipRepository.save(pastOwnership);
-
-        // Create trackers
-        TrackerId tracker1 = new TrackerId();
-        tracker1.setVehicle(peugeot);
-        tracker1.setTrackerId(UUID.fromString("38c5be3f-5ec9-4f3a-b597-5b57f42b0f87"));
-        tracker1.setDestroyedDate(cal.getTime());
-
-        TrackerId tracker2 = new TrackerId();
-        tracker2.setVehicle(peugeot);
-        tracker2.setTrackerId(UUID.fromString("7c4ff599-6653-46d1-94b4-36c54a79b8bb"));
-        tracker2.setDestroyedDate(cal.getTime());
-
-        TrackerId tracker3 = new TrackerId();
-        tracker3.setVehicle(peugeot);
-        tracker3.setTrackerId(UUID.fromString("c95494ba-60d9-442b-8114-e61fe5afcffa"));
-
-        trackerIdFacade.save(tracker1);
-        trackerIdFacade.save(tracker2);
-        trackerIdFacade.save(tracker3);
     }
 }

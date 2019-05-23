@@ -1,6 +1,7 @@
 package government.dto;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class TrackerIdDto extends BaseDto {
@@ -10,6 +11,8 @@ public class TrackerIdDto extends BaseDto {
     private String vehicleID;
 
     private Date destroyedDate;
+
+    private List<TripDto> trips;
 
     public UUID getTrackerId() {
         return trackerId;
@@ -33,5 +36,13 @@ public class TrackerIdDto extends BaseDto {
 
     public void setDestroyedDate(Date destroyedDate) {
         this.destroyedDate = destroyedDate;
+    }
+
+    public List<TripDto> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(List<TripDto> trips) {
+        this.trips = trips;
     }
 }

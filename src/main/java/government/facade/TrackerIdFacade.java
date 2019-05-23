@@ -30,17 +30,9 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         return repository.findById(id);
     }
 
-    public Optional<TrackerId> findByTrackerID(UUID trackerid){
-        return repository.findByTrackerID(trackerid);
-    }
-
     @Override
     public List<TrackerId> findAll() {
         return repository.findAll();
-    }
-
-    public List<TrackerId> findByVehicleId(Long id){
-        return repository.findByVehicleId(id);
     }
 
     public Optional<TrackerId> findLastTrackerByVehicle(String trackerId){
