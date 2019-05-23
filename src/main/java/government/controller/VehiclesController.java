@@ -31,7 +31,7 @@ import java.util.*;
 
 @Path("/vehicles")
 @Produces("application/json")
-//@Secured({Role.Employee, Role.Admin})
+@Secured({Role.Employee, Role.Admin})
 public class VehiclesController {
 
     @Inject

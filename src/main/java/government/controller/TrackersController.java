@@ -1,7 +1,9 @@
 package government.controller;
 
+import government.annotation.Secured;
 import government.dto.TrackerIdDto;
 import government.facade.TrackerIdFacade;
+import government.model.Role;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,7 +16,7 @@ import java.util.List;
 
 @Path("/trackers")
 @Produces("application/json")
-//@Secured({Role.Employee, Role.Admin})
+@Secured({Role.Employee, Role.Admin})
 public class TrackersController {
 
     @Inject
