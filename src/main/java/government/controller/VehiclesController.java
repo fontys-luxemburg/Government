@@ -1,5 +1,6 @@
 package government.controller;
 
+import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
 import government.dto.VehicleDto;
@@ -24,10 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Path("/vehicles")
 @Produces("application/json")
@@ -54,6 +52,9 @@ public class VehiclesController {
     
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
+    @Inject
+    @PropertiesFromFile
+    Properties props;
 
     @GET
     @Path("{registration_id}")
@@ -200,5 +201,10 @@ public class VehiclesController {
         } catch(IOException e){
             return null;
         }
+    }
+    @GET
+    @Path("test")
+    public Response testProperties(){
+        return Response.ok(props.getProperty("tracking_url")).build();
     }
 }
