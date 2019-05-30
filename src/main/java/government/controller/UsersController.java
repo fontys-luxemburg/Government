@@ -53,4 +53,9 @@ public class UsersController {
     public Response testProperties(){
         return Response.ok(props.get("tracking_url")).build();
     }
+    @GET
+    @Path("test2")
+    public Response test(){
+        return Response.ok("test").build();
+    }
 }

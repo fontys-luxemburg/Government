@@ -17,7 +17,7 @@ public class Application extends ResourceConfig {
         register(JacksonFeature.class);
         packages("government");
         String tracking_url= System.getenv("tracking_url");
-        if(tracking_url!= null && !tracking_url.isEmpty() ){
+        if(tracking_url != null){
             props.setProperty("tracking_url",tracking_url);
         }
     }
