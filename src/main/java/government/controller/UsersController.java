@@ -55,6 +55,6 @@ public class UsersController {
     @GET
     @Path("test2")
     public Response test2Properties(){
-        return Response.ok(props.getProperty("tracking_url2")).build();
+        return Response.ok(System.getenv("tracking_url")).build();
     }
 }
