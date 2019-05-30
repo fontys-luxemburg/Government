@@ -47,14 +47,10 @@ public class UsersController {
 
         return Response.ok(new AuthResponse(savedUser, jwt.issueToken(savedUser.getEmail()))).build();
     }
+
     @GET
     @Path("test")
     public Response testProperties(){
-        return Response.ok(props.getProperty("tracking_url")).build();
-    }
-    @GET
-    @Path("test2")
-    public Response test2Properties(){
-        return Response.ok(System.getenv("tracking_url")).build();
+        return Response.ok(props.get("tracking_url")).build();
     }
 }
