@@ -11,7 +11,7 @@ services:
       - 5433:5432
 
   government:
-    image: redxice/government:$BRANCH_NAME
+    image: redxice/government:deploy
     ports:
       - 9060:8080
       - 4849:4848
@@ -26,7 +26,7 @@ services:
     ports:
       - 5432:5432
   tracking:
-    image: redxice/payara:$BRANCH_NAME
+    image: redxice/payara:jenkins
     ports:
       - 9050:8080
       - 4848:4848

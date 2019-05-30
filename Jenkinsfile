@@ -5,7 +5,7 @@ pipeline {
       post {
         success {
           archiveArtifacts 'target/*.war'
-          sh 'docker build -t redxice/goverment:$BRANCH_NAME .'
+          sh 'docker build -t redxice/goverment:deploy .'
 
         }
 
