@@ -48,9 +48,6 @@ public class VehiclesController {
 
     @Inject
     VehicleMapper vehicleMapper;
-
-    @Inject
-    TrackerIdMapper trackerIdMapper;
     
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
@@ -115,26 +112,10 @@ public class VehiclesController {
     @Path("/{id}/trackers")
     @Transactional
     public Response createTracker(@PathParam("id") String vehicleId) {
-        Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
-
-        if (optionalTrackerId.isPresent()) {
-            TrackerId trackerId = optionalTrackerId.get();
-            trackerId.setDestroyedDate(getCurrentDate());
-            trackerIdFacade.save(trackerId);
-        }
-
-        UUID uuid = trackerIdFacade.newTracker();
+        UUID uuid = trackerIdFacade.newTracker(vehicleId);
         if (uuid == null) {
             return Response.noContent().build();
         }
-
-        TrackerId trackerId = new TrackerId();
-        trackerId.setTrackerId(uuid);
-        Vehicle vehicle = vehicleFacade.findByRegistrationID(vehicleId).get();
-        trackerId.setVehicle(vehicle);
-
-        trackerIdFacade.save(trackerId);
-
         return Response.ok().build();
     }
 
@@ -175,12 +156,5 @@ public class VehiclesController {
         vehicle.get().setVehicleInformation(vehicleInformation);
         vehicleFacade.save(vehicle.get());
         return Response.ok().build();
-    }
-
-    private Date getCurrentDate(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        dateFormat.format(date);
-        return date;
     }
 }

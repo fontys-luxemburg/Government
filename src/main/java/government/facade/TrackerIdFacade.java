@@ -2,10 +2,8 @@ package government.facade;
 
 import government.dto.TrackerIdDto;
 import government.model.TrackerId;
-import government.repository.TrackerIdRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -22,27 +20,19 @@ import java.util.*;
 @ApplicationScoped
 public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
 
-    @Inject
-    TrackerIdRepository repository;
-
     @Override
-    public Optional<TrackerId> findById(Long id) {
-        return repository.findById(id);
+    public Optional<TrackerId> findById(Long aLong) {
+        return Optional.empty();
     }
 
     @Override
     public List<TrackerId> findAll() {
-        return repository.findAll();
-    }
-
-    public Optional<TrackerId> findLastTrackerByVehicle(String trackerId){
-        return repository.findLastTrackerByVehicle(trackerId);
+        return null;
     }
 
     @Override
     public TrackerId save(TrackerId entity) {
-        repository.save(entity);
-        return entity;
+        return null;
     }
 
     public List<TrackerIdDto> getTrackersFromVehicle(String registrationId){
@@ -73,9 +63,9 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
     }
 
-    public UUID newTracker(){
+    public UUID newTracker(String vehicleID){
         try{
-            URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
+            URL url = new URL("http://localhost:8080/tracking.war/api/trackers/" + vehicleID);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");
