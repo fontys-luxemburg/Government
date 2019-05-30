@@ -4,7 +4,7 @@ pipeline {
     stage('build') {
       post {
         success {
-          archiveArtifacts 'target/*.war'
+          archiveArtifacts '*.war'
           sh 'docker build -t redxice/goverment:deploy .'
 
         }
