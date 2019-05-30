@@ -52,4 +52,9 @@ public class UsersController {
     public Response testProperties(){
         return Response.ok(props.getProperty("tracking_url")).build();
     }
+    @GET
+    @Path("test2")
+    public Response test2Properties(){
+        return Response.ok(props.getProperty("tracking_url2")).build();
+    }
 }
