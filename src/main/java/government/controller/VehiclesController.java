@@ -52,9 +52,6 @@ public class VehiclesController {
     
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
-    @Inject
-    @PropertiesFromFile
-    Properties props;
 
     @GET
     @Path("{registration_id}")
@@ -202,9 +199,5 @@ public class VehiclesController {
             return null;
         }
     }
-    @GET
-    @Path("test")
-    public Response testProperties(){
-        return Response.ok(props.getProperty("tracking_url")).build();
-    }
+
 }
