@@ -11,11 +11,12 @@ pipeline {
 
       }
       steps {
+        sh 'cd src/main/frontend'
         sh '''npm install
 '''
         sh 'npm run build'
         sh 'mvn clean install'
-        sh 'cd src/main/frontend'
+        sh 'cd ../../../'
       }
     }
     stage('Test') {
