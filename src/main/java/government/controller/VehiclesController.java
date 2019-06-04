@@ -1,5 +1,6 @@
 package government.controller;
 
+import government.Urls;
 import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
@@ -52,7 +53,7 @@ public class VehiclesController {
     
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
-
+    private Urls urls = new Urls();
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -183,7 +184,7 @@ public class VehiclesController {
 
     private UUID getTracker(){
         try{
-            URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
+            URL url = new URL(urls.getTrackerUrl()+"/api/trackers");
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");
