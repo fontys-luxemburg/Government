@@ -2,7 +2,7 @@
   <div id="app">
     <notices/>
     <div class="bg-white p-2 border-b border-grey-light mb-8 flex justify-between items-center">
-      <router-link to="/">
+      <router-link to="/" class="flex-none mr-16">
         <img
           alt="Gouvernement du Grand-Duché de Luxembourg"
           src="./assets/gov-light-2x.png"
@@ -10,10 +10,14 @@
         >
       </router-link>
 
+      <div class="w-full">
+        <input type="text" placeholder="Search for vehicles, users or trackers" class="bg-grey-lighter p-4 w-full rounded"/>
+      </div>
+
       <router-link
         v-if="loggedIn"
         to="/login"
-        class="flex items-center pr-8 no-underline text-black"
+        class="flex flex-none items-center pr-8 no-underline text-black ml-16"
       >
         <div>{{ user.name }}</div>
         <div
