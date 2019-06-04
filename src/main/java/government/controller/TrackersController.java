@@ -26,7 +26,7 @@ public class TrackersController {
     @GET
     @Path("/dates")
     public Response TripsBetweenDates(
-            @QueryParam("vehicleID") String vehicleID,
+            @QueryParam("registrationID") String vehicleID,
             @QueryParam("begin") Long begin,
             @QueryParam("end") Long end) {
         Date beginDate = new Date(begin);

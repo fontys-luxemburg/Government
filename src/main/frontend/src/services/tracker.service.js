@@ -2,6 +2,7 @@ import { authHeader } from "../helpers";
 
 export const trackerService = {
     findTrackers,
+    findTripsBetweenDates,
     createTracker
 };
 
@@ -19,6 +20,23 @@ function findTrackers(registrationID) {
         .then(trackers => {
           return trackers;
         });
+}
+
+function findTripsBetweenDates(registrationID, begin, end ) {
+    const requestOptions = {
+        method: "GET",
+        headers: authHeader(),
+        body: JSON.stringify({ registrationID, begin, end })
+    };
+
+    return fetch(
+        `/government/api/trackers/dates`, 
+        requestOptions
+    )
+    .then(handleResponse)
+    .then(trips => {
+        return trips;
+    });
 }
 
 function createTracker(registrationID) {
