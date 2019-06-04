@@ -11,7 +11,10 @@ pipeline {
 
       }
       steps {
-        sh 'mvn clean install'
+        sh '''npm install
+npm run build
+mvn clean install
+'''
       }
     }
     stage('Test') {
@@ -19,11 +22,11 @@ pipeline {
         sh 'mvn test'
       }
     }
-    stage('Deploy'){
+    stage('Deploy') {
       steps {
-          sh 'docker-compose down'
-          sh 'docker-compose up -d'
-        }
+        sh 'docker-compose down'
+        sh 'docker-compose up -d'
+      }
     }
   }
 }
