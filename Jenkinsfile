@@ -15,6 +15,7 @@ pipeline {
 '''
         sh 'npm run build'
         sh 'mvn clean install'
+        sh 'cd src/main/frontend'
       }
     }
     stage('Test') {
