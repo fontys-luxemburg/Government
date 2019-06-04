@@ -1,5 +1,6 @@
 package government.controller;
 
+import government.Urls;
 import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.facade.JwtFacade;
@@ -51,7 +52,7 @@ public class UsersController {
     @GET
     @Path("test")
     public Response testProperties(){
-        return Response.ok(props.get("tracking_url")).build();
+        return Response.ok(new Urls().getTrackerUrl()).build();
     }
     @GET
     @Path("test2")
