@@ -12,9 +12,12 @@ import government.facade.UserFacade;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
 import government.mapper.VehicleMapper;
+import net.bytebuddy.utility.RandomString;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -24,10 +27,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Path("/vehicles")
 @Produces("application/json")
@@ -55,6 +55,10 @@ public class VehiclesController {
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
 
+    Random rand = new Random();
+
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -66,6 +70,32 @@ public class VehiclesController {
         }
 
         return Response.ok(vehicleMapper.vehicleToVehicleDto(vehicle.get())).build();
+    }
+
+    @GET
+    @Path("registrationID")
+    public String getRegistrationID() {
+        String registration;
+
+        while (true) {
+            registration = generateRegistrationID();
+            Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registration);
+            if(!vehicle.isPresent()) { break; }
+        }
+
+        return registration;
+    }
+
+    private String generateRegistrationID() {
+        String randomString = String.format("%c%c", randomCharacter(), randomCharacter());
+        int numbers = rand.nextInt(9999);
+        String paddedNumbers = String.format("%04d", numbers);
+
+        return randomString + paddedNumbers;
+    }
+
+    private Character randomCharacter() {
+        return alphabet.charAt(rand.nextInt(25));
     }
 
     @GET

@@ -38,7 +38,7 @@
               </label>
               <input type="text" v-model="vehicle.registrationID" class="w-full mb-2 bg-grey-lighter rounded p-4"/>
               <p class="mb-2">Registration ID follow strict <a class="text-blue" href="https://guichet.public.lu/en/citoyens/transports-mobilite/transports-individuels/vehicule-motorise/numero-immatriculation.html">guidelines</a> and are unique per vehicle.</p>
-              <button type="button" class="text-blue hover:text-blue-dark">Generate a valid registration ID</button>
+              <button type="button" class="text-blue hover:text-blue-dark" @click="getRegistrationID">Generate a valid registration ID</button>
             </div>
           </div>
         </div>
@@ -115,8 +115,21 @@
             }, 300),
 
             submitForm() {
-              console.log('-- FORM', this.vehicle);
               this.$store.dispatch('vehicles/saveVehicle', this.vehicle);
+            },
+
+            getRegistrationID() {
+              const requestOptions = {
+                method: "GET",
+                headers: {
+                  ...authHeader(),
+                  'Content-Type': 'application/json'
+                }
+              };
+
+              fetch('/government/api/vehicles/registrationID', requestOptions).then(resp => resp.text()).then(text => {
+                this.vehicle.registrationID = text;
+              })
             }
         }
     }
