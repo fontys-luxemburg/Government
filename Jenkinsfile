@@ -12,9 +12,9 @@ pipeline {
       }
       steps {
         sh '''npm install
-npm run build
-mvn clean install
 '''
+        sh 'npm run build'
+        sh 'mvn clean install'
       }
     }
     stage('Test') {
