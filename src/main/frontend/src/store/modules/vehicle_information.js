@@ -26,7 +26,7 @@ const actions = {
                 { root: true }
             );
 
-            router.push({ name: 'cars#show', params: { license_number: registrationID } });
+            router.push({ name: 'vehicles#show', params: { license_number: registrationID } });
         });
     }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed w-full flex justify-center p-4">
+  <div class="fixed w-full flex justify-center p-4 z-50">
     <transition name="fade">
       <div v-if="notice" class="bg-white shadow-lg inline-flex px-4 py-2 pl-2 rounded-full items-center">
         <div class="w-6 h-6 bg-green text-white flex justify-center items-center rounded-full mr-4">

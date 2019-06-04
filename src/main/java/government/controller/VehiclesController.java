@@ -12,9 +12,12 @@ import government.facade.UserFacade;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
 import government.mapper.VehicleMapper;
+import net.bytebuddy.utility.RandomString;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
@@ -52,6 +55,10 @@ public class VehiclesController {
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
 
+    Random rand = new Random();
+
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -63,6 +70,32 @@ public class VehiclesController {
         }
 
         return Response.ok(vehicleMapper.vehicleToVehicleDto(vehicle.get())).build();
+    }
+
+    @GET
+    @Path("registrationID")
+    public String getRegistrationID() {
+        String registration;
+
+        while (true) {
+            registration = generateRegistrationID();
+            Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registration);
+            if(!vehicle.isPresent()) { break; }
+        }
+
+        return registration;
+    }
+
+    private String generateRegistrationID() {
+        String randomString = String.format("%c%c", randomCharacter(), randomCharacter());
+        int numbers = rand.nextInt(9999);
+        String paddedNumbers = String.format("%04d", numbers);
+
+        return randomString + paddedNumbers;
+    }
+
+    private Character randomCharacter() {
+        return alphabet.charAt(rand.nextInt(25));
     }
 
     @GET
@@ -95,8 +128,8 @@ public class VehiclesController {
 
     @POST
     @Transactional
+    @Consumes("application/json")
     public Response save(VehicleDto vehicleDto) {
-
         Vehicle vehicle = vehicleMapper.vehicleDtoToVehicle(vehicleDto);
 
         vehicle = vehicleFacade.save(vehicle);
@@ -104,6 +137,7 @@ public class VehiclesController {
         if (vehicle.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
         vehicleDto = vehicleMapper.vehicleToVehicleDto(vehicle);
         return Response.status(Response.Status.CREATED).entity(vehicleDto).build();
     }
