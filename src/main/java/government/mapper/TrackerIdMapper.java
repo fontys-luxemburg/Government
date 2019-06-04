@@ -10,10 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "trackerId")
 public interface TrackerIdMapper {
 
-    @Mapping(target = "vehicleId", source = "vehicle.id")
+    @Mapping(target = "vehicleID", source = "vehicle.id")
     TrackerIdDto trackerIdToTrackerIdDto(TrackerId trackerId);
     List<TrackerIdDto>trackerIdsToTrackerIdDtos(List<TrackerId> trackerIds);
 
-    @Mapping(target = "vehicle.id", source = "vehicleId")
+    @Mapping(target = "vehicle.id", source = "vehicleID")
     TrackerId trackerIdDtoToTrackerId(TrackerIdDto trackerIdDto);
 }

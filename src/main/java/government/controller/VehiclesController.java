@@ -20,6 +20,9 @@ import javax.json.JsonObject;
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -48,9 +51,6 @@ public class VehiclesController {
 
     @Inject
     VehicleMapper vehicleMapper;
-
-    @Inject
-    TrackerIdMapper trackerIdMapper;
     
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
@@ -146,26 +146,10 @@ public class VehiclesController {
     @Path("/{id}/trackers")
     @Transactional
     public Response createTracker(@PathParam("id") String vehicleId) {
-        Optional<TrackerId> optionalTrackerId = trackerIdFacade.findLastTrackerByVehicle(vehicleId);
-
-        if (optionalTrackerId.isPresent()) {
-            TrackerId trackerId = optionalTrackerId.get();
-            trackerId.setDestroyedDate(getCurrentDate());
-            trackerIdFacade.save(trackerId);
-        }
-
-        UUID uuid = getTracker();
+        UUID uuid = trackerIdFacade.newTracker(vehicleId);
         if (uuid == null) {
             return Response.noContent().build();
         }
-
-        TrackerId trackerId = new TrackerId();
-        trackerId.setTrackerId(uuid);
-        Vehicle vehicle = vehicleFacade.findByRegistrationID(vehicleId).get();
-        trackerId.setVehicle(vehicle);
-
-        trackerIdFacade.save(trackerId);
-
         return Response.ok().build();
     }
 
@@ -177,7 +161,8 @@ public class VehiclesController {
         if (!vehicle.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<TrackerIdDto> trackers = trackerIdMapper.trackerIdsToTrackerIdDtos(vehicle.get().getTrackers());
+
+        List<TrackerIdDto> trackers = trackerIdFacade.getTrackersFromVehicle(registrationId);
         return Response.ok(trackers).build();
     }
 
@@ -205,31 +190,5 @@ public class VehiclesController {
         vehicle.get().setVehicleInformation(vehicleInformation);
         vehicleFacade.save(vehicle.get());
         return Response.ok().build();
-    }
-
-    private Date getCurrentDate(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        dateFormat.format(date);
-        return date;
-    }
-
-    private UUID getTracker(){
-        try{
-            URL url = new URL("http://localhost:8080/tracking.war/api/trackers");
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
-            http.setRequestMethod("POST");
-            http.setDoOutput(true);
-
-            http.connect();
-            try(InputStream os = http.getInputStream()) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(os));
-                String line = reader.readLine().replaceAll("^\"|\"$", "");
-                return UUID.fromString(line);
-            }
-        } catch(IOException e){
-            return null;
-        }
     }
 }
