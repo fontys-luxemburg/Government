@@ -18,7 +18,7 @@
         <tbody>
           <tr v-for="tracker in trackers" v-bind:key="tracker.trackerId">
             <td class="py-4">{{ tracker.trackerId }}</td>
-            <td class="py-4">{{ tracker.createdAt }}</td>
+            <td class="py-4">{{ tracker.createdAt | moment('dddd, MMMM Do YYYY') }}</td>
             <td class="py-4">
               <div class="uppercase bg-green-lightest inline-block p-2 text-xs text-green-dark tracking-wide font-bold rounded" v-if="tracker.destroyedDate === null">active</div>
               <div class="uppercase bg-red-lightest inline-block p-2 text-xs text-red-dark tracking-wide font-bold rounded" v-else>inactive</div>

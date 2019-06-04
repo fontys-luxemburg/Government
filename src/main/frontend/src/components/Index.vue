@@ -89,7 +89,7 @@ export default {
   methods: {
     search() {
       this.$router.push({
-        name: "cars#show",
+        name: "vehicles#show",
         params: { license_number: this.registrationID }
       });
     }

@@ -98,8 +98,8 @@ public class VehiclesController {
 
     @POST
     @Transactional
+    @Consumes("application/json")
     public Response save(VehicleDto vehicleDto) {
-
         Vehicle vehicle = vehicleMapper.vehicleDtoToVehicle(vehicleDto);
 
         vehicle = vehicleFacade.save(vehicle);
@@ -107,6 +107,7 @@ public class VehiclesController {
         if (vehicle.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
         vehicleDto = vehicleMapper.vehicleToVehicleDto(vehicle);
         return Response.status(Response.Status.CREATED).entity(vehicleDto).build();
     }

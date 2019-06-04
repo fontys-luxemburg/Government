@@ -3,7 +3,7 @@
     <back-button class="mb-2" to="/" />
     <div class="bg-white rounded p-6">
       <h1 class="mb-8">Register a new Vehicle</h1>
-      <form>
+      <form @submit.prevent="submitForm">
         <div class="flex -mx-4 mb-8">
           <div class="w-1/3 mx-4">
             <h2 class="mb-2">General</h2>
@@ -113,6 +113,11 @@
                         vm.options = results;
                     });
             }, 300),
+
+            submitForm() {
+              console.log('-- FORM', this.vehicle);
+              this.$store.dispatch('vehicles/saveVehicle', this.vehicle);
+            }
         }
     }
 </script>

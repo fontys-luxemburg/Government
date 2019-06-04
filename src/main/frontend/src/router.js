@@ -35,22 +35,22 @@ export const router = new Router({
         },
         {
             path: '/vehicles/:license_number/edit',
-            name: 'cars#edit',
+            name: 'vehicles#edit',
             component: CarsEdit
         },
         {
             path: '/vehicles/:license_number/trackers',
-            name: 'cars#trackers',
+            name: 'vehicles#trackers',
             component: CarsTrackers
         },
         {
             path: '/vehicles/:license_number/owner',
-            name: 'cars#owner',
+            name: 'vehicles#owner',
             component: CarsOwner
         },
         {
             path: '/vehicles/:license_number/travels',
-            name: 'cars#travels',
+            name: 'vehicles#travels',
             component: CarsTravels
         }
     ]

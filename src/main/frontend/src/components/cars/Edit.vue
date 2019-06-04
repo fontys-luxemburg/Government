@@ -1,6 +1,6 @@
 <template>
   <div v-if="status.loaded">
-    <back-button :to="{ name: 'cars#show', params: { license_number: vehicle.registrationID }}" class="mb-2" />
+    <back-button :to="{ name: 'vehicles#show', params: { license_number: vehicle.registrationID }}" class="mb-2" />
     <div class="bg-white rounded p-8">
       <h1 class="mb-12">Edit {{ vehicle.brand }} - {{ vehicle.registrationID }}</h1>
       <form @submit.prevent="onSubmit()">
