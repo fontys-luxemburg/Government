@@ -26,15 +26,13 @@
 
       data: () => ({
         values: [
-          { name: 'Page A', km: 50 },
-          { name: 'Page B', km: 23 },
-          { name: 'Page C', km: 280 },
-          { name: 'Page D', km: 4 },
-          { name: 'Page E', km: 1 },
-          { name: 'Page F', km: 94 },
-          { name: 'Page G', km: 230 },
-          { name: 'Page H', km: 13 },
-          { name: 'Page I', km: 14 }
+          { name: 'June 4', km: 20 },
+          { name: 'June 5', km: 5 },
+          { name: 'June 6', km: 51 },
+          { name: 'June 7', km: 0 },
+          { name: 'June 8', km: 25 },
+          { name: 'June 9', km: 14 },
+          { name: 'June 10', km: 22 }
         ]
       })
 }
