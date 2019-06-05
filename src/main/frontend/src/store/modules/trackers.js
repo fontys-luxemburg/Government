@@ -2,7 +2,8 @@ import { trackerService } from "../../services";
 
 const state = {
     all: [],
-    status: {}
+    status: {},
+    transfer_status: {}
   };
 
 const actions = {
@@ -17,6 +18,18 @@ const actions = {
         .catch(() => {
           commit("TRACKERS_FAILURE");
         });
+    },
+
+    getTripsBetweenDates({ commit }, vehicleID) {
+      commit("TRIPS_REQUEST");
+
+      trackerService
+      .findTripsBetweenDates(vehicleID)
+      .then(trips => {
+        commit("TRIPS_SUCCESS", trips);
+      }).catch(() => {
+        commit("TRIPS_FAILURE");
+      })
     },
 
     createTracker({ commit, dispatch }, vehicleID) {
