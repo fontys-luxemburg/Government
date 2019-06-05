@@ -16,6 +16,7 @@
     import CarHeader from "./CarHeader";
     import { Cartesian, Line } from 'laue'
     import { mapState } from 'vuex';
+    import moment from 'moment';
 
     export default {
       name: "Travels",
@@ -31,7 +32,7 @@
         }),
         values: function() { 
             return this.trips.map(trip => {
-              return {name: trip.startDate, km: trip.distanceTraveledKm };
+              return {name: moment(trip.startDate).format("DD MMM YYYY"), km: trip.distanceTraveledKm };
             });
         }
       },
