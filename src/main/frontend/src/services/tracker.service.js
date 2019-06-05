@@ -22,14 +22,15 @@ function findTrackers(registrationID) {
         });
 }
 
-function findTripsBetweenDates(registrationID) {
+function findTripsBetweenDates(registrationID, begin, end ) {
     const requestOptions = {
         method: "GET",
-        headers: authHeader()
+        headers: authHeader(),
+        body: JSON.stringify({ registrationID, begin, end })
     };
 
     return fetch(
-        `/government/api/trackers/dates?registrationID=${encodeURI(registrationID)}&begin=${encodeURI(1559413283000)}&end=${encodeURI(1561918883000)}`, 
+        `/government/api/trackers/dates`, 
         requestOptions
     )
     .then(handleResponse)
