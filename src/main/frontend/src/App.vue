@@ -2,7 +2,7 @@
   <div id="app">
     <notices/>
     <div class="bg-white p-2 border-b border-grey-light mb-8 flex justify-between items-center">
-      <router-link to="/">
+      <router-link to="/" class="flex-none mr-16">
         <img
           alt="Gouvernement du Grand-Duché de Luxembourg"
           src="./assets/gov-light-2x.png"
@@ -10,10 +10,12 @@
         >
       </router-link>
 
+      <search-bar/>
+
       <router-link
         v-if="loggedIn"
         to="/login"
-        class="flex items-center pr-8 no-underline text-black"
+        class="flex flex-none items-center pr-8 no-underline text-black ml-16"
       >
         <div>{{ user.name }}</div>
         <div
@@ -43,10 +45,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import Notices from "./components/Notices";
+  import {mapState} from "vuex";
+  import Notices from "./components/Notices";
+  import SearchBar from "./components/SearchBar";
 
-export default {
+  export default {
   name: "app",
   computed: {
     ...mapState({
@@ -55,6 +58,7 @@ export default {
     })
   },
   components: {
+    SearchBar,
     Notices
   }
 };

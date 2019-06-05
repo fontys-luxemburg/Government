@@ -4,14 +4,15 @@ import auth from "../store/modules/auth";
 
 export const vehicleService = {
   findVehicle,
-    findVehicleInformation,
-    updateVehicleInformation
+  saveVehicle,
+  findVehicleInformation,
+  updateVehicleInformation
 };
 
 function findVehicle(registrationID) {
     const requestOptions = {
-        method: "GET",
-        headers: authHeader()
+      method: "GET",
+      headers: authHeader()
     };
 
   return fetch(`/government/api/vehicles/${registrationID}`, requestOptions)
@@ -21,17 +22,34 @@ function findVehicle(registrationID) {
     });
 }
 
+function saveVehicle(params) {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        ...authHeader(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+    };
+
+    return fetch('/government/api/vehicles', requestOptions)
+      .then(handleResponse)
+        .then(vehicle => {
+          return vehicle;
+        });
+}
+
 function findVehicleInformation(id) {
     const requestOptions = {
-        method: "GET",
-        headers: authHeader()
+      method: "GET",
+      headers: authHeader()
     };
 
     return fetch(`/government/api/vehicles/${id}/information`, requestOptions)
-        .then(handleResponse)
-        .then(vehicleInformation => {
-            return vehicleInformation;
-        });
+      .then(handleResponse)
+      .then(vehicleInformation => {
+          return vehicleInformation;
+      });
 }
 
 function updateVehicleInformation(vehicleInformation) {

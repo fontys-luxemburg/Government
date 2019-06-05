@@ -12,7 +12,7 @@
         <div class="mb-4 flex justify-between items-center">
           <h2>Vehicle information</h2>
           <router-link
-            :to="{ name: 'cars#edit', params: { license_number: vehicle.registrationID }}"
+            :to="{ name: 'vehicles#edit', params: { license_number: vehicle.registrationID }}"
             class="no-underline bg-grey-lighter hover:bg-grey-light hover:text-grey-darkest text-grey-darker py-4 px-8 rounded"
           >
             Edit Vehicle

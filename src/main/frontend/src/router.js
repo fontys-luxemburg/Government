@@ -5,8 +5,10 @@ import CarsShow from "./components/cars/Show";
 import CarsEdit from "./components/cars/Edit";
 import CarsTrackers from "./components/cars/Trackers";
 import CarsOwner from "./components/cars/Owner";
+import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
+import SearchIndex from './components/search/Index';
 
 Vue.use(Router);
 
@@ -23,28 +25,38 @@ export const router = new Router({
             component: Login
         },
         {
-            path: '/cars/:license_number',
-            name: 'cars#show',
+            path: '/search',
+            name: 'search',
+            component: SearchIndex
+        },
+        {
+            path: '/vehicles/new',
+            name: 'vehicles#new',
+            component: VehiclesNew
+        },
+        {
+            path: '/vehicles/:license_number',
+            name: 'vehicles#show',
             component: CarsShow
         },
         {
-            path: '/cars/:license_number/edit',
-            name: 'cars#edit',
+            path: '/vehicles/:license_number/edit',
+            name: 'vehicles#edit',
             component: CarsEdit
         },
         {
-            path: '/cars/:license_number/trackers',
-            name: 'cars#trackers',
+            path: '/vehicles/:license_number/trackers',
+            name: 'vehicles#trackers',
             component: CarsTrackers
         },
         {
-            path: '/cars/:license_number/owner',
-            name: 'cars#owner',
+            path: '/vehicles/:license_number/owner',
+            name: 'vehicles#owner',
             component: CarsOwner
         },
         {
-            path: '/cars/:license_number/travels',
-            name: 'cars#travels',
+            path: '/vehicles/:license_number/travels',
+            name: 'vehicles#travels',
             component: CarsTravels
         }
     ]

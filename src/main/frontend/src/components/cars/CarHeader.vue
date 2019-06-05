@@ -12,19 +12,19 @@
       <div class="flex px-4">
         <router-link
           class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
-          :to="{ name: 'cars#show', params: { license_number: vehicle.registrationID }}"
+          :to="{ name: 'vehicles#show', params: { license_number: vehicle.registrationID }}"
         >Basic</router-link>
         <router-link
           class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
-          :to="{ name: 'cars#trackers', params: { license_number: vehicle.registrationID }}"
+          :to="{ name: 'vehicles#trackers', params: { license_number: vehicle.registrationID }}"
         >Trackers</router-link>
         <router-link
           class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
-          :to="{ name: 'cars#owner', params: { license_number: vehicle.registrationID }}"
+          :to="{ name: 'vehicles#owner', params: { license_number: vehicle.registrationID }}"
         >Owner</router-link>
         <router-link
           class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
-          :to="{ name: 'cars#travels', params: { license_number: vehicle.registrationID }}"
+          :to="{ name: 'vehicles#travels', params: { license_number: vehicle.registrationID }}"
         >Travels</router-link>
       </div>
     </div>

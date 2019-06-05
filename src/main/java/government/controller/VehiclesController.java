@@ -5,15 +5,15 @@ import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
 import government.dto.VehicleDto;
-import government.facade.TrackerIdFacade;
 import government.dto.VehicleInformationDto;
-import government.mapper.VehicleInformationMapper;
-import government.model.*;
 import government.facade.OwnershipFacade;
+import government.facade.TrackerIdFacade;
 import government.facade.UserFacade;
 import government.facade.VehicleFacade;
 import government.mapper.TrackerIdMapper;
+import government.mapper.VehicleInformationMapper;
 import government.mapper.VehicleMapper;
+import government.model.*;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
@@ -23,7 +23,10 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -54,6 +57,11 @@ public class VehiclesController {
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
     private Urls urls = new Urls();
+
+    Random rand = new Random();
+
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     @GET
     @Path("{registration_id}")
     @Transactional
@@ -65,6 +73,32 @@ public class VehiclesController {
         }
 
         return Response.ok(vehicleMapper.vehicleToVehicleDto(vehicle.get())).build();
+    }
+
+    @GET
+    @Path("registrationID")
+    public String getRegistrationID() {
+        String registration;
+
+        while (true) {
+            registration = generateRegistrationID();
+            Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registration);
+            if(!vehicle.isPresent()) { break; }
+        }
+
+        return registration;
+    }
+
+    private String generateRegistrationID() {
+        String randomString = String.format("%c%c", randomCharacter(), randomCharacter());
+        int numbers = rand.nextInt(9999);
+        String paddedNumbers = String.format("%04d", numbers);
+
+        return randomString + paddedNumbers;
+    }
+
+    private Character randomCharacter() {
+        return alphabet.charAt(rand.nextInt(25));
     }
 
     @GET
@@ -97,8 +131,8 @@ public class VehiclesController {
 
     @POST
     @Transactional
+    @Consumes("application/json")
     public Response save(VehicleDto vehicleDto) {
-
         Vehicle vehicle = vehicleMapper.vehicleDtoToVehicle(vehicleDto);
 
         vehicle = vehicleFacade.save(vehicle);
@@ -106,6 +140,7 @@ public class VehiclesController {
         if (vehicle.getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
         vehicleDto = vehicleMapper.vehicleToVehicleDto(vehicle);
         return Response.status(Response.Status.CREATED).entity(vehicleDto).build();
     }
