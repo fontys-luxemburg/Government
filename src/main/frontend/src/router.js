@@ -8,6 +8,7 @@ import CarsOwner from "./components/cars/Owner";
 import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
+import SearchIndex from './components/search/Index';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export const router = new Router({
             path: '/login',
             name: 'login',
             component: Login
+        },
+        {
+            path: '/search',
+            name: 'search',
+            component: SearchIndex
         },
         {
             path: '/vehicles/new',

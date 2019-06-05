@@ -10,9 +10,7 @@
         >
       </router-link>
 
-      <div class="w-full">
-        <input type="text" placeholder="Search for vehicles, users or trackers" class="bg-grey-lighter p-4 w-full rounded"/>
-      </div>
+      <search-bar/>
 
       <router-link
         v-if="loggedIn"
@@ -47,10 +45,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import Notices from "./components/Notices";
+  import {mapState} from "vuex";
+  import Notices from "./components/Notices";
+  import SearchBar from "./components/SearchBar";
 
-export default {
+  export default {
   name: "app",
   computed: {
     ...mapState({
@@ -59,6 +58,7 @@ export default {
     })
   },
   components: {
+    SearchBar,
     Notices
   }
 };
