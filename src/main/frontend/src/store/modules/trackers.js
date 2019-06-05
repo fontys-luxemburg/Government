@@ -2,6 +2,7 @@ import { trackerService } from "../../services";
 
 const state = {
     all: [],
+    allTrips: [],
     status: {}
   };
 
@@ -19,11 +20,11 @@ const actions = {
         });
     },
 
-    getTripsBetweenDates({ commit }, vehicleID, begin, end) {
+    getTripsBetweenDates({ commit }, vehicleID) {
       commit("TRIPS_REQUEST");
 
       trackerService
-      .findTripsBetweenDates(vehicleID, begin, end)
+      .findTripsBetweenDates(vehicleID)
       .then(trips => {
         commit("TRIPS_SUCCESS", trips);
       }).catch(() => {
@@ -60,17 +61,17 @@ const mutations = {
     },
 
     TRIPS_REQUEST: state => {
-      state.all = [];
+      state.allTrips = [];
       state.status = { loading: true };
     },
   
     TRIPS_SUCCESS: (state, trips) => {
       state.status = { loaded: true };
-      state.all = trips;
+      state.allTrips = trips;
     },
   
     TRIPS_FAILURE: state => {
-      state.value = null;
+      state.allTrips = null;
       state.status = { failed: true };
     }
   };
