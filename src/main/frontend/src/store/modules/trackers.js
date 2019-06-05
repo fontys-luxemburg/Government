@@ -2,8 +2,8 @@ import { trackerService } from "../../services";
 
 const state = {
     all: [],
-    status: {},
-    transfer_status: {}
+    allTrips: [],
+    status: {}
   };
 
 const actions = {
@@ -57,6 +57,21 @@ const mutations = {
   
     TRACKERS_FAILURE: state => {
       state.value = null;
+      state.status = { failed: true };
+    },
+
+    TRIPS_REQUEST: state => {
+      state.allTrips = [];
+      state.status = { loading: true };
+    },
+  
+    TRIPS_SUCCESS: (state, trips) => {
+      state.status = { loaded: true };
+      state.allTrips = trips;
+    },
+  
+    TRIPS_FAILURE: state => {
+      state.allTrips = null;
       state.status = { failed: true };
     }
   };

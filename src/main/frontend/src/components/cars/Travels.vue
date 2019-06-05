@@ -14,7 +14,8 @@
 
 <script>
     import CarHeader from "./CarHeader";
-    import { Cartesian, Line } from 'laue';
+    import { Cartesian, Line } from 'laue'
+    import { mapState } from 'vuex';
 
     export default {
       name: "Travels",
@@ -24,17 +25,20 @@
         CarHeader
       },
 
-      data: () => ({
-        values: [
-          { name: 'June 4', km: 20 },
-          { name: 'June 5', km: 5 },
-          { name: 'June 6', km: 51 },
-          { name: 'June 7', km: 0 },
-          { name: 'June 8', km: 25 },
-          { name: 'June 9', km: 14 },
-          { name: 'June 10', km: 22 }
-        ]
-      }),
+      computed: {
+        ...mapState({
+          trips: state => state.trackers.allTrips
+        }),
+        values: function() { 
+            return this.trips.map(trip => {
+              return {name: trip.startDate, km: trip.distanceTraveledKm };
+            });
+        }
+      },
+
+      created() {
+        this.$store.dispatch("trackers/getTripsBetweenDates", this.$route.params.license_number)
+      }
 }
 </script>
 
