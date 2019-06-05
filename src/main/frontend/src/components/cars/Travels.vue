@@ -1,8 +1,8 @@
 <template>
   <div>
     <car-header />
-    <div v-if="status.loaded" class="bg-white rounded p-8">
-      <la-cartesian autoresize :bound="[0]" :data=trips>
+    <div class="bg-white rounded p-8">
+      <la-cartesian autoresize :bound="[0]" :data="values">
         <la-line prop="km"></la-line>
         <la-y-axis></la-y-axis>
         <la-x-axis prop="name"></la-x-axis>
@@ -14,8 +14,7 @@
 
 <script>
     import CarHeader from "./CarHeader";
-    import { Cartesian, Line } from 'laue'
-    import { mapState } from 'vuex';
+    import { Cartesian, Line } from 'laue';
 
     export default {
       name: "Travels",
@@ -36,16 +35,6 @@
           { name: 'June 10', km: 22 }
         ]
       }),
-
-      computed: {
-        ...mapState({
-          trips: state => state.trips.all
-        })
-      },
-
-      created() {
-        this.$store.dispatch("trackers/getTripsBetweenDates", this.$route.params.license_number, 1559413283000, 1561918883000)
-      }
 }
 </script>
 
