@@ -3,6 +3,9 @@ import App from './App.vue';
 import { router } from './router';
 import store from './store';
 import { Laue } from 'laue';
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import VueMoment from 'vue-moment';
 import vSelect from 'vue-select';
@@ -14,6 +17,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VueMoment);
 Vue.use(Laue);
+Vue.use(BootstrapVue);
 
 Vue.component('v-select', vSelect);
 

@@ -9,7 +9,13 @@
         <la-tooltip></la-tooltip>
       </la-cartesian>
     </div>
-  </div>
+    <div class="bg-white rounded p-8">
+      <div class="mb-4 flex justify-between items-center">
+      <h2>List of trips</h2>
+      </div>
+      <b-table striped hover :items="values"></b-table>
+    </div>
+  </div>  
 </template>
 
 <script>
@@ -32,7 +38,7 @@
         }),
         values: function() { 
             return this.trips.map(trip => {
-              return {name: moment(trip.startDate).format("DD MMM YYYY"), km: trip.distanceTraveledKm };
+              return {Date: moment(trip.startDate).format("DD MMM YYYY"), km: Math.round(trip.distanceTraveledKm * 100) / 100 };
             });
         }
       },
