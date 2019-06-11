@@ -9,7 +9,7 @@ import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
 import SearchIndex from './components/search/Index';
-
+import UserShow from "./components/user/Show";
 Vue.use(Router);
 
 export const router = new Router({
@@ -58,6 +58,10 @@ export const router = new Router({
             path: '/vehicles/:license_number/travels',
             name: 'vehicles#travels',
             component: CarsTravels
+        },{
+            path: '/drivers/:driver_id',
+            name: 'drivers#show',
+            component: UserShow
         }
     ]
 });

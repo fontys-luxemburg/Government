@@ -3,7 +3,8 @@ import { authHeader } from "../helpers";
 export const userService = {
     login,
     logout,
-}
+    findDriver
+};
 
 function login(email, password) {
     const requestOptions= {
@@ -25,6 +26,19 @@ function login(email, password) {
 
 function logout() {
     localStorage.removeItem('user');
+}
+
+function findDriver(driver_id) {
+    const requestOptions = {
+        method: "GET",
+        headers: authHeader()
+    };
+
+    return fetch(`/government/api/users/${driver_id}`, requestOptions)
+        .then(handleResponse)
+        .then(driver => {
+            return driver;
+        });
 }
 
 function handleResponse(response) {

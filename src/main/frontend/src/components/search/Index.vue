@@ -5,7 +5,7 @@
     <div v-for="user in results.users" :key="user.id" class="border rounded p-4 mb-2 flex items-center">
       <div class="w-16 h-16 bg-grey-light rounded-full mr-4"></div>
       <div>
-        <router-link to="/" class="no-underline text-blue hover:text-blue-dark text-lg font-semibold">{{ user.name }}</router-link>
+        <router-link :to="{name: 'drivers#show', params: { driver_id: user.id }}" class="no-underline text-blue hover:text-blue-dark text-lg font-semibold">{{ user.name }}</router-link>
         <span class="block mt-2">{{ user.email }}</span>
       </div>
     </div>
