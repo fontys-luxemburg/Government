@@ -25,7 +25,6 @@ public class TrackerId extends BaseEntity {
 
     private Date destroyedDate;
 
-
     public TrackerId() {
     }
 

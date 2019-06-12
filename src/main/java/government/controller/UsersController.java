@@ -1,5 +1,7 @@
 package government.controller;
 
+import government.Urls;
+import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.facade.JwtFacade;
 import government.facade.UserFacade;
@@ -11,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.Properties;
 
 @Path("/users")
 @Produces("application/json")
@@ -25,6 +28,9 @@ public class UsersController {
 
     @Context
     SecurityContext context;
+    @Inject
+    @PropertiesFromFile
+    Properties props;
 
     @GET
     @Secured
@@ -41,5 +47,16 @@ public class UsersController {
         User savedUser = userFacade.save(user);
 
         return Response.ok(new AuthResponse(savedUser, jwt.issueToken(savedUser.getEmail()))).build();
+    }
+
+    @GET
+    @Path("test")
+    public Response testProperties(){
+        return Response.ok(new Urls().getTrackerUrl()).build();
+    }
+    @GET
+    @Path("test2")
+    public Response test(){
+        return Response.ok("test").build();
     }
 }

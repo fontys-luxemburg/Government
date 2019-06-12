@@ -1,5 +1,6 @@
 package government.facade;
 
+import government.Urls;
 import government.dto.TrackerIdDto;
 import government.model.TrackerId;
 
@@ -20,6 +21,7 @@ import java.util.*;
 @ApplicationScoped
 public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
 
+    private Urls urls = new Urls();
     @Override
     public Optional<TrackerId> findById(Long aLong) {
         return Optional.empty();
@@ -38,7 +40,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
     public List<TrackerIdDto> getTrackersFromVehicle(String registrationId){
         try{
             Client client = ClientBuilder.newBuilder().build();
-            WebTarget target = client.target("http://localhost:8080/tracking.war/api/trackers/vehicle/" + registrationId);
+            WebTarget target = client.target(urls.getTrackerUrl()+"/api/trackers/vehicle/" + registrationId);
             Response response = target.request().get();
             TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
             return Arrays.asList(trackers);
@@ -50,7 +52,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
     public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate){
         try{
             Client client = ClientBuilder.newBuilder().build();
-            WebTarget target = client.target("http://localhost:8080/tracking.war/api/trackers/vehicle")
+            WebTarget target = client.target(urls.getTrackerUrl()+"/api/trackers/vehicle")
                     .queryParam("vehicleID", registrationId)
                     .queryParam("begin", beginDate.getTime())
                     .queryParam("end", endDate.getTime());
@@ -65,7 +67,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
 
     public UUID newTracker(String vehicleID){
         try{
-            URL url = new URL("http://localhost:8080/tracking.war/api/trackers/" + vehicleID);
+            URL url = new URL(urls.getTrackerUrl()+"/api/trackers/" + vehicleID);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");
