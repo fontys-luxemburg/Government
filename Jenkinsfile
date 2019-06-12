@@ -11,8 +11,7 @@ pipeline {
 
       }
       steps {
-        sh '''yarn --cwd src/main/frontend install 
-'''
+        sh 'yarn --cwd src/main/frontend install'
         sh 'yarn --cwd src/main/frontend run build'
         sh 'mvn clean install'
       }
