@@ -1,5 +1,7 @@
 package government.controller;
 
+import government.Urls;
+import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.dto.OwnershipDto;
 import government.dto.UserDto;
@@ -16,9 +18,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
+
 
 @Path("/users")
 @Produces("application/json")
@@ -38,6 +43,9 @@ public class UsersController {
     OwnershipMapper ownershipMapper;
     @Context
     SecurityContext context;
+    @Inject
+    @PropertiesFromFile
+    Properties props;
 
     @GET
     @Secured
@@ -55,6 +63,7 @@ public class UsersController {
 
         return Response.ok(new AuthResponse(savedUser, jwt.issueToken(savedUser.getEmail()))).build();
     }
+
     @POST
     @Path("driver")
     public Response createDriver(UserDto userDto){
@@ -94,5 +103,5 @@ public class UsersController {
         List<Ownership> ownerships = ownershipFacade.findByUser(user.get());
         List<OwnershipDto> ownershipDtos = ownershipMapper.ownershipsToOwnershipDtos(ownerships);
         return Response.ok(ownershipDtos).build();
-    }
+	}
 }
