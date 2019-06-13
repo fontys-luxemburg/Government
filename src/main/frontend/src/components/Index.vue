@@ -62,7 +62,7 @@
             <router-link :to="{ name: 'vehicles#new' }">Register a new vehicle</router-link>
           </li>
           <li class="mb-2">
-            <router-link to="/">Register a driver</router-link>
+            <router-link :to="{ name: 'drivers#new' }">Register a driver</router-link>
           </li>
           <li class="mb-2">
             <router-link to="/">Update settings</router-link>

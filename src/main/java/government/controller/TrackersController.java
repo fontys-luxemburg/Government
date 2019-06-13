@@ -48,4 +48,20 @@ public class TrackersController {
 
         return Response.ok(trips).build();
     }
+    @GET
+    @Path("/driver")
+    public Response TripsBetweenDatesForUser(
+            @QueryParam("driver_id") String driverId,
+            @QueryParam("begin") Long begin,
+            @QueryParam("end") Long end) {
+        Date beginDate = new Date(begin);
+        Date endDate = new Date(end);
+        List<TrackerIdDto> trackers = trackerIdFacade.getTrackersFromVehicleBetweenDates(driverId, beginDate, endDate);
+
+        if (trackers == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(trackers).build();
+    }
 }

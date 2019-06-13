@@ -7,12 +7,14 @@ import notices from './modules/notices';
 import vehicleInformation from './modules/vehicle_information';
 import trackers from "./modules/trackers";
 import search from './modules/search';
+import drivers from './modules/drivers'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
         vehicles,
+        drivers,
         ownerships,
         auth,
         notices,

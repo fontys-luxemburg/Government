@@ -43,4 +43,7 @@ public class OwnershipFacade {
 
         ownershipRepository.save(ownership);
     }
+    public List<Ownership> findByUser(User user){
+        return ownershipRepository.findAll(user);
+    }
 }
