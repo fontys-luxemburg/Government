@@ -11,7 +11,7 @@ import government.facade.UserFacade;
 import government.mapper.OwnershipMapper;
 import government.mapper.UserMapper;
 import government.model.*;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
