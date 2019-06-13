@@ -1,5 +1,7 @@
 package government.controller;
 
+import government.Urls;
+import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
 import government.dto.VehicleDto;
@@ -54,6 +56,7 @@ public class VehiclesController {
     
     @Inject
     VehicleInformationMapper vehicleInformationMapper;
+    private Urls urls = new Urls();
 
     Random rand = new Random();
 
