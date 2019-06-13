@@ -11,16 +11,16 @@
             <div class="flex px-4">
                 <router-link
                         class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
-                        :to="{ name: 'user#show', params: { driver_id: driver.id }}"
+                        :to="{ name: 'drivers#show', params: { driver_id: driver.id }}"
                 >Basic</router-link>
                 <!--<router-link-->
                         <!--class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"-->
                         <!--:to="{ name: 'user#trackers', params: { driver_id: driver.id }}"-->
                 <!--&gt;Trackers</router-link>-->
-                <!--<router-link-->
-                        <!--class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"-->
-                        <!--:to="{ name: 'user#owner', params: { driver_id: driver.id }}"-->
-                <!--&gt;Owner</router-link>-->
+                <router-link
+                        class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
+                        :to="{ name: 'drivers#owner', params: { driver_id: driver.id }}"
+                >Vehicles</router-link>
                 <!--<router-link-->
                         <!--class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"-->
                         <!--:to="{ name: 'vehicles#travels', params: { driver_id: driver.id }}"-->

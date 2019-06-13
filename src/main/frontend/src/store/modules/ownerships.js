@@ -23,7 +23,7 @@ const actions = {
     commit("OWNERSHIPS_REQUEST");
 
     ownershipsService
-        .findOwnerships(driver_id)
+        .findOwnershipsByDriver(driver_id)
         .then(ownerships => {
           commit("OWNERSHIPS_SUCCESS", ownerships);
         })

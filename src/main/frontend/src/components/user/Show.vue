@@ -27,50 +27,6 @@
                         <td class="py-4">E-mail</td>
                         <td class="py-4 w-2/3">{{driver.email}}</td>
                     </tr>
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Body type</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicle.bodyType}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter" >-->
-                        <!--<td class="py-4">Trade name</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.tradeName}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Type</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.type}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Color</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.color}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Registration date</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.registrationDate}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">APK experation date</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.apkExperationDate}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Is stolen</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.stolen}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Is exported</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.exported}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">is WAM insured</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.wamInsured}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">May ride on road</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.mayRideOnRoad}}</td>-->
-                    <!--</tr>-->
-                    <!--<tr class="border-b border-grey-lighter">-->
-                        <!--<td class="py-4">Catalog price</td>-->
-                        <!--<td class="py-4 w-2/3">{{vehicleInformation.catalogPrice}}</td>-->
-                    <!--</tr>-->
                 </table>
             </div>
         </div>
@@ -96,8 +52,6 @@
         },
 
         created() {
-            // this.$store.dispatch("vehicleInformation/getVehicleInformation", this.$route.params.driver_id);
-
             if (this.driver && this.driver.id === this.$route.params.driver_id) return;
             this.$store.dispatch("drivers/findDriver", this.$route.params.driver_id);
         }

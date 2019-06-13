@@ -1,20 +1,22 @@
 package government.controller;
 
 import government.annotation.Secured;
+import government.dto.OwnershipDto;
+import government.dto.UserDto;
 import government.facade.JwtFacade;
 import government.facade.OwnershipFacade;
 import government.facade.UserFacade;
+import government.mapper.OwnershipMapper;
 import government.mapper.UserMapper;
-import government.model.AuthResponse;
-import government.model.Ownership;
-import government.model.User;
-import government.model.Vehicle;
+import government.model.*;
+import org.apache.commons.lang.RandomStringUtils;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,8 @@ public class UsersController {
 
     @Inject
     UserMapper userMapper;
+    @Inject
+    OwnershipMapper ownershipMapper;
     @Context
     SecurityContext context;
 
@@ -51,6 +55,22 @@ public class UsersController {
 
         return Response.ok(new AuthResponse(savedUser, jwt.issueToken(savedUser.getEmail()))).build();
     }
+    @POST
+    @Path("driver")
+    public Response createDriver(UserDto userDto){
+        String password = RandomStringUtils.random(20,true,true);
+        User user = userMapper.userDtoToUser(userDto);
+        user.setId(null);
+        user.setPassword(password);
+        user.setOwnerships(new ArrayList<>());
+        try{
+            user = userFacade.save(user);
+        }catch (Exception e){
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        mailHelper.sendMailToUser(user,password);
+        return Response.ok(userMapper.userToUserDto(user)).build();
+    }
     @GET
     @Path("{driver_id}")
     @Secured
@@ -64,14 +84,15 @@ public class UsersController {
         return Response.ok(userMapper.userToUserDto(user.get())).build();
     }
     @GET
-    @Path("{driver_id}/vehicles")
+    @Path("{driver_id}/ownerships")
     @Secured
-    public Response getVehicles(@PathParam("driver_id") Long driver_id){
+    public Response getOwnerships(@PathParam("driver_id") Long driver_id){
         Optional<User> user = userFacade.findById(driver_id);
         if(!user.isPresent()){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         List<Ownership> ownerships = ownershipFacade.findByUser(user.get());
-        return Response.ok()
+        List<OwnershipDto> ownershipDtos = ownershipMapper.ownershipsToOwnershipDtos(ownerships);
+        return Response.ok(ownershipDtos).build();
     }
 }

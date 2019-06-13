@@ -1,24 +1,23 @@
 <template>
     <div>
-        <car-header />
-        <div class="bg-white rounded p-8" v-if="status.loaded">
+        <user-header/>
+        <div class="bg-white rounded p-8" v-if="travels_status.loaded">
 
 
             <div class="flex justify-between items-center mb-4">
                 <h2>Ownership history</h2>
-                <transfer-ownership-modal/>
             </div>
             <table class="w-full">
                 <thead class="border-b-2 border-grey">
                 <tr class="font-normal">
-                    <td class="py-4">Owner</td>
+                    <td class="py-4">Registration id</td>
                     <td class="py-4">From</td>
                     <td class="py-4">Until</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="ownership in ownerships" v-bind:key="ownership.id">
-                    <td class="py-4">{{ ownership.userName }}</td>
+                <tr v-for="travel in travels" v-bind:key="travel.id">
+                    <td class="py-4">{{ ownership.vehicleRegistrationID }}</td>
                     <td class="py-4">{{ ownership.createdAt | moment("MMMM Do YYYY") }}</td>
                     <td class="py-4">{{ ownership.endDate | moment("MMMM Do YYYY") }}</td>
                 </tr>
@@ -31,13 +30,11 @@
 <script>
     import UserHeader from "./UserHeader";
     import {mapState} from "vuex";
-    import {authHeader} from "../../helpers";
-    import TransferOwnershipModal from "./TransferOwnershipModal";
 
     export default {
-        name: "Vehicles",
+        name: "travels-driver",
 
-        components: {TransferOwnershipModal, UserHeader},
+        components: {UserHeader},
 
         data: function() {
             return {
@@ -48,8 +45,8 @@
 
         computed: {
             ...mapState({
-                ownerships: state => state.ownerships.all,
-                status: state => state.ownerships.status
+                travels: state => state.travels.all,
+                travels_status: state => state.travels.status
             })
         },
 
@@ -59,3 +56,6 @@
     }
 </script>
 
+<style scoped>
+
+</style>

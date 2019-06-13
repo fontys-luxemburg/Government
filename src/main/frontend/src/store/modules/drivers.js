@@ -1,4 +1,5 @@
 import {userService} from "../../services/users.service";
+import {router} from "../../router";
 
 const state = {
     value: null,
@@ -17,26 +18,26 @@ const actions = {
             .catch(error => {
                 commit("DRIVER_FAILURE");
             });
-    }
+    },
 
-    // save({ commit, dispatch }, params) {
-    //     commit("CREATE_DRIVER_REQUEST");
-    //
-    //     vehicleService.saveVehicle(params)
-    //         .then(driver => {
-    //             commit("CREATE_DRIVER_SUCCESS", driver);
-    //
-    //             dispatch(
-    //                 "setNotice",
-    //                 { message: "Succesfully registered new driver" },
-    //                 { root: true }
-    //             );
-    //
-    //             router.push({ name: 'user#show', params: { driver_id: driver.id } });
-    //         }).catch(error => {
-    //         commit("CREATE_DRIVER_FAILURE");
-    //     });
-    // }
+    saveDriver({ commit, dispatch }, params) {
+        commit("CREATE_DRIVER_REQUEST");
+
+        userService.saveDriver(params)
+            .then(driver => {
+                commit("CREATE_DRIVER_SUCCESS", driver);
+
+                dispatch(
+                    "setNotice",
+                    { message: "Succesfully registered new driver" },
+                    { root: true }
+                );
+
+                router.push({ name: 'drivers#show', params: { driver_id: driver.id } });
+            }).catch(error => {
+            commit("CREATE_DRIVER_FAILURE");
+        });
+    }
 };
 
 const mutations = {
