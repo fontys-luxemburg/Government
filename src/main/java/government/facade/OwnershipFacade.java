@@ -46,4 +46,7 @@ public class OwnershipFacade {
     public List<Ownership> findByUser(User user){
         return ownershipRepository.findAll(user);
     }
+    public List<Ownership> findByUserId(Long id){
+        return ownershipRepository.findAllByUserId(id);
+    }
 }

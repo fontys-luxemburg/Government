@@ -21,10 +21,10 @@
                         class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
                         :to="{ name: 'drivers#owner', params: { driver_id: driver.id }}"
                 >Vehicles</router-link>
-                <!--<router-link-->
-                        <!--class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"-->
-                        <!--:to="{ name: 'vehicles#travels', params: { driver_id: driver.id }}"-->
-                <!--&gt;Travels</router-link>-->
+                <router-link
+                        class="no-underline px-6 py-4 block text-grey-dark hover:text-blue"
+                        :to="{ name: 'drivers#travels', params: { driver_id: driver.id }}"
+                >Travels</router-link>
             </div>
         </div>
     </div>

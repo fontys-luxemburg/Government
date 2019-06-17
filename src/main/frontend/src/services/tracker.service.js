@@ -3,7 +3,8 @@ import { authHeader } from "../helpers";
 export const trackerService = {
     findTrackers,
     findTripsBetweenDates,
-    createTracker
+    createTracker,
+    findTripsByDriver
 };
 
 function findTrackers(registrationID) {
@@ -29,13 +30,28 @@ function findTripsBetweenDates(registrationID) {
     };
 
     return fetch(
-        `/government/api/trackers/dates?registrationID=${encodeURI(registrationID)}&begin=${encodeURI(1559413283000)}&end=${encodeURI(1561918883000)}`, 
+        `/government/api/trackers/dates?registrationID=${encodeURI(registrationID)}&begin=${encodeURI(1559413283000)}&end=${encodeURI(1561918883000)}`,
         requestOptions
     )
     .then(handleResponse)
     .then(trips => {
         return trips;
     });
+}
+function findTripsByDriver(driver_id) {
+    const requestOptions = {
+        method: "GET",
+        headers: authHeader()
+    };
+
+    return fetch(
+        `/government/api/trackers/driver/${driver_id}`,
+        requestOptions
+    )
+        .then(handleResponse)
+        .then(trips => {
+            return trips;
+        });
 }
 
 function createTracker(registrationID) {

@@ -41,7 +41,17 @@ const actions = {
               { root: true }
           );
       });
-    }
+    },
+    getTripsOfDriver({ commit }, driverID) {
+        commit("TRIPS_REQUEST");
+        trackerService
+            .findTripsByDriver(driverID)
+            .then(trips => {
+                commit("TRIPS_SUCCESS", trips);
+            }).catch(() => {
+            commit("TRIPS_FAILURE");
+        })
+    },
 };
 
 const mutations = {

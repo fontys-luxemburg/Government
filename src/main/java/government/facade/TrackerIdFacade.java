@@ -1,8 +1,11 @@
 package government.facade;
 
+import com.sun.demo.jvmti.hprof.Tracker;
 import government.Urls;
 import government.dto.TrackerIdDto;
+import government.dto.TripDto;
 import government.model.TrackerId;
+import government.model.Trip;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
@@ -82,5 +85,18 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         } catch(IOException e){
             return null;
         }
+    }
+    public List<TripDto> getTripsFromTrackers(List<TrackerIdDto> trackers){
+
+        List<TripDto> trips = new ArrayList();
+
+        for (TrackerIdDto tracker : trackers) {
+            for(TripDto trip: tracker.getTrips()){
+                trip.setRegistrationID(tracker.getVehicleID());
+                trips.add(trip);
+            }
+        }
+        return trips;
+
     }
 }

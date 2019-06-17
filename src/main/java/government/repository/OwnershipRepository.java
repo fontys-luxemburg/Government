@@ -24,6 +24,11 @@ public class OwnershipRepository extends CrudRepository<Ownership, Long> {
         query.setParameter("user_id", user.getId());
         return query.getResultList();
     }
+    public List<Ownership> findAllByUserId(Long id) {
+        Query query = entityManager.createQuery("select o from Ownership o where o.user.id = :user_id");
+        query.setParameter("user_id", id);
+        return query.getResultList();
+    }
 
     public List<Ownership> findAll(Vehicle vehicle) {
         Query query = entityManager.createQuery("select o from Ownership o where o.vehicle.id = :vehicle_id order by o.createdAt desc");
