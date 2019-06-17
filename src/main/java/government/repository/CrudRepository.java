@@ -26,11 +26,12 @@ public abstract class CrudRepository<T extends BaseEntity, ID> {
 		return Optional.of(entityManager.find(entityClass, id));
 	}
 
-	public void save(T entity) {
+	public T save(T entity) {
 		if (entity.isNew()) {
 			entityManager.persist(entity);
 		} else {
 			entityManager.merge(entity);
 		}
+		return entity;
 	}
 }

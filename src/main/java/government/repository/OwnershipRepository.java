@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,5 +46,13 @@ public class OwnershipRepository extends CrudRepository<Ownership, Long> {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    public List<Ownership> findByUserAndDate(User user, Date start, Date endDate) {
+        Query query = entityManager.createQuery("select o from Ownership o where o.user.id = :user_id and o.createdAt between :start and :endDate");
+        query.setParameter("user_id", user.getId());
+        query.setParameter("start",start);
+        query.setParameter("endDate",endDate);
+        return query.getResultList();
     }
 }
