@@ -1,0 +1,29 @@
+version: "3.1"
+services:
+
+  db-government:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: government
+    ports:
+      - 5433:5432
+
+  government:
+    image: redxice/government:deploy
+    ports:
+      - 9080:8080
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tracking
+    ports:
+      - 5432:5432
+  tracking:
+    image: redxice/payara:jenkins
+    ports:
+      - 9090:8080
