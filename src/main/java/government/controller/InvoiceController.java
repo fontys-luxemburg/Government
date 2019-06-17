@@ -43,7 +43,7 @@ public class InvoiceController {
 
     @GET
     @Path("/invoices/{user_id}")
-public Response getInvoiceByRegistrationId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month){
+public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month){
         Optional<Invoice> invoice = invoiceFacade.findByUserID(user_id,year,month);
         if(invoice.isPresent()){
             InvoiceDto invoiceDto = invoiceMapper.invoiceToInvoiceDto(invoice.get());
@@ -60,7 +60,7 @@ public Response getInvoiceByRegistrationId(@PathParam("user_id") Long user_id, @
     }
     @GET
     @Path("/invoices/{user_id}/all")
-    public Response getInvoiceByRegistrationId(@PathParam("user_id") Long user_id){
+    public Response getInvoiceAllByUser(@PathParam("user_id") Long user_id){
         List<Invoice> invoices = invoiceFacade.getAllinvoicesFromUser(user_id);
         if(invoices == null || invoices.size()==0){
             return Response.status(404).build();
