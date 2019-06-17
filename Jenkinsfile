@@ -28,7 +28,7 @@ pipeline {
 -Dsonar.login=55d4924f14df92d208e26fbf47c05de918e3a044'''
       }
     }
-     stage('acceptatie') {
+    stage('acceptatie') {
       parallel {
         stage('acceptatie') {
           steps {
@@ -45,7 +45,8 @@ pipeline {
     }
     stage('deploy') {
       steps {
-        sh 'docker-compose -f docker-compose.yml down'
+        sh '''docker-compose -f docker-compose2.yml down
+docker-compose -f docker-compose.yml down'''
         sh 'docker-compose -f docker-compose.yml up  -d '
       }
     }
