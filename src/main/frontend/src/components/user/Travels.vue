@@ -13,13 +13,15 @@
                     <td class="py-4">Registration id</td>
                     <td class="py-4">From</td>
                     <td class="py-4">Until</td>
+                    <td class="py-4">Distance traveled in Km</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="travel in travels" v-bind:key="travel.id">
-                    <td class="py-4">{{ ownership.vehicleRegistrationID }}</td>
-                    <td class="py-4">{{ ownership.createdAt | moment("MMMM Do YYYY") }}</td>
-                    <td class="py-4">{{ ownership.endDate | moment("MMMM Do YYYY") }}</td>
+                    <td class="py-4">{{ travel.registrationID }}</td>
+                    <td class="py-4">{{ travel.createdAt | moment("MMMM Do YYYY") }}</td>
+                    <td class="py-4">{{ travel.endDate | moment("MMMM Do YYYY") }}</td>
+                    <td class="py-4">{{ travel.distanceTraveledKm }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -51,7 +53,7 @@
         },
 
         created() {
-            this.$store.dispatch("ownerships/getOwnershipsByDriver", this.$route.params.driver_id );
+            this.$store.dispatch("trackers/getTripsOfDriver", this.$route.params.driver_id );
         }
     }
 </script>
