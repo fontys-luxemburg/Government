@@ -41,10 +41,11 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         return query.getResultList();
     }
 
-    private Query generateQueryWithFromAndTill(String queryString,Date from,Date till){
+    private Query generateQueryWithFromAndTill(String queryString, Date from, Date till){
         Query query = entityManager.createQuery(queryString);
         query.setParameter("start", from);
         query.setParameter("till", till);
         return query;
     }
+
 }

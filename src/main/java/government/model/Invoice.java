@@ -16,8 +16,26 @@ public class Invoice extends BaseEntity {
     private Date from;
     private Date till;
     private boolean paid;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private List<InvoiceLine> invoiceLines = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Trip> trips = new ArrayList<>();
+
+    public Invoice() {
+    }
+
+    public Invoice(Vehicle vehicle, Date from, Date till, boolean paid,List<Trip> trips) {
+        this.vehicle = vehicle;
+        this.from = from;
+        this.till = till;
+        this.paid = paid;
+        this.trips = trips;
+    }
+    public Invoice(User user, Date from, Date till, boolean paid,List<Trip> trips) {
+        this.user = user;
+        this.from = from;
+        this.till = till;
+        this.paid = paid;
+        this.trips = trips;
+    }
 
     public User getUser() {
         return user;
@@ -51,12 +69,12 @@ public class Invoice extends BaseEntity {
         this.till = till;
     }
 
-    public List<InvoiceLine> getInvoiceLines() {
-        return invoiceLines;
+    public List<Trip> getTrips() {
+        return trips;
     }
 
-    public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
-        this.invoiceLines = invoiceLines;
+    public void setTrips(List<Trip> trips) {
+        this.trips = trips;
     }
 
     public boolean isPaid() {
@@ -66,4 +84,5 @@ public class Invoice extends BaseEntity {
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
+
 }

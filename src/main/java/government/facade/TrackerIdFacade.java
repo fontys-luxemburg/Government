@@ -63,7 +63,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
                 target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
                         .queryParam("vehicleID", registrationId)
                         .queryParam("begin", beginDate.getTime())
-                        .queryParam("end", null);
+                        .queryParam("end", "");
             }
             Response response = target.request().get();
             TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
