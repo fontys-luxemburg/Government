@@ -59,7 +59,7 @@ public Response getInvoiceByRegistrationId(@PathParam("user_id") Long user_id, @
         }
     }
     @GET
-    @Path("/invoices/{user_id}")
+    @Path("/invoices/{user_id}/all")
     public Response getInvoiceByRegistrationId(@PathParam("user_id") Long user_id){
         List<Invoice> invoices = invoiceFacade.getAllinvoicesFromUser(user_id);
         if(invoices == null || invoices.size()==0){
