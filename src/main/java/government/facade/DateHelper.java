@@ -1,14 +1,15 @@
 package government.facade;
 
-import javafx.util.Pair;
+
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class DateHelper {
 
-    public static Pair<Date, Date> getDateRange(int year,int month) {
+    public static Pair<Date, Date> getDateRange(int year, int month) {
         Date beginning, end;
 
         {
@@ -31,7 +32,7 @@ public class DateHelper {
             end = calendar.getTime();
         }
 
-        return new Pair<>(beginning, end);
+        return Pair.of(beginning, end);
     }
 
 
