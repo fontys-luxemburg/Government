@@ -1,6 +1,7 @@
 package government.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,9 @@ public class Invoice extends BaseEntity {
     private Vehicle vehicle;
     private Date from;
     private Date till;
-    @OneToMany
-    private List<InvoiceLine> invoiceLines;
+    private boolean paid;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<InvoiceLine> invoiceLines = new ArrayList<>();
 
     public User getUser() {
         return user;
@@ -57,4 +59,11 @@ public class Invoice extends BaseEntity {
         this.invoiceLines = invoiceLines;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 }
