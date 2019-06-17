@@ -9,7 +9,7 @@ import government.mapper.InvoiceMapper;
 import government.mapper.TripMapper;
 import government.model.*;
 import government.repository.InvoiceRepository;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
