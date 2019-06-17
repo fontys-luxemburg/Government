@@ -23,7 +23,7 @@ public class InvoiceController {
     InvoiceMapper invoiceMapper;
 
     @GET
-    @Path("/invoices/{registration_id}")
+    @Path("/invoices/vehicles/{registration_id}")
     public Response getInvoiceByRegistrationId(@PathParam("registration_id") String registrationId,@QueryParam("year") int year,
                                                @QueryParam("month") int month){
         Optional<Invoice> invoice = invoiceFacade.findByRegistrationId(registrationId,year,month);
@@ -42,7 +42,7 @@ public class InvoiceController {
     }
 
     @GET
-    @Path("/invoices/{user_id}")
+    @Path("/invoices/users/{user_id}")
 public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month){
         Optional<Invoice> invoice = invoiceFacade.findByUserID(user_id,year,month);
         if(invoice.isPresent()){
@@ -59,7 +59,7 @@ public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryPar
         }
     }
     @GET
-    @Path("/invoices/{user_id}/all")
+    @Path("/invoices/users/{user_id}/all")
     public Response getInvoiceAllByUser(@PathParam("user_id") Long user_id){
         List<Invoice> invoices = invoiceFacade.getAllinvoicesFromUser(user_id);
         if(invoices == null || invoices.size()==0){
