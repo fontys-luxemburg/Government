@@ -47,8 +47,8 @@ pipeline {
       steps {
         sh 'docker-compose -f docker-compose2.yml down'
         sh 'docker-compose -f docker-compose.yml down'
-        sh 'docker-compose -f docker-compose.yml up  -d '
         sh 'docker stop $(docker ps -a -q)'
+        sh 'docker-compose -f docker-compose.yml up  -d '
       }
     }
   }
