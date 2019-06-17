@@ -1,7 +1,11 @@
 <template>
   <div>
     <car-header />
-    <div class="bg-white rounded p-8">
+    <div class="bg-white rounded p-8"> 
+      <p>{{ date.month }}</p>
+      <month-picker @change="showDate"></month-picker>
+    </div>
+    <div class="bg-white rounded p-8">      
       <la-cartesian autoresize :bound="[0]" :data="values">
         <la-line prop="km"></la-line>
         <la-y-axis></la-y-axis>
@@ -23,13 +27,31 @@
     import { Cartesian, Line } from 'laue'
     import { mapState } from 'vuex';
     import moment from 'moment';
+    import { MonthPicker } from 'vue-month-picker';
 
     export default {
       name: "Travels",
+      data() {
+        return {
+          date: {
+            from: null,
+            to: null,
+            month: null,
+            year: null
+            }
+          }
+      },
       components: {
         LaCartesian: Cartesian,
         LaLine: Line,
-        CarHeader
+        CarHeader,
+        MonthPicker
+      },
+      methods: {
+        showDate (date) {
+          this.date = date
+          this.$store.dispatch("trackers/getTripsBetweenDates", [this.$route.params.license_number, date.from, date.to])
+        }
       },
 
       computed: {
@@ -44,7 +66,7 @@
       },
 
       created() {
-        this.$store.dispatch("trackers/getTripsBetweenDates", this.$route.params.license_number)
+        // this.$store.dispatch("trackers/getTripsBetweenDates", [this.$route.params.license_number, 1559413283000, 1561918883000])
       }
 }
 </script>

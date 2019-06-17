@@ -20,11 +20,15 @@ const actions = {
         });
     },
 
-    getTripsBetweenDates({ commit }, vehicleID) {
+    getTripsBetweenDates({ commit }, [vehicleID, from, to]) {
       commit("TRIPS_REQUEST");
 
+      var lastDay = to;
+      lastDay.setMonth(from.getMonth() + 1);
+
+
       trackerService
-      .findTripsBetweenDates(vehicleID)
+      .findTripsBetweenDates(vehicleID, from, lastDay)
       .then(trips => {
         commit("TRIPS_SUCCESS", trips);
       }).catch(() => {
