@@ -9,6 +9,7 @@ import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
 import SearchIndex from './components/search/Index';
+import SettingsIndex from './components/settings/Index';
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export const router = new Router({
             path: '/search',
             name: 'search',
             component: SearchIndex
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: SettingsIndex
         },
         {
             path: '/vehicles/new',
