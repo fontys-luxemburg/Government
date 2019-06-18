@@ -9,6 +9,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,12 +63,14 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             if (endDate != null) {
                 target.queryParam("end", endDate.getTime());
             } else {
-                target.queryParam("end", "");
+                target.queryParam("end", null);
             }
             Response response = target.request().get();
             if(response.hasEntity()) {
-                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
-                return Arrays.asList(trackers);
+//                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
+                List<TrackerIdDto> list = response.readEntity(new GenericType<List<TrackerIdDto>>() {
+                });
+                return list;
             }else {
                 return new ArrayList<>();
             }
