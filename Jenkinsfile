@@ -1,5 +1,10 @@
 pipeline {
   agent any
+
+  environment {
+    SMTP_PASSWORD = credentials('mailgun-smtp-password')
+  }
+
   stages {
     stage('build') {
       post {

@@ -15,11 +15,17 @@ public class mailHelper {
 	public static void sendMailToUser(User user, String password) {
 		try {
 			Properties prop = new Properties();
-			prop.put("mail.smtp.auth", false);
+			prop.put("mail.smtp.auth", true);
 			prop.put("mail.smtp.starttls.enable", "false");
-			prop.put("mail.smtp.host", "localhost");
-			prop.put("mail.smtp.port", "25");
-			Session session = Session.getInstance(prop);
+			prop.put("mail.smtp.host", "smtp.mailgun.org");
+			prop.put("mail.smtp.port", "587");
+
+			Session session = Session.getDefaultInstance(prop, new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("postmaster@mg.zwemkampwzv.nl'", System.getenv("SMTP_PASSWORD"));
+				}
+			});
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("Luxemburg-no-reply@goverment.com"));
