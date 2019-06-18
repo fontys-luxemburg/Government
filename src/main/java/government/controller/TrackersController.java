@@ -60,9 +60,11 @@ public class TrackersController {
                         beginDate, endDate));
             }
         }
-        if (trackers.size() == 0) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.ok(trackerIdFacade.getTripsFromTrackers(trackers)).build();
+        throw new Exception("after get trackers");
+//        if (trackers.size() == 0) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
+//
+//        return Response.ok(trackerIdFacade.getTripsFromTrackers(trackers)).build();
     }
 }
