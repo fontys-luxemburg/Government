@@ -6,10 +6,11 @@ import government.dto.TripDto;
 import government.model.TrackerId;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.JsonArray;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
+import javax.json.JsonObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
@@ -67,9 +68,8 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
             if(response.hasEntity()) {
 //                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
-                List<TrackerIdDto> list = response.readEntity(new GenericType<List<TrackerIdDto>>() {
-                });
-                return list;
+                JsonArray JsonArray = response.readEntity(JsonArray.class);
+                return new ArrayList<>();
             }else {
                 return new ArrayList<>();
             }
