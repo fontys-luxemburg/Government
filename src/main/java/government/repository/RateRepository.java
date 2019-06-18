@@ -22,7 +22,7 @@ public class RateRepository extends CrudRepository<Rate, Long> {
     }
 
     public Rate rateForDate(Date date) {
-        Query query = entityManager.createQuery("select r from Rate r where r.createdAt <= :date order by r.createdAt desc");
+        Query query = entityManager.createQuery("select r from Rate r where r.createdAt < :date order by r.createdAt desc");
         query.setParameter("date", date);
 
         List<Rate> rates =  query.getResultList();

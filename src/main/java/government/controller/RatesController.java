@@ -40,7 +40,13 @@ public class RatesController {
         if (date != null) {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                return Response.ok(rateFacade.getRateForDate(formatter.parse(date))).build();
+                RateDto rate = rateFacade.getRateForDate(formatter.parse(date));
+
+                if (rate == null) {
+                    rate = rateFacade.getCurrentRate();
+                }
+
+                return Response.ok(rate).build();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
