@@ -94,7 +94,7 @@ public class Seeds {
         ownershipRepository.save(ownership);
         ownershipRepository.save(ownership1);
         ownershipRepository.save(pastOwnership);
-        Invoice invoice = new Invoice(john,new Date(),new Date(),false,new ArrayList<Trip>());
+        Invoice invoice = new Invoice(john,new Date(),new Date(),new Date(),new ArrayList<Trip>());
         invoiceFacade.save(invoice);
     }
 }

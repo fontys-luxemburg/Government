@@ -15,23 +15,23 @@ public class Invoice extends BaseEntity {
     private Vehicle vehicle;
     private Date startDate;
     private Date endDate;
-    private boolean paid;
+    private Date payDate;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Trip> trips = new ArrayList<>();
-
+    private double totalPrice;
     public Invoice() {
     }
 
-    public Invoice(Vehicle vehicle, Date startDate, Date endDate, boolean paid,List<Trip> trips) {
+    public Invoice(Vehicle vehicle, Date startDate, Date endDate, Date payDate,List<Trip> trips) {
         this.vehicle = vehicle;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.paid = paid;
+        this.payDate = payDate;
         this.trips = trips;
     }
-    public Invoice(User user, Date startDate, Date endDate, boolean paid,List<Trip> trips) {
+    public Invoice(User user, Date startDate, Date endDate, Date payDate,List<Trip> trips) {
         this.user = user;
-        this.paid = paid;
+        this.payDate = payDate;
         this.trips = trips;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -77,12 +77,19 @@ public class Invoice extends BaseEntity {
         this.trips = trips;
     }
 
-    public boolean isPaid() {
-        return paid;
+    public Date getPayDate() {
+        return payDate;
     }
 
-    public void setPaid(boolean paid) {
-        this.paid = paid;
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }
