@@ -37,7 +37,7 @@ public class InvoiceController {
     @Path("/vehicle/{registration_id}")
     @Transactional
     public Response getInvoiceByRegistrationId(@PathParam("registration_id") String registrationId,@QueryParam("year") int year,
-                                               @QueryParam("month") int month){
+                                               @QueryParam("month") int month)throws Exception{
         Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationId);
         if(!vehicle.isPresent()){
             return Response.status(404).build();
