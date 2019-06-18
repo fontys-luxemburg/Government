@@ -115,7 +115,7 @@ public class Seeds {
         rateRepository.save(rate);
         rateRepository.save(rate2);
 
-        Invoice invoice = new Invoice(john,new Date(),new Date(),new Date(),new ArrayList<Trip>());
+        Invoice invoice = new Invoice(john,new Date(),new Date(),null,new ArrayList<Trip>());
         invoiceFacade.save(invoice);
     }
 }
