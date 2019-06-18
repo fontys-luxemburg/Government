@@ -53,10 +53,12 @@ public class TrackersController {
         }
         List<TrackerIdDto> trackers = new ArrayList<>();
         for (Ownership ownership : ownerships) {
-            Date beginDate = ownership.getCreatedAt();
-            Date endDate = ownership.getEndDate();
-            trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
-                    beginDate, endDate));
+            if(ownership.getVehicle()!=null) {
+                Date beginDate = ownership.getCreatedAt();
+                Date endDate = ownership.getEndDate();
+                trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
+                        beginDate, endDate));
+            }
         }
         if (trackers.size() == 0) {
             return Response.status(Response.Status.NOT_FOUND).build();
