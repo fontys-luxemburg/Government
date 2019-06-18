@@ -25,9 +25,9 @@ pipeline {
     }
     stage('Scan code') {
       steps {
-        sh 'mvn sonar:sonar \\
+        sh '''mvn sonar:sonar \\
 -Dsonar.host.url=http://sonarqube.swym.nl \\
--Dsonar.login=55d4924f14df92d208e26fbf47c05de918e3a044'
+-Dsonar.login=55d4924f14df92d208e26fbf47c05de918e3a044'''
       }
     }
      stage('acceptatie') {
