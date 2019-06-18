@@ -30,7 +30,7 @@ public class InvoiceController {
     VehicleFacade vehicleFacade;
 
     @GET
-    @Path("/invoices/vehicles/{registration_id}")
+    @Path("/vehicle/{registration_id}")
     public Response getInvoiceByRegistrationId(@PathParam("registration_id") String registrationId,@QueryParam("year") int year,
                                                @QueryParam("month") int month){
         Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationId);
@@ -53,7 +53,7 @@ public class InvoiceController {
     }
 
     @GET
-    @Path("/invoices/users/{user_id}")
+    @Path("/user/{user_id}")
     public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month){
         Optional<User> user = userFacade.findById(user_id);
         if(!user.isPresent()){
@@ -74,7 +74,7 @@ public class InvoiceController {
         }
     }
     @GET
-    @Path("/invoices/users/{user_id}/all")
+    @Path("/user/{user_id}/all")
     public Response getInvoiceAllByUser(@PathParam("user_id") Long user_id){
         Optional<User> user = userFacade.findById(user_id);
         if(!user.isPresent()){
