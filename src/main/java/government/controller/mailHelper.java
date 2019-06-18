@@ -1,7 +1,6 @@
 package government.controller;
 
-import government.dto.UserDto;
-import government.model.Credentials;
+
 import government.model.User;
 
 import javax.mail.*;
@@ -15,11 +14,11 @@ public class mailHelper {
 	public static void sendMailToUser(User user, String password) throws MessagingException {
 			Properties prop = new Properties();
 			prop.put("mail.smtp.auth", true);
-			prop.put("mail.smtp.starttls.enable", "false");
+			prop.put("mail.smtp.starttls.enable", "true");
 			prop.put("mail.smtp.host", "smtp.mailgun.org");
 			prop.put("mail.smtp.port", "587");
 
-			Session session = Session.getDefaultInstance(prop, new Authenticator() {
+			Session session = Session.getInstance(prop, new Authenticator() {
 				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication("postmaster@mg.zwemkampwzv.nl'", System.getenv("SMTP_PASSWORD"));
