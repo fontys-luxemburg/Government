@@ -52,7 +52,6 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
     }
 
     public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate) {
-        try {
             Client client = ClientBuilder.newBuilder().build();
             WebTarget target;
 
@@ -71,9 +70,6 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             }else {
                 return new ArrayList<>();
             }
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public UUID newTracker(String vehicleID) {
