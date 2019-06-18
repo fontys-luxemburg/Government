@@ -13,8 +13,8 @@ public class Invoice extends BaseEntity {
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     private Vehicle vehicle;
-    private Date from;
-    private Date till;
+    private Date startDate;
+    private Date endDate;
     private boolean paid;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Trip> trips = new ArrayList<>();
@@ -22,19 +22,19 @@ public class Invoice extends BaseEntity {
     public Invoice() {
     }
 
-    public Invoice(Vehicle vehicle, Date from, Date till, boolean paid,List<Trip> trips) {
+    public Invoice(Vehicle vehicle, Date startDate, Date endDate, boolean paid,List<Trip> trips) {
         this.vehicle = vehicle;
-        this.from = from;
-        this.till = till;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.paid = paid;
         this.trips = trips;
     }
-    public Invoice(User user, Date from, Date till, boolean paid,List<Trip> trips) {
+    public Invoice(User user, Date startDate, Date endDate, boolean paid,List<Trip> trips) {
         this.user = user;
-        this.from = from;
-        this.till = till;
         this.paid = paid;
         this.trips = trips;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public User getUser() {
@@ -53,20 +53,20 @@ public class Invoice extends BaseEntity {
         this.vehicle = vehicle;
     }
 
-    public Date getFrom() {
-        return from;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setFrom(Date from) {
-        this.from = from;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getTill() {
-        return till;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setTill(Date till) {
-        this.till = till;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public List<Trip> getTrips() {

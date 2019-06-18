@@ -66,7 +66,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         }
         return tripDtos;
     }
-    public List<Invoice> getAllinvoicesFromUser(Long user_id){
+    public List<Invoice> getAllInvoiceUser(Long user_id){
         return invoiceRepository.getAllInvoicesByUser(user_id);
     }
     public Invoice generateInvoiceVehicle(int year,int month,String registrationId ){
@@ -92,7 +92,8 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         }
         List<Ownership> ownerships = ownershipFacade.findByUserAndDate(user.get(),start,end);
         List<Trip> trips = getTripsFromOwnerships(ownerships,start,end);
-        return new Invoice(user.get(),start,end,false,trips);
+
+        return invoiceRepository.save( new Invoice(user.get(),start,end,false,trips));
     }
 
     public List<InvoiceDto> invoicesToInvoiceDtos(List<Invoice> invoices){
