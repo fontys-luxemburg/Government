@@ -10,29 +10,22 @@ import government.facade.OwnershipFacade;
 import government.facade.TrackerIdFacade;
 import government.facade.UserFacade;
 import government.facade.VehicleFacade;
-import government.mapper.TrackerIdMapper;
 import government.mapper.VehicleInformationMapper;
 import government.mapper.VehicleMapper;
-import government.model.*;
+import government.model.Role;
+import government.model.User;
+import government.model.Vehicle;
+import government.model.VehicleInformation;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 @Path("/vehicles")
 @Produces("application/json")

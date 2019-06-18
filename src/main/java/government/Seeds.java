@@ -1,11 +1,10 @@
 package government;
 
 import government.facade.InvoiceFacade;
-import government.facade.TrackerIdFacade;
 import government.facade.UserFacade;
-import government.facade.VehicleFacade;
 import government.model.*;
 import government.repository.OwnershipRepository;
+import government.repository.RateRepository;
 import government.repository.VehicleRepository;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +14,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 @Startup
 @Singleton
@@ -31,6 +29,9 @@ public class Seeds {
 
     @Inject
     OwnershipRepository ownershipRepository;
+
+    @Inject
+    RateRepository rateRepository;
 
     @PostConstruct
     private void init() {
@@ -94,6 +95,26 @@ public class Seeds {
         ownershipRepository.save(ownership);
         ownershipRepository.save(ownership1);
         ownershipRepository.save(pastOwnership);
+
+        Rate rate = new Rate();
+        rate.setCarRate(1.0);
+        rate.setBusRate(1.0);
+        rate.setTruckRate(1.0);
+
+        RushRate rushRate = new RushRate();
+        rushRate.setDayOfWeek(1);
+        rushRate.setStartTime("09:00");
+        rushRate.setEndTime("12:00");
+        rushRate.setMultiplier(1.1);
+
+        Rate rate2 = new Rate();
+        rate.setCarRate(2.0);
+        rate.setBusRate(2.0);
+        rate.setTruckRate(2.0);
+
+        rateRepository.save(rate);
+        rateRepository.save(rate2);
+
         Invoice invoice = new Invoice(john,new Date(),new Date(),new Date(),new ArrayList<Trip>());
         invoiceFacade.save(invoice);
     }

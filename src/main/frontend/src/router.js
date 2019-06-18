@@ -9,6 +9,7 @@ import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
 import SearchIndex from './components/search/Index';
+import SettingsIndex from './components/settings/Index';
 import UserShow from "./components/user/Show";
 import UserOwner from "./components/user/Owner"
 import UserNew from "./components/user/New"
@@ -32,6 +33,11 @@ export const router = new Router({
             path: '/search',
             name: 'search',
             component: SearchIndex
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: SettingsIndex
         },
         {
             path: '/vehicles/new',
