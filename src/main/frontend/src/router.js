@@ -8,8 +8,12 @@ import CarsOwner from "./components/cars/Owner";
 import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
-import SearchIndex from './components/search/Index';
+import SearchIndex from './components/search/Index';yarn
 import SettingsIndex from './components/settings/Index';
+import UserShow from "./components/user/Show";
+import UserOwner from "./components/user/Owner"
+import UserNew from "./components/user/New"
+import UserTravels from "./components/user/Travels"
 
 Vue.use(Router);
 
@@ -64,7 +68,24 @@ export const router = new Router({
             path: '/vehicles/:license_number/travels',
             name: 'vehicles#travels',
             component: CarsTravels
+        }, {
+            path: '/drivers/:driver_id',
+            name: 'drivers#show',
+            component: UserShow
+        }, {
+            path: '/drivers/:driver_id/vehicles',
+            name: 'drivers#owner',
+            component: UserOwner
+        }, {
+            path: '/drivers/new',
+            name: 'drivers#new',
+            component: UserNew
+        }, {
+            path: '/drivers/:driver_id/travels',
+            name: 'drivers#travels',
+            component: UserTravels
         }
+
     ]
 });
 
@@ -74,7 +95,7 @@ router.beforeEach((to, from, next) => {
     const authRequired = !publicPages.includes(to.path);
     const loggedInUser = localStorage.getItem("user");
 
-    if(authRequired && !loggedInUser) {
+    if (authRequired && !loggedInUser) {
         return next('/login');
     }
 

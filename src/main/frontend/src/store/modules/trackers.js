@@ -2,6 +2,7 @@ import { trackerService } from "../../services";
 
 const state = {
     all: [],
+    allTrips: [],
     status: {}
   };
 
@@ -19,6 +20,18 @@ const actions = {
         });
     },
 
+    getTripsBetweenDates({ commit }, vehicleID) {
+      commit("TRIPS_REQUEST");
+
+      trackerService
+      .findTripsBetweenDates(vehicleID)
+      .then(trips => {
+        commit("TRIPS_SUCCESS", trips);
+      }).catch(() => {
+        commit("TRIPS_FAILURE");
+      })
+    },
+
     createTracker({ commit, dispatch }, vehicleID) {
       trackerService.createTracker(vehicleID).then(() => {
           dispatch("getTrackers", vehicleID);
@@ -28,7 +41,17 @@ const actions = {
               { root: true }
           );
       });
-    }
+    },
+    getTripsOfDriver({ commit }, driverID) {
+        commit("TRIPS_REQUEST");
+        trackerService
+            .findTripsByDriver(driverID)
+            .then(trips => {
+                commit("TRIPS_SUCCESS", trips);
+            }).catch(() => {
+            commit("TRIPS_FAILURE");
+        })
+    },
 };
 
 const mutations = {
@@ -44,6 +67,21 @@ const mutations = {
   
     TRACKERS_FAILURE: state => {
       state.value = null;
+      state.status = { failed: true };
+    },
+
+    TRIPS_REQUEST: state => {
+      state.allTrips = [];
+      state.status = { loading: true };
+    },
+  
+    TRIPS_SUCCESS: (state, trips) => {
+      state.status = { loaded: true };
+      state.allTrips = trips;
+    },
+  
+    TRIPS_FAILURE: state => {
+      state.allTrips = null;
       state.status = { failed: true };
     }
   };

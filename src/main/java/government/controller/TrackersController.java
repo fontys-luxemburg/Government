@@ -2,18 +2,19 @@ package government.controller;
 
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
+import government.dto.TripDto;
+import government.facade.OwnershipFacade;
 import government.facade.TrackerIdFacade;
+import government.facade.UserFacade;
+import government.model.Ownership;
 import government.model.Role;
+import government.model.User;
+import sun.swing.BakedArrayList;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Path("/trackers")
 @Produces("application/json")
@@ -22,21 +23,46 @@ public class TrackersController {
 
     @Inject
     TrackerIdFacade trackerIdFacade;
+    @Inject
+    OwnershipFacade ownershipFacade;
 
     @GET
     @Path("/dates")
     public Response TripsBetweenDates(
-            @QueryParam("vehicleID") String vehicleID,
+            @QueryParam("registrationID") String vehicleID,
             @QueryParam("begin") Long begin,
             @QueryParam("end") Long end) {
         Date beginDate = new Date(begin);
         Date endDate = new Date(end);
         List<TrackerIdDto> trackers = trackerIdFacade.getTrackersFromVehicleBetweenDates(vehicleID, beginDate, endDate);
 
-        if (trackers == null){
+        if (trackers == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(trackers).build();
+        return Response.ok(trackerIdFacade.getTripsFromTrackers(trackers)).build();
+    }
+
+    @GET
+    @Path("/driver/{driver_id}")
+    public Response TripsBetweenDatesForUser(
+            @PathParam("driver_id") String driverId) {
+        List<Ownership> ownerships = ownershipFacade.findByUserId(Long.valueOf(driverId));
+        if (ownerships == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        List<TrackerIdDto> trackers = new ArrayList<>();
+        for (Ownership ownership : ownerships) {
+            if(ownership.getVehicle()!=null) {
+                Date beginDate = ownership.getCreatedAt();
+                Date endDate = ownership.getEndDate();
+                trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
+                        beginDate, endDate));
+            }
+        }
+        if (trackers.size() == 0) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(trackerIdFacade.getTripsFromTrackers(trackers)).build();
     }
 }

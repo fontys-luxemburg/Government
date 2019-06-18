@@ -1,6 +1,8 @@
 package government.facade;
 
+import government.Urls;
 import government.dto.TrackerIdDto;
+import government.dto.TripDto;
 import government.model.TrackerId;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,6 +22,8 @@ import java.util.*;
 @ApplicationScoped
 public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
 
+    private Urls urls = new Urls();
+
     @Override
     public Optional<TrackerId> findById(Long aLong) {
         return Optional.empty();
@@ -35,50 +39,73 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         return null;
     }
 
-    public List<TrackerIdDto> getTrackersFromVehicle(String registrationId){
-        try{
+    public List<TrackerIdDto> getTrackersFromVehicle(String registrationId) {
+        try {
             Client client = ClientBuilder.newBuilder().build();
-            WebTarget target = client.target("http://localhost:8080/tracking.war/api/trackers/vehicle/" + registrationId);
+            WebTarget target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle/" + registrationId);
             Response response = target.request().get();
             TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
             return Arrays.asList(trackers);
-        } catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
-    public List<TrackerIdDto>getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate){
-        try{
+    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate) {
+        try {
             Client client = ClientBuilder.newBuilder().build();
-            WebTarget target = client.target("http://localhost:8080/tracking.war/api/trackers/vehicle")
+            WebTarget target;
+
+            target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
                     .queryParam("vehicleID", registrationId)
-                    .queryParam("begin", beginDate.getTime())
-                    .queryParam("end", endDate.getTime());
-
+                    .queryParam("begin", beginDate.getTime());
+            if (endDate != null) {
+                target.queryParam("end", endDate.getTime());
+            } else {
+                target.queryParam("end", "");
+            }
             Response response = target.request().get();
-            TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
-            return Arrays.asList(trackers);
-        } catch(Exception e){
+            if(response.hasEntity()) {
+                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
+                return Arrays.asList(trackers);
+            }else {
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
             return null;
         }
     }
 
-    public UUID newTracker(String vehicleID){
-        try{
-            URL url = new URL("http://localhost:8080/tracking.war/api/trackers/" + vehicleID);
+    public UUID newTracker(String vehicleID) {
+        try {
+            URL url = new URL(urls.getTrackerUrl() + "/api/trackers/" + vehicleID);
             URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
+            HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("POST");
             http.setDoOutput(true);
 
             http.connect();
-            try(InputStream os = http.getInputStream()) {
+            try (InputStream os = http.getInputStream()) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(os));
                 String line = reader.readLine().replaceAll("^\"|\"$", "");
                 return UUID.fromString(line);
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             return null;
         }
+    }
+
+    public List<TripDto> getTripsFromTrackers(List<TrackerIdDto> trackers) {
+
+        List<TripDto> trips = new ArrayList();
+
+        for (TrackerIdDto tracker : trackers) {
+            for (TripDto trip : tracker.getTrips()) {
+                trip.setRegistrationID(tracker.getVehicleID());
+                trips.add(trip);
+            }
+        }
+        return trips;
+
     }
 }

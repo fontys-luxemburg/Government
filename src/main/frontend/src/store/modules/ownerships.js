@@ -19,7 +19,18 @@ const actions = {
         commit("OWNERSHIPS_FAILURE");
       });
   },
+  getOwnershipsByDriver({commit}, driver_id){
+    commit("OWNERSHIPS_REQUEST");
 
+    ownershipsService
+        .findOwnershipsByDriver(driver_id)
+        .then(ownerships => {
+          commit("OWNERSHIPS_SUCCESS", ownerships);
+        })
+        .catch(() => {
+          commit("OWNERSHIPS_FAILURE");
+        });
+  },
   transfer({ commit, dispatch }, { registrationID, userID }) {
     commit("TRANSFER_REQUEST");
 

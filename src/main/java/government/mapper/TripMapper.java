@@ -16,4 +16,5 @@ public interface TripMapper {
 
     @Mapping(target = "tracker.id", source = "trackerId")
     Trip tripDtoToTrip(TripDto tripDto);
+    List<Trip> tripDtosToTrips(List<TripDto> tripDtos);
 }

@@ -2,7 +2,9 @@ import { authHeader } from "../helpers";
 
 export const trackerService = {
     findTrackers,
-    createTracker
+    findTripsBetweenDates,
+    createTracker,
+    findTripsByDriver
 };
 
 function findTrackers(registrationID) {
@@ -18,6 +20,37 @@ function findTrackers(registrationID) {
         .then(handleResponse)
         .then(trackers => {
           return trackers;
+        });
+}
+
+function findTripsBetweenDates(registrationID) {
+    const requestOptions = {
+        method: "GET",
+        headers: authHeader()
+    };
+
+    return fetch(
+        `/government/api/trackers/dates?registrationID=${encodeURI(registrationID)}&begin=${encodeURI(1559413283000)}&end=${encodeURI(1561918883000)}`,
+        requestOptions
+    )
+    .then(handleResponse)
+    .then(trips => {
+        return trips;
+    });
+}
+function findTripsByDriver(driver_id) {
+    const requestOptions = {
+        method: "GET",
+        headers: authHeader()
+    };
+
+    return fetch(
+        `/government/api/trackers/driver/${driver_id}`,
+        requestOptions
+    )
+        .then(handleResponse)
+        .then(trips => {
+            return trips;
         });
 }
 

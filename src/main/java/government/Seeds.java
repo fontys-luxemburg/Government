@@ -1,8 +1,7 @@
 package government;
 
-import government.facade.TrackerIdFacade;
+import government.facade.InvoiceFacade;
 import government.facade.UserFacade;
-import government.facade.VehicleFacade;
 import government.model.*;
 import government.repository.OwnershipRepository;
 import government.repository.RateRepository;
@@ -12,12 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @Startup
 @Singleton
@@ -28,6 +24,8 @@ public class Seeds {
 
     @Inject
     UserFacade userFacade;
+    @Inject
+    InvoiceFacade invoiceFacade;
 
     @Inject
     OwnershipRepository ownershipRepository;
@@ -116,5 +114,8 @@ public class Seeds {
 
         rateRepository.save(rate);
         rateRepository.save(rate2);
+
+        Invoice invoice = new Invoice(john,new Date(),new Date(),new Date(),new ArrayList<Trip>());
+        invoiceFacade.save(invoice);
     }
 }
