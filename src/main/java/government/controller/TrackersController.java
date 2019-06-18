@@ -28,10 +28,10 @@ public class TrackersController {
 
     @GET
     @Path("/dates")
-    public Response TripsBetweenDates(
+    public Response TripsBetweenDates (
             @QueryParam("registrationID") String vehicleID,
             @QueryParam("begin") Long begin,
-            @QueryParam("end") Long end) {
+            @QueryParam("end") Long end) throws Exception{
         Date beginDate = new Date(begin);
         Date endDate = new Date(end);
         List<TrackerIdDto> trackers = trackerIdFacade.getTrackersFromVehicleBetweenDates(vehicleID, beginDate, endDate);
