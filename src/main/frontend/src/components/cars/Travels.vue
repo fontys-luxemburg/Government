@@ -66,7 +66,6 @@
       },
 
       created() {
-        // this.$store.dispatch("trackers/getTripsBetweenDates", [this.$route.params.license_number, 1559413283000, 1561918883000])
       }
 }
 </script>
