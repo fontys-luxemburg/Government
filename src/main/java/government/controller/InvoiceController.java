@@ -80,7 +80,7 @@ public class InvoiceController {
         if(!user.isPresent()){
             return Response.status(404).build();
         }
-        List<Invoice> invoices = invoiceFacade.getAllinvoicesFromUser(user_id);
+        List<Invoice> invoices = invoiceFacade.getAllInvoiceUser(user_id);
         if(invoices == null || invoices.size()==0){
             return Response.status(204).build();
         }else{

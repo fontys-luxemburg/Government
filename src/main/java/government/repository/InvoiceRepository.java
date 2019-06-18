@@ -16,7 +16,7 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         setEntityClass(Invoice.class);
     }
     public Optional<Invoice> findByRegistrationId(String registrationId, Date from, Date till){
-        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.vehicle.registrationID = :registrationId and i.from = :start and i.till =:till"
+        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.vehicle.registrationID = :registrationId and i.startDate = :start and i.endDate =:till"
         ,from,till);
         query.setParameter("registrationId", registrationId);
         try {
@@ -26,7 +26,7 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         }
     }
     public Optional<Invoice> findByUserId(Long user_id, Date from, Date till){
-        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.user.id = :user_Id and i.from = :start and i.till =:till",
+        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.user.id = :user_Id and i.startDate = :start and i.endDate =:till",
                 from,till);
         query.setParameter("user_Id", user_id);
         try {
@@ -36,15 +36,15 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         }
     }
     public List<Invoice> getAllInvoicesByUser(Long user_id){
-        Query query = entityManager.createQuery("select i from Invoice i where i.user.id = :user_Id");
-        query.setParameter("user_Id", user_id);
+        Query query = entityManager.createQuery("select i from Invoice i where i.user.id = :user_id");
+        query.setParameter("user_id", user_id);
         return query.getResultList();
     }
 
-    private Query generateQueryWithFromAndTill(String queryString, Date from, Date till){
+    private Query generateQueryWithFromAndTill(String queryString, Date startDate, Date endDate){
         Query query = entityManager.createQuery(queryString);
-        query.setParameter("start", from);
-        query.setParameter("till", till);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         return query;
     }
 
