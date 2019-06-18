@@ -23,9 +23,23 @@ pipeline {
     }
     stage('Scan code') {
       steps {
-        sh '''mvn sonar:sonar \\
+        sh 'mvn sonar:sonar \\
 -Dsonar.host.url=http://sonarqube.swym.nl \\
--Dsonar.login=55d4924f14df92d208e26fbf47c05de918e3a044'''
+-Dsonar.login=55d4924f14df92d208e26fbf47c05de918e3a044'
+      }
+    }
+     stage('acceptatie') {
+      parallel {
+        stage('acceptatie') {
+          steps {
+            sh 'docker-compose -f docker-compose2.yml up -d '
+          }
+        }
+        stage('error') {
+          steps {
+            input 'Test cases passed'
+          }
+        }
       }
     }
     stage('deploy') {
