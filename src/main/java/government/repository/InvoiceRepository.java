@@ -16,7 +16,7 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         setEntityClass(Invoice.class);
     }
     public Optional<Invoice> findByRegistrationId(String registrationId, Date from, Date till){
-        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.vehicle.registrationID = :registrationId and i.startDate = :startDate and i.endDate =:till"
+        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.vehicle.registrationID = :registrationId and i.startDate = :startDate and i.endDate =:endDate"
         ,from,till);
         query.setParameter("registrationId", registrationId);
         try {
@@ -26,7 +26,7 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         }
     }
     public Optional<Invoice> findByUserId(Long user_id, Date from, Date till){
-        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.user.id = :user_Id and i.startDate = :startDate and i.endDate =:till",
+        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.user.id = :user_Id and i.startDate = :startDate and i.endDate =:endDate",
                 from,till);
         query.setParameter("user_Id", user_id);
         try {
