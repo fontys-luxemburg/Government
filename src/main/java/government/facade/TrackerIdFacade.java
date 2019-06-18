@@ -56,7 +56,6 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
     public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate) {
             Client client = ClientBuilder.newBuilder().build();
             WebTarget target;
-
             target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
                     .queryParam("vehicleID", registrationId)
                     .queryParam("begin", beginDate.getTime());
@@ -65,7 +64,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             } else {
                 target.queryParam("end", null);
             }
-            Response response = target.request().get();
+            Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
             if(response.hasEntity()) {
 //                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
                 List<TrackerIdDto> list = response.readEntity(new GenericType<List<TrackerIdDto>>() {
