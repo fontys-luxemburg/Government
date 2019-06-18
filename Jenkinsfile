@@ -10,7 +10,7 @@ pipeline {
       post {
         success {
           archiveArtifacts 'target/*.war'
-          sh 'docker build -t redxice/government:deploy .'
+          sh 'docker build --build-arg SMTP_PASSWORD_ENV=$SMTP_PASSWORD -t redxice/government:deploy .'
           sh 'docker build --build-arg tracking_url_env=http://178.62.217.247:9090/tracking -t redxice/government:acceptatie .'
 
 
