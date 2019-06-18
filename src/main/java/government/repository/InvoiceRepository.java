@@ -26,7 +26,7 @@ public class InvoiceRepository extends CrudRepository<Invoice,Long>{
         }
     }
     public Optional<Invoice> findByUserId(Long user_id, Date from, Date till){
-        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.user.id = :user_Id and i.startDate = :start and i.endDate =:till",
+        Query query = generateQueryWithFromAndTill("select i from Invoice i where i.user.id = :user_Id and i.startDate = :startDate and i.endDate =:till",
                 from,till);
         query.setParameter("user_Id", user_id);
         try {
