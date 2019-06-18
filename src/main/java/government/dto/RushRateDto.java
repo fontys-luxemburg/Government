@@ -1,36 +1,19 @@
-package government.model;
+package government.dto;
 
-import government.model.Rate;
+public class RushRateDto {
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-@Entity
-@Table(name = "rush_rates")
-public class RushRate extends BaseEntity {
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rate_id")
-    private Rate rate;
-
-    @NotNull
+    private Long rateID;
     private int dayOfWeek;
-
-    @NotNull
     private String startTime;
-
-    @NotNull
     private String endTime;
-
-    @NotNull
     private double multiplier;
 
-    public Rate getRate() {
-        return rate;
+    public Long getRateID() {
+        return rateID;
     }
 
-    public void setRate(Rate rate) {
-        this.rate = rate;
+    public void setRateID(Long rateID) {
+        this.rateID = rateID;
     }
 
     public int getDayOfWeek() {

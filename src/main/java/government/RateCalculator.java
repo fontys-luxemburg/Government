@@ -18,7 +18,7 @@ public class RateCalculator {
     }
 
     private double getTripRate(Trip trip) {
-        Rate rate = rateRepository.getRateForDate(trip.getEndDate());
+        Rate rate = new Rate();
 
         return rate.rateForVehicle(trip.getTracker().getVehicle());
     }

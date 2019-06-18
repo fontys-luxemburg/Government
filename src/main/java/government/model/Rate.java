@@ -1,9 +1,6 @@
 package government.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +12,7 @@ public class Rate extends BaseEntity {
     private double truckRate;
     private double busRate;
 
-    @OneToMany(mappedBy = "rate")
+    @OneToMany(mappedBy = "rate", fetch = FetchType.EAGER)
     private List<RushRate> rushRates = new ArrayList<>();
 
     public Rate() {

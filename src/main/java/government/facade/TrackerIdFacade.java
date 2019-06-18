@@ -47,7 +47,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
     }
 
-    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate){
+    public List<TrackerIdDto>getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate){
         try{
             Client client = ClientBuilder.newBuilder().build();
             WebTarget target = client.target("http://localhost:8080/tracking.war/api/trackers/vehicle")
