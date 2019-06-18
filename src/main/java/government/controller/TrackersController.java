@@ -46,7 +46,7 @@ public class TrackersController {
     @GET
     @Path("/driver/{driver_id}")
     public Response TripsBetweenDatesForUser(
-            @PathParam("driver_id") String driverId) {
+            @PathParam("driver_id") String driverId) throws Exception{
         List<Ownership> ownerships = ownershipFacade.findByUserId(Long.valueOf(driverId));
         if (ownerships == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
