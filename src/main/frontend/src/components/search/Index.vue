@@ -23,12 +23,14 @@
 
   export default {
     name: "search-index",
+
     computed: {
       ...mapState({
         results: state => state.search.results,
         status: state => state.search.status
       })
     },
+
     mounted() {
       if(this.results == null) {
         this.$store.dispatch("search/search", this.$route.query.query);
