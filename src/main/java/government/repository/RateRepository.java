@@ -16,6 +16,11 @@ public class RateRepository extends CrudRepository<Rate, Long> {
         setEntityClass(Rate.class);
     }
 
+    @Override
+    public List<Rate> findAll() {
+        return entityManager.createQuery("select r from Rate r order by r.createdAt desc").getResultList();
+    }
+
     public Rate rateForDate(Date date) {
         Query query = entityManager.createQuery("select r from Rate r where r.createdAt <= :date order by r.createdAt desc");
         query.setParameter("date", date);
