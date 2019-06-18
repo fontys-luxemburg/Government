@@ -12,6 +12,9 @@ public interface InvoiceMapper {
     @Mapping(target = "registrationId", source = "vehicle.registrationID")
     @Mapping(target = "user_name", source = "user.name")
     @Mapping(target = "user_id", source = "user.id")
+    @Mapping(target = "endDate", source = "endDate.time")
+    @Mapping(target = "startDate", source = "startDate.time")
+    @Mapping(target = "payDate", source = "payDate.time")
     InvoiceDto invoiceToInvoiceDto(Invoice invoice);
     List<InvoiceDto> invoicesToInvoicesDtos(List<Invoice> invoices);
 

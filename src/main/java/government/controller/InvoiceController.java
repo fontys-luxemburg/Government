@@ -13,6 +13,9 @@ import government.model.Vehicle;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +91,19 @@ public class InvoiceController {
         }
 
     }
+    @PUT
+    @Path("")
+    @Consumes("application/json")
+    public Response updateInvoice(InvoiceDto invoiceDto,@QueryParam("year") int year, @QueryParam("month") int month) throws ParseException {
+        Optional<Invoice> invoice = invoiceFacade.findByUserID(invoiceDto.getUser_id(),year,month);
+        if(!invoice.isPresent()){
+            return Response.status(404).build();
+        }
+         invoiceDto.setId(invoice.get().getId());
+        invoice.get().setPayDate(new SimpleDateFormat("dd/MM/yyyy").parse(invoiceDto.getPayDate()));
+        invoiceFacade.updateInvoice(invoice.get());
+        return Response.ok().build();
 
 
+    }
 }

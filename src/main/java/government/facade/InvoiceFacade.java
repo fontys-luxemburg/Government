@@ -79,7 +79,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         }
         List<TrackerIdDto> trackers = trackerIdFacade.getTrackersFromVehicleBetweenDates(registrationId,start,end);
 
-        Invoice invoice = new Invoice(vehicle.get(),start,end,false,getTripsFromTrackers(trackers));
+        Invoice invoice = new Invoice(vehicle.get(),start,end,null,getTripsFromTrackers(trackers));
         return invoiceRepository.save(invoice);
     }
     public Invoice generateInvoiceFromUser(int year, int month, Long user_id) {
@@ -93,7 +93,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         List<Ownership> ownerships = ownershipFacade.findByUserAndDate(user.get(),start,end);
         List<Trip> trips = getTripsFromOwnerships(ownerships,start,end);
 
-        return invoiceRepository.save( new Invoice(user.get(),start,end,false,trips));
+        return invoiceRepository.save( new Invoice(user.get(),start,end,null,trips));
     }
 
     public List<InvoiceDto> invoicesToInvoiceDtos(List<Invoice> invoices){
@@ -124,4 +124,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         return trips;
     }
 
+    public Invoice updateInvoice(Invoice invoice) {
+        return invoiceRepository.save(invoice);
+    }
 }

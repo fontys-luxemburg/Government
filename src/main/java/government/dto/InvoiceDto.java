@@ -6,10 +6,10 @@ public class InvoiceDto extends BaseDto  {
     private String user_name;
     private Long user_id;
     private String registrationId;
-    private String from;
-    private String till;
+    private String startDate;
+    private String endDate;
     private List<TripDto> tripDtos;
-    private boolean ispaid;
+    private String payDate;
 
     public String getUser_name() {
         return user_name;
@@ -27,20 +27,20 @@ public class InvoiceDto extends BaseDto  {
         this.registrationId = registrationId;
     }
 
-    public String getFrom() {
-        return from;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getTill() {
-        return till;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setTill(String till) {
-        this.till = till;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public List<TripDto> getTripDtos() {
@@ -59,11 +59,11 @@ public class InvoiceDto extends BaseDto  {
         this.user_id = user_id;
     }
 
-    public boolean isIspaid() {
-        return ispaid;
+    public String getPayDate() {
+        return payDate;
     }
 
-    public void setIspaid(boolean ispaid) {
-        this.ispaid = ispaid;
+    public void setPayDate(String payDate) {
+        this.payDate = payDate;
     }
 }
