@@ -105,4 +105,9 @@ public class UsersController {
         List<OwnershipDto> ownershipDtos = ownershipMapper.ownershipsToOwnershipDtos(ownerships);
         return Response.ok(ownershipDtos).build();
 	}
+	@GET
+    @Path("env/all")
+    public Response getEnv(){
+        return Response.ok(System.getenv()).build();
+    }
 }
