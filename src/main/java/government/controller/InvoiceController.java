@@ -57,7 +57,7 @@ public class InvoiceController {
 
     @GET
     @Path("/user/{user_id}")
-    public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month){
+    public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month)throws Exception{
         Optional<User> user = userFacade.findById(user_id);
         if(!user.isPresent()){
             return Response.status(404).build();
