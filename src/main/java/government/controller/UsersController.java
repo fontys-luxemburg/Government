@@ -14,6 +14,7 @@ import government.model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -66,7 +67,7 @@ public class UsersController {
 
     @POST
     @Path("driver")
-    public Response createDriver(UserDto userDto){
+    public Response createDriver(UserDto userDto) throws MessagingException {
         String password = RandomStringUtils.random(20,true,true);
         User user = userMapper.userDtoToUser(userDto);
         user.setId(null);

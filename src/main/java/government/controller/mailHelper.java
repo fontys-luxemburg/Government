@@ -12,8 +12,7 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class mailHelper {
-	public static void sendMailToUser(User user, String password) {
-		try {
+	public static void sendMailToUser(User user, String password) throws MessagingException {
 			Properties prop = new Properties();
 			prop.put("mail.smtp.auth", true);
 			prop.put("mail.smtp.starttls.enable", "false");
@@ -44,8 +43,5 @@ public class mailHelper {
 
 
 			Transport.send(message);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
 	}
 }
