@@ -94,13 +94,12 @@ public class InvoiceController {
     @PUT
     @Path("")
     @Consumes("application/json")
-    public Response updateInvoice(InvoiceDto invoiceDto,@QueryParam("year") int year, @QueryParam("month") int month) throws ParseException {
-        Optional<Invoice> invoice = invoiceFacade.findByUserID(invoiceDto.getUser_id(),year,month);
+    public Response updateInvoice(@QueryParam("user_id")String user_id,@QueryParam("payDay") String payDay,@QueryParam("year") int year, @QueryParam("month") int month) throws ParseException {
+        Optional<Invoice> invoice = invoiceFacade.findByUserID(Long.valueOf(user_id),year,month);
         if(!invoice.isPresent()){
             return Response.status(404).build();
         }
-         invoiceDto.setId(invoice.get().getId());
-        invoice.get().setPayDate(new SimpleDateFormat("dd/MM/yyyy").parse(invoiceDto.getPayDate()));
+        invoice.get().setPayDate(new Date(Long.valueOf(payDay)));
         invoiceFacade.updateInvoice(invoice.get());
         return Response.ok().build();
 
