@@ -6,11 +6,11 @@ import government.dto.TripDto;
 import government.model.TrackerId;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.json.JsonObject;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
@@ -54,7 +54,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
     }
 
-    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate) {
+    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate)throws Exception {
             Client client = ClientBuilder.newBuilder().build();
             WebTarget target;
             target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
@@ -68,7 +68,12 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
             if(response.hasEntity()) {
 //                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
-                JsonArray JsonArray = response.readEntity(JsonArray.class);
+                try {
+
+                    JsonObject list = response.readEntity(JsonObject.class);
+                }catch (Exception e){
+                    throw new Exception(e.getMessage()+"  response"+response);
+                }
                 return new ArrayList<>();
             }else {
                 return new ArrayList<>();
