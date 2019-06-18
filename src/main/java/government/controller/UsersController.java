@@ -1,5 +1,6 @@
 package government.controller;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import government.Urls;
 import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
@@ -67,7 +68,7 @@ public class UsersController {
 
     @POST
     @Path("driver")
-    public Response createDriver(UserDto userDto) throws MessagingException {
+    public Response createDriver(UserDto userDto) throws MessagingException, UnirestException {
         String password = RandomStringUtils.random(20,true,true);
         User user = userMapper.userDtoToUser(userDto);
         user.setId(null);
@@ -78,7 +79,7 @@ public class UsersController {
         }catch (Exception e){
             return Response.status(Response.Status.CONFLICT).build();
         }
-        mailHelper.sendMailToUser(user,password);
+        mailHelper.sendMailToUserMailGun(user,password);
         return Response.ok(userMapper.userToUserDto(user)).build();
     }
     @GET
