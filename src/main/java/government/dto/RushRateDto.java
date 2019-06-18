@@ -1,6 +1,6 @@
 package government.dto;
 
-public class RushRateDto {
+public class RushRateDto extends BaseDto {
 
     private Long rateID;
     private int dayOfWeek;

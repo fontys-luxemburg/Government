@@ -8,6 +8,7 @@ import vehicleInformation from './modules/vehicle_information';
 import trackers from "./modules/trackers";
 import search from './modules/search';
 import drivers from './modules/drivers'
+import rates from './modules/rates';
 
 Vue.use(Vuex);
 
@@ -20,7 +21,8 @@ export default new Vuex.Store({
         notices,
         vehicleInformation,
         trackers,
-        search
+        search,
+        rates
     },
     strict: true
 });

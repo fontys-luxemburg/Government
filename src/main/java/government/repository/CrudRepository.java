@@ -23,6 +23,8 @@ public abstract class CrudRepository<T extends BaseEntity, ID> {
 	}
 
 	public Optional<T> findById(ID id) {
+		T result = entityManager.find(entityClass, id);
+		if (result == null) { return Optional.empty(); }
 		return Optional.of(entityManager.find(entityClass, id));
 	}
 
