@@ -8,7 +8,7 @@ import CarsOwner from "./components/cars/Owner";
 import VehiclesNew from './components/cars/New';
 import CarsTravels from "./components/cars/Travels";
 import Login from "./components/Login";
-import SearchIndex from './components/search/Index';yarn
+import SearchIndex from './components/search/Index';
 import SettingsIndex from './components/settings/Index';
 import UserShow from "./components/user/Show";
 import UserOwner from "./components/user/Owner"
