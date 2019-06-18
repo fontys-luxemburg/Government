@@ -10,6 +10,7 @@ public class InvoiceDto extends BaseDto  {
     private String endDate;
     private List<TripDto> tripDtos;
     private String payDate;
+    private double totalPrice;
 
     public String getUser_name() {
         return user_name;
@@ -65,5 +66,13 @@ public class InvoiceDto extends BaseDto  {
 
     public void setPayDate(String payDate) {
         this.payDate = payDate;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
