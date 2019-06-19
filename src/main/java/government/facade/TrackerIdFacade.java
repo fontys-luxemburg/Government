@@ -59,10 +59,8 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             WebTarget target;
             target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
                     .queryParam("vehicleID", registrationId)
-                    .queryParam("begin", beginDate.getTime());
-            if (endDate != null) {
-                target.queryParam("end", endDate.getTime());
-            }
+                    .queryParam("begin", beginDate.getTime())
+                    .queryParam("end", endDate.getTime());
             Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
             if(response.hasEntity() && response.getStatus()==200) {
                 try {
