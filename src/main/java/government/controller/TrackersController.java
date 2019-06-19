@@ -56,6 +56,9 @@ public class TrackersController {
             if(ownership.getVehicle()!=null) {
                 Date beginDate = ownership.getCreatedAt();
                 Date endDate = ownership.getEndDate();
+                if(endDate == null){
+                    endDate = new Date(System.currentTimeMillis());
+                }
                 trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
                         beginDate, endDate));
             }

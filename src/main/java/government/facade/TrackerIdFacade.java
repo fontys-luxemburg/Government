@@ -62,19 +62,18 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
                     .queryParam("begin", beginDate.getTime());
             if (endDate != null) {
                 target.queryParam("end", endDate.getTime());
-            } else {
-                target.queryParam("end", null);
             }
             Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
-            if(response.hasEntity()) {
-//                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
+            if(response.hasEntity() && response.getStatus()==200) {
                 try {
-
-                    JsonObject list = response.readEntity(JsonObject.class);
+                TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
+                    return Arrays.asList(trackers);
+//                try {
+//
+//                    JsonObject list = response.readEntity(JsonObject.class);
                 }catch (Exception e){
                     throw new Exception(e.getMessage()+"  response"+response);
                 }
-                return new ArrayList<>();
             }else {
                 return new ArrayList<>();
             }

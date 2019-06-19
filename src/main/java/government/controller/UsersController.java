@@ -107,6 +107,12 @@ public class UsersController {
     public Response getEnv(){
         return Response.ok(System.getenv()).build();
     }
-
+    @GET
+    @Path("test")
+    public Response holyFUckingshit(){
+        Long test = null;
+        Date date = new Date(test);
+        return Response.ok(date).build();
+    }
 
 }
