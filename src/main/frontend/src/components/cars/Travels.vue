@@ -9,6 +9,23 @@
         <la-tooltip></la-tooltip>
       </la-cartesian>
     </div>
+
+    <div class="bg-white rounded p-8">
+      <table>
+        <thead>
+          <td>Date</td>
+          <td>Total KM</td>
+          <td>Total Price</td>
+        </thead>
+        <tbody>
+          <tr v-for="trip in trips">
+            <td>{{ trip.startDate | moment('MM-dd-yyyy HH:mm')}}</td>
+            <td>{{ trip.distanceTraveledKm }} km</td>
+            <td>€ {{ trip.totalPrice }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
