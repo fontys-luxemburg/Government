@@ -54,27 +54,27 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
     }
 
-    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate)throws Exception {
-            Client client = ClientBuilder.newBuilder().build();
-            WebTarget target;
-            target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
-                    .queryParam("vehicleID", registrationId)
-                    .queryParam("begin", beginDate.getTime())
-                    .queryParam("end", endDate.getTime());
-            Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
-            if(response.hasEntity() && response.getStatus()==200) {
-                try {
+    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate) throws Exception {
+        Client client = ClientBuilder.newBuilder().build();
+        WebTarget target;
+        target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
+                .queryParam("vehicleID", registrationId)
+                .queryParam("begin", beginDate.getTime())
+                .queryParam("end", endDate.getTime());
+        Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
+        if (response.hasEntity() && response.getStatus() == 200) {
+            try {
                 TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
-                    return Arrays.asList(trackers);
+                return Arrays.asList(trackers);
 //                try {
 //
 //                    JsonObject list = response.readEntity(JsonObject.class);
-                }catch (Exception e){
-                    throw new Exception(e.getMessage()+"  response"+response);
-                }
-            }else {
-                throw new Exception("  response"+response);
+            } catch (Exception e) {
+                throw new Exception(e.getMessage() + "  response" + response);
             }
+        } else {
+            throw new Exception("  response" + response);
+        }
     }
 
     public UUID newTracker(String vehicleID) {
@@ -99,7 +99,6 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
     public List<TripDto> getTripsFromTrackers(List<TrackerIdDto> trackers) {
 
         List<TripDto> trips = new ArrayList();
-
         for (TrackerIdDto tracker : trackers) {
             for (TripDto trip : tracker.getTrips()) {
                 trip.setRegistrationID(tracker.getVehicleID());
@@ -108,5 +107,27 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
         return trips;
 
+    }
+
+    public List<TripDto> getTripsFromTrackersUser(List<TrackerIdDto> trackerIds) throws Exception {
+        List<TripDto> tripDtos = new ArrayList<>();
+        for (TrackerIdDto trackerId : trackerIds) {
+            Client client = ClientBuilder.newBuilder().build();
+            WebTarget target;
+            target = client.target(urls.getTrackerUrl() + "/api/trackers/trips/" + trackerId.getTrackerId());
+            Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
+            if (response.hasEntity() && response.getStatus() == 200) {
+                try {
+                    TripDto[] trackers = response.readEntity(TripDto[].class);
+                    return Arrays.asList(trackers);
+                } catch (Exception e) {
+                    throw new Exception(e.getMessage() + "  response" + response);
+                }
+            } else {
+                throw new Exception("  response" + response);
+            }
+        }
+
+        return tripDtos;
     }
 }
