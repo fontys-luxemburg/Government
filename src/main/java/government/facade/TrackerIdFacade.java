@@ -75,7 +75,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
                     throw new Exception(e.getMessage()+"  response"+response);
                 }
             }else {
-                return new ArrayList<>();
+                throw new Exception("  response"+response);
             }
     }
 
