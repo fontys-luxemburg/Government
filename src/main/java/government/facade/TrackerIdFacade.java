@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -119,7 +120,11 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             if (response.hasEntity() && response.getStatus() == 200) {
                 try {
                     TripDto[] trackers = response.readEntity(TripDto[].class);
-                    return Arrays.asList(trackers);
+                    for(TripDto tripDto:  Arrays.asList(trackers) ){
+                        tripDto.setRegistrationID(trackerId.getVehicleID());
+                        tripDtos.add(tripDto);
+                    }
+                    return tripDtos;
                 } catch (Exception e) {
                     throw new Exception(e.getMessage() + "  response" + response);
                 }
@@ -129,5 +134,27 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
 
         return tripDtos;
+    }
+    public List<TripDto> getTripsFromTrackersFromDate(List<TrackerIdDto> trackerIdDtos,Long startDate,Long endDate)throws Exception {
+       List<TripDto> updateList = new ArrayList<>();
+        for (TrackerIdDto trackerId : trackerIdDtos) {
+            Client client = ClientBuilder.newBuilder().build();
+            WebTarget target;
+            target = client.target(urls.getTrackerUrl() + "/api/trips/tracker/" + trackerId.getTrackerId() + "/date" + "?startDate=" +
+                    startDate + "?endDate=" + endDate);
+            Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
+
+            try {
+                List<TripDto> tripDtos = Arrays.asList(response.readEntity(TripDto[].class));
+                for (TripDto tripDto : tripDtos) {
+                    tripDto.setRegistrationID(trackerId.getVehicleID());
+                    tripDtos.add(tripDto);
+                }
+                updateList.addAll(tripDtos);
+            } catch (Exception e) {
+                throw new Exception(e.getMessage() + "  response" + response);
+            }
+        }
+        return updateList;
     }
 }
