@@ -114,7 +114,7 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         for (TrackerIdDto trackerId : trackerIds) {
             Client client = ClientBuilder.newBuilder().build();
             WebTarget target;
-            target = client.target(urls.getTrackerUrl() + "/api/trackers/trips/tracker/" + trackerId.getTrackerId());
+            target = client.target(urls.getTrackerUrl() + "/api/trips/tracker/" + trackerId.getTrackerId());
             Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
             if (response.hasEntity() && response.getStatus() == 200) {
                 try {
