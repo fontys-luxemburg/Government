@@ -21,6 +21,8 @@ public class Trip extends BaseEntity {
 
     private double distanceTraveledKm;
 
+    private double totalPrice;
+
     public TrackerId getTracker() {
         return tracker;
     }
@@ -51,5 +53,13 @@ public class Trip extends BaseEntity {
 
     public void setDistanceTraveledKm(double distanceTraveledKm) {
         this.distanceTraveledKm = distanceTraveledKm;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
