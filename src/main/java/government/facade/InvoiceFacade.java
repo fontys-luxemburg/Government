@@ -69,7 +69,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
     public List<Invoice> getAllInvoiceUser(Long user_id){
         return invoiceRepository.getAllInvoicesByUser(user_id);
     }
-    public Invoice generateInvoiceVehicle(int year,int month,String registrationId ){
+    public Invoice generateInvoiceVehicle(int year,int month,String registrationId )throws Exception{
         Pair<Date,Date> startEnd = DateHelper.getDateRange(year,month);
         Date start = startEnd.getKey();
         Date end = startEnd.getValue();
@@ -82,7 +82,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         Invoice invoice = new Invoice(vehicle.get(),start,end,null,getTripsFromTrackers(trackers));
         return invoiceRepository.save(invoice);
     }
-    public Invoice generateInvoiceFromUser(int year, int month, Long user_id) {
+    public Invoice generateInvoiceFromUser(int year, int month, Long user_id)throws Exception {
         Pair<Date,Date> startEnd = DateHelper.getDateRange(year,month);
         Date start = startEnd.getKey();
         Date end = startEnd.getValue();
@@ -114,7 +114,7 @@ public class InvoiceFacade implements BaseFacade<Invoice, Long>{
         return trips;
     }
 
-    private List<Trip> getTripsFromOwnerships(List<Ownership> ownerships,Date start,Date end){
+    private List<Trip> getTripsFromOwnerships(List<Ownership> ownerships,Date start,Date end)throws Exception{
         List<Trip> trips = new ArrayList<>();
         for(Ownership ownership : ownerships){
             Vehicle vehicle = ownership.getVehicle();

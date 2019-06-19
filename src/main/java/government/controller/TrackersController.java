@@ -28,10 +28,10 @@ public class TrackersController {
 
     @GET
     @Path("/dates")
-    public Response TripsBetweenDates(
+    public Response TripsBetweenDates (
             @QueryParam("registrationID") String vehicleID,
             @QueryParam("begin") Long begin,
-            @QueryParam("end") Long end) {
+            @QueryParam("end") Long end) throws Exception{
         Date beginDate = new Date(begin);
         Date endDate = new Date(end);
         List<TrackerIdDto> trackers = trackerIdFacade.getTrackersFromVehicleBetweenDates(vehicleID, beginDate, endDate);
@@ -45,11 +45,10 @@ public class TrackersController {
 
     @GET
     @Path("/driver/{driver_id}")
-    public Response tripsBetweenDatesForUser(
-            @PathParam("driver_id") String driverId) {
+    public Response TripsBetweenDatesForUser(@PathParam("driver_id") String driverId) throws Exception{
         List<Ownership> ownerships = ownershipFacade.findByUserId(Long.valueOf(driverId));
         if (ownerships == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
 
         List<TrackerIdDto> trackers = new ArrayList<>();
@@ -57,13 +56,17 @@ public class TrackersController {
             if(ownership.getVehicle()!=null) {
                 Date beginDate = ownership.getCreatedAt();
                 Date endDate = ownership.getEndDate();
+                if(endDate == null){
+                    endDate = new Date(beginDate.getTime()+1);
+                }
                 trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
                         beginDate, endDate));
             }
         }
         if (trackers.size() == 0) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
-        return Response.ok(trackerIdFacade.getTripsFromTrackers(trackers)).build();
+        
+        return Response.ok(trackers).build();
     }
 }

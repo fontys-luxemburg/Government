@@ -6,9 +6,12 @@ import government.dto.TripDto;
 import government.model.TrackerId;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,29 +54,27 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
         }
     }
 
-    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate) {
-        try {
+    public List<TrackerIdDto> getTrackersFromVehicleBetweenDates(String registrationId, Date beginDate, Date endDate)throws Exception {
             Client client = ClientBuilder.newBuilder().build();
             WebTarget target;
-
             target = client.target(urls.getTrackerUrl() + "/api/trackers/vehicle")
                     .queryParam("vehicleID", registrationId)
-                    .queryParam("begin", beginDate.getTime());
-            if (endDate != null) {
-                target.queryParam("end", endDate.getTime());
-            } else {
-                target.queryParam("end", "");
-            }
-            Response response = target.request().get();
-            if(response.hasEntity()) {
+                    .queryParam("begin", beginDate.getTime())
+                    .queryParam("end", endDate.getTime());
+            Response response = target.request(MediaType.APPLICATION_JSON).get(Response.class);
+            if(response.hasEntity() && response.getStatus()==200) {
+                try {
                 TrackerIdDto[] trackers = response.readEntity(TrackerIdDto[].class);
-                return Arrays.asList(trackers);
+                    return Arrays.asList(trackers);
+//                try {
+//
+//                    JsonObject list = response.readEntity(JsonObject.class);
+                }catch (Exception e){
+                    throw new Exception(e.getMessage()+"  response"+response);
+                }
             }else {
-                return new ArrayList<>();
+                throw new Exception("  response"+response);
             }
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public UUID newTracker(String vehicleID) {

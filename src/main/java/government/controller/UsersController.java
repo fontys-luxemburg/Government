@@ -1,5 +1,6 @@
 package government.controller;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import government.Urls;
 import government.annotation.PropertiesFromFile;
 import government.annotation.Secured;
@@ -14,16 +15,12 @@ import government.model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.inject.Inject;
-import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 
 @Path("/users")
@@ -67,7 +64,7 @@ public class UsersController {
 
     @POST
     @Path("driver")
-    public Response createDriver(UserDto userDto) throws MessagingException {
+    public Response createDriver(UserDto userDto) throws UnirestException {
         String password = RandomStringUtils.random(20,true,true);
         User user = userMapper.userDtoToUser(userDto);
         user.setId(null);
@@ -78,7 +75,7 @@ public class UsersController {
         }catch (Exception e){
             return Response.status(Response.Status.CONFLICT).build();
         }
-        mailHelper.sendMailToUser(user,password);
+        mailHelper.sendMailToUserMailGun(user,password);
         return Response.ok(userMapper.userToUserDto(user)).build();
     }
     @GET
@@ -105,4 +102,17 @@ public class UsersController {
         List<OwnershipDto> ownershipDtos = ownershipMapper.ownershipsToOwnershipDtos(ownerships);
         return Response.ok(ownershipDtos).build();
 	}
+	@GET
+    @Path("env/all")
+    public Response getEnv(){
+        return Response.ok(System.getenv()).build();
+    }
+    @GET
+    @Path("test")
+    public Response holyFUckingshit(){
+        Long test = null;
+        Date date = new Date(test);
+        return Response.ok(date).build();
+    }
+
 }

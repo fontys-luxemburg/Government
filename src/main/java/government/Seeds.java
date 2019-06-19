@@ -1,11 +1,13 @@
 package government;
 
+import government.facade.DateHelper;
 import government.facade.InvoiceFacade;
 import government.facade.UserFacade;
 import government.model.*;
 import government.repository.OwnershipRepository;
 import government.repository.RateRepository;
 import government.repository.VehicleRepository;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -32,6 +34,7 @@ public class Seeds {
 
     @Inject
     RateRepository rateRepository;
+
 
     @PostConstruct
     private void init() {
@@ -114,8 +117,8 @@ public class Seeds {
 
         rateRepository.save(rate);
         rateRepository.save(rate2);
-
-        Invoice invoice = new Invoice(john,new Date(),new Date(),new Date(),new ArrayList<Trip>());
+        Pair<Date,Date> startEnd = DateHelper.getDateRange(2019,6);
+        Invoice invoice = new Invoice(john,startEnd.getKey(),startEnd.getValue(),null,new ArrayList<Trip>());
         invoiceFacade.save(invoice);
     }
 }

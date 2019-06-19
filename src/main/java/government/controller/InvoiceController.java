@@ -11,6 +11,7 @@ import government.model.User;
 import government.model.Vehicle;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
@@ -34,8 +35,9 @@ public class InvoiceController {
 
     @GET
     @Path("/vehicle/{registration_id}")
+    @Transactional
     public Response getInvoiceByRegistrationId(@PathParam("registration_id") String registrationId,@QueryParam("year") int year,
-                                               @QueryParam("month") int month){
+                                               @QueryParam("month") int month)throws Exception{
         Optional<Vehicle> vehicle = vehicleFacade.findByRegistrationID(registrationId);
         if(!vehicle.isPresent()){
             return Response.status(404).build();
@@ -57,7 +59,8 @@ public class InvoiceController {
 
     @GET
     @Path("/user/{user_id}")
-    public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month){
+    @Transactional
+    public Response getInvoiceByUserId(@PathParam("user_id") Long user_id, @QueryParam("year") int year, @QueryParam("month") int month)throws Exception{
         Optional<User> user = userFacade.findById(user_id);
         if(!user.isPresent()){
             return Response.status(404).build();
@@ -78,6 +81,7 @@ public class InvoiceController {
     }
     @GET
     @Path("/user/{user_id}/all")
+    @Transactional
     public Response getInvoiceAllByUser(@PathParam("user_id") Long user_id){
         Optional<User> user = userFacade.findById(user_id);
         if(!user.isPresent()){
@@ -89,21 +93,21 @@ public class InvoiceController {
         }else{
             return Response.ok(invoiceFacade.invoicesToInvoiceDtos(invoices)).build();
         }
-
     }
     @PUT
     @Path("")
     @Consumes("application/json")
-    public Response updateInvoice(InvoiceDto invoiceDto,@QueryParam("year") int year, @QueryParam("month") int month) throws ParseException {
-        Optional<Invoice> invoice = invoiceFacade.findByUserID(invoiceDto.getUser_id(),year,month);
+    @Transactional
+    public Response updateInvoice(@QueryParam("user_id")String user_id,@QueryParam("payDay") String payDay,@QueryParam("year") int year, @QueryParam("month") int month) throws Exception {
+        Optional<Invoice> invoice = invoiceFacade.findByUserID(Long.valueOf(user_id),year,month);
         if(!invoice.isPresent()){
-            return Response.status(404).build();
+            return Response.status(204).build();
         }
-         invoiceDto.setId(invoice.get().getId());
-        invoice.get().setPayDate(new SimpleDateFormat("dd/MM/yyyy").parse(invoiceDto.getPayDate()));
+        invoice.get().setPayDate(new Date(Long.valueOf(payDay)));
         invoiceFacade.updateInvoice(invoice.get());
         return Response.ok().build();
 
 
     }
+
 }
