@@ -49,7 +49,7 @@ public class TrackersController {
             @PathParam("driver_id") String driverId) throws Exception{
         List<Ownership> ownerships = ownershipFacade.findByUserId(Long.valueOf(driverId));
         if (ownerships == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
         List<TrackerIdDto> trackers = new ArrayList<>();
         for (Ownership ownership : ownerships) {
