@@ -119,7 +119,11 @@ public class TrackerIdFacade implements BaseFacade<TrackerId, Long> {
             if (response.hasEntity() && response.getStatus() == 200) {
                 try {
                     TripDto[] trackers = response.readEntity(TripDto[].class);
-                    return Arrays.asList(trackers);
+                    for(TripDto tripDto:  Arrays.asList(trackers) ){
+                        tripDto.setRegistrationID(trackerId.getVehicleID());
+                        tripDtos.add(tripDto);
+                    }
+                    return tripDtos;
                 } catch (Exception e) {
                     throw new Exception(e.getMessage() + "  response" + response);
                 }

@@ -66,7 +66,6 @@ public class TrackersController {
         if (trackers.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
-
         return Response.ok(trackerIdFacade.getTripsFromTrackersUser(trackers)).build();
     }
 }
