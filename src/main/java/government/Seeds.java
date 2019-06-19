@@ -119,6 +119,7 @@ public class Seeds {
         rateRepository.save(rate2);
         Pair<Date,Date> startEnd = DateHelper.getDateRange(2019,6);
         Invoice invoice = new Invoice(john,startEnd.getKey(),startEnd.getValue(),null,new ArrayList<Trip>());
+        invoice.setTotalPrice(90.00);
         invoiceFacade.save(invoice);
     }
 }
