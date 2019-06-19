@@ -14,6 +14,8 @@ public class TripDto extends BaseDto {
 
     private String registrationID;
 
+    private double totalPrice;
+
     public Long getTrackerId() {
         return trackerId;
     }
@@ -52,5 +54,13 @@ public class TripDto extends BaseDto {
 
     public void setRegistrationID(String registrationID) {
         this.registrationID = registrationID;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

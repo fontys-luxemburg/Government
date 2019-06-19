@@ -45,12 +45,13 @@ public class TrackersController {
 
     @GET
     @Path("/driver/{driver_id}")
-    public Response TripsBetweenDatesForUser(
+    public Response tripsBetweenDatesForUser(
             @PathParam("driver_id") String driverId) {
         List<Ownership> ownerships = ownershipFacade.findByUserId(Long.valueOf(driverId));
         if (ownerships == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
         List<TrackerIdDto> trackers = new ArrayList<>();
         for (Ownership ownership : ownerships) {
             if(ownership.getVehicle()!=null) {
