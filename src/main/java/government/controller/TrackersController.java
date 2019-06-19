@@ -3,6 +3,7 @@ package government.controller;
 import government.annotation.Secured;
 import government.dto.TrackerIdDto;
 import government.dto.TripDto;
+import government.facade.DateHelper;
 import government.facade.OwnershipFacade;
 import government.facade.TrackerIdFacade;
 import government.facade.UserFacade;
@@ -51,21 +52,27 @@ public class TrackersController {
         if (ownerships == null) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
-        List<TrackerIdDto> trackers = new ArrayList<>();
+        List<TripDto> trips = new ArrayList<>();
         for (Ownership ownership : ownerships) {
             if(ownership.getVehicle()!=null) {
                 Date beginDate = ownership.getCreatedAt();
                 Date endDate = ownership.getEndDate();
+                List<TripDto> tripDtos = new ArrayList<>();
                 if(endDate == null){
-                    endDate = new Date(beginDate.getTime()+1);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(beginDate);
+                    endDate = DateHelper.getDateRange(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)).getValue();
                 }
-                trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
-                        beginDate, endDate));
+                List<TrackerIdDto> trackerIdDtos = trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
+                        beginDate, endDate);
+                trips.addAll( trackerIdFacade.getTripsFromTrackersFromDate(trackerIdDtos,beginDate.getTime(),
+                        endDate.getTime()));
             }
         }
-        if (trackers.size() == 0) {
+        if (trips.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
-        return Response.ok(trackerIdFacade.getTripsFromTrackersUser(trackers)).build();
+
+        return Response.ok(trips).build();
     }
 }
