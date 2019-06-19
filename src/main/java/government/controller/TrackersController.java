@@ -49,7 +49,7 @@ public class TrackersController {
             @PathParam("driver_id") String driverId) throws Exception{
         List<Ownership> ownerships = ownershipFacade.findByUserId(Long.valueOf(driverId));
         if (ownerships == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
         List<TrackerIdDto> trackers = new ArrayList<>();
         for (Ownership ownership : ownerships) {
@@ -57,7 +57,7 @@ public class TrackersController {
                 Date beginDate = ownership.getCreatedAt();
                 Date endDate = ownership.getEndDate();
                 if(endDate == null){
-                    endDate = new Date(System.currentTimeMillis());
+                    endDate = new Date(beginDate.getTime()+1);
                 }
                 trackers.addAll(trackerIdFacade.getTrackersFromVehicleBetweenDates(ownership.getVehicle().getRegistrationID(),
                         beginDate, endDate));
