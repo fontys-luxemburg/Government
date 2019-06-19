@@ -47,8 +47,8 @@
 
         computed: {
             ...mapState({
-                travels: state => state.travels.all,
-                travels_status: state => state.travels.status
+                travels: state => state.trackers.all,
+                travels_status: state => state.trackers.status
             })
         },
 
