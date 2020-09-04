@@ -12,7 +12,7 @@
     "laue": "^0.2.1",
     "underscore": "^1.9.1",
     "vue": "^2.6.6",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.0.2",
     "vue-select": "^3.0.2",
     "vue-spinner": "^1.0.3",
